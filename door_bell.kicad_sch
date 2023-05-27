@@ -5590,7 +5590,7 @@
   (symbol (lib_id "Connector:Screw_Terminal_01x08") (at 264.16 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3bf4c35c-630a-4731-bb36-0ebe9c3bf0dd)
-    (property "Reference" "J9" (at 262.89 62.23 0)
+    (property "Reference" "J4" (at 262.89 62.23 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Door panel" (at 259.08 37.465 0)
@@ -5613,7 +5613,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "J9") (unit 1)
+          (reference "J4") (unit 1)
         )
       )
     )

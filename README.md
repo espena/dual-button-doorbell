@@ -4,12 +4,14 @@ Project is under construction. Errors are very lightly to occur at this stage. C
 
 ## Features
 
-- Two-button interface with red/green idicators
+- Two-button interface with red/green indicators
 - Personalized doorbell sound from custom wav files
 - SD card support for storing audio files and configuration
 - WiFi interface for push notifications and remote configuration
 - NTP corrected Real time clock for alarms and bedtime signal
 - Relay interface for triggering external equipment
+
+## Design
 
 ![PCB layout](/pcb_rendering.png?raw=true "PCB rendering")
 

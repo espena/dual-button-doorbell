@@ -14,13 +14,13 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 - Volume reduction during bedtime
 - Relay interface for triggering external equipment
 
-## Design
+## Circuit
 
 ![PCB layout](/pcb_rendering.png?raw=true "PCB rendering")
 
 ![Circuit schematics](/schematics.png?raw=true "Circuit schematics")
 
-### The door panel
+## The door panel
 
 ![Button panel draft](/button_panel_draft.png?raw=true "Button panel draft")
 

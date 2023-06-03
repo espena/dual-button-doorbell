@@ -1,7 +1,7 @@
 .DS_Store
 fp-info-cache
 datasheets
-gfx
+/design
 door_bell-backups
 _autosave-*
 \#auto_saved_files\#

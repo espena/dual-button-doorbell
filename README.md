@@ -16,13 +16,13 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 
 ## Circuit
 
-![PCB layout](/pcb_rendering.png?raw=true "PCB rendering")
+![PCB layout](/gfx/pcb_rendering.png?raw=true "PCB rendering")
 
-![Circuit schematics](/schematics.png?raw=true "Circuit schematics")
+![Circuit schematics](/gfx/schematics.png?raw=true "Circuit schematics")
 
 ## The door panel
 
-![Button panel design](/button_panel_design.png?raw=true "Button panel design")
+![Button panel design](/gfx/button_panel_design.png?raw=true "Button panel design")
 
 ## Panel enclosure
 

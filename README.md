@@ -20,7 +20,7 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 
 ![Circuit schematics](/gfx/schematics.png?raw=true "Circuit schematics")
 
-## The door panel
+## Button panel
 
 ![Button panel design](/gfx/button_panel_design.png?raw=true "Button panel design")
 

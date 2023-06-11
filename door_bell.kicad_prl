@@ -64,8 +64,8 @@
       39,
       40
     ],
-    "visible_layers": "0000000_00000001",
-    "zone_display_mode": 1
+    "visible_layers": "0000000_80000007",
+    "zone_display_mode": 0
   },
   "meta": {
     "filename": "door_bell.kicad_prl",

@@ -2,5 +2,4 @@ managed_components
 *.lock
 sdkconfig
 build
-.vscode
 .devcontainer

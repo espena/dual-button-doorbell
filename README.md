@@ -24,7 +24,7 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 
 ![Button panel design](/gfx/button_panel_design.png?raw=true "Button panel design")
 
-## Panel enclosure
+## Panel back side enclosure
 
 ```stl
 solid Mesh

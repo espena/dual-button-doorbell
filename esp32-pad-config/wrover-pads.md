@@ -1,7 +1,7 @@
 # ESP32 WROVER-B pad configuration
 
 | Bus            | Schematic sig.      | Pad       | GPIO     | IO_MUX              | IO_MUX_PIN_CTRL      | Peripheral signal      |
-|----------------|---------------------|-----------|----------|---------------------|----------------------|------------------------|
+|:---------------|:--------------------|:---------:|:--------:|:--------------------|:---------------------|:-----------------------|
 | I2S            | BCLK                |    25     |    0     | Func1 (CLK_OUT1)    | I2S0_CLK->CLK_OUT1   | n/a                    |
 | I2S            | LRCLK               |     8     |   32     | Func2 (GPIO)        | n/a                  | I2S0O_WS_out (26)      |
 | I2S            | DIN                 |     9     |   33     | Func2 (GPIO)        | n/a                  | I2S0O_DATA_out0 (140)  |

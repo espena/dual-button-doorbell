@@ -26,7 +26,7 @@
 | PANEL          | S1_GREEN            |    37     |   23     | Func2 (GPIO)        | n/a                  | n/a                    |
 | PANEL          | S2_RED              |    30     |   18     | Func2 (GPIO)        | n/a                  | n/a                    |
 | PANEL          | S2_GREEN            |    31     |   19     | Func2 (GPIO)        | n/a                  | n/a                    |
-| PANEL          | S1_INPUT            |    33     |   21     | Func2 (GPIO)        | n/a                  | n/a                    |
-| PANEL          | S2_INPUT            |    10     |   25     | Func2 (GPIO)        | n/a                  | n/a                    |
-| LED            | RED                 |     5     |   39     | Func2 (GPIO)        | n/a                  | n/a                    |
-| LED            | GREEN               |     4     |   36     | Func2 (GPIO)        | n/a                  | n/a                    |
+| PANEL          | S1_INPUT            |     5     |   39     | Func2 (GPIO)        | n/a                  | n/a                    |
+| PANEL          | S2_INPUT            |     4     |   36     | Func2 (GPIO)        | n/a                  | n/a                    |
+| LED            | RED                 |    33     |   21     | Func2 (GPIO)        | n/a                  | n/a                    |
+| LED            | GREEN               |    10     |   25     | Func2 (GPIO)        | n/a                  | n/a                    |

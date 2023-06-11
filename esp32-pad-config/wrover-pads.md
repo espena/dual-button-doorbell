@@ -1,4 +1,4 @@
-# ESP32 WROVER-B pad configuration
+## ESP32 WROVER-B pad configuration
 
 | Bus            | Schematic sig.      | Pad       | GPIO     | IO_MUX              | IO_MUX_PIN_CTRL      | Peripheral signal      |
 |:---------------|:--------------------|:---------:|:--------:|:--------------------|:---------------------|:-----------------------|

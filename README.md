@@ -22,7 +22,7 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 
 ## Button panel
 
-![Button panel design](/gfx/button_panel_design.png?raw=true "Button panel design")
+![Button panel design](/gfx/button_panel_finish.jpg?raw=true "Button panel finished design")
 
 ## Panel back side enclosure
 

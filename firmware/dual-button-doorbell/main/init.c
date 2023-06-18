@@ -7,7 +7,8 @@
 #include "freertos/FreeRTOS.h"
 #include "driver/gpio.h"
 #include "rom/gpio.h"
-#include "esp_adc/adc_oneshot.h"
+// #include "esp_adc/adc_oneshot.h"
+//#include "driver/i2s_std.h"
 #include "driver/i2s_std.h"
 #include "esp_vfs_fat.h"
 #include "sdmmc_cmd.h"
@@ -40,14 +41,59 @@ void init_i2s( void ) {
     }
   };
 
-  i2s_channel_init_std_mode( tx_handle, &std_cfg );
-  i2s_channel_enable( tx_handle );
+  FILE *fp = fopen( "/sdcard/ousse.wav", "rb" );
 
-  size_t bytes_written = 0;
+  static const size_t BUFFER_SIZE = 1024;
 
-  gpio_set_level( IO_I2S_SD_MODE, 1 );
-  i2s_channel_write( tx_handle, funker, 394240, &bytes_written, 2000 );
-  i2s_channel_disable( tx_handle );
+  typedef struct waw_hdr_prologue_st {
+    char tag[ 4 ];
+    union {
+      char b[ 4 ];
+      int16_t i;
+    } len;
+  } waw_hdr_prologue;
+  
+  if( fp ) {
+
+    size_t chunk_size = 0;
+    
+    waw_hdr_prologue whp;
+    fread( ( void * ) &whp, sizeof( whp ), 1, fp );
+    if( memcmp( whp.tag, ( void * ) "RIFF", 4 ) != 0 ) {
+      gpio_set_level( IO_LED_RED, 1 );
+      return;
+    }
+
+    // Skip wav header and jump straight
+    // to PCM section
+    //fseek( fp, whp.len.i, SEEK_CUR );
+
+    gpio_set_level( IO_LED_GREEN, 1 );
+
+    char buf[ BUFFER_SIZE ];
+
+    i2s_channel_init_std_mode( tx_handle, &std_cfg );
+    i2s_channel_enable( tx_handle );
+    gpio_set_level( IO_I2S_SD_MODE, 1 );
+
+    gpio_set_level( IO_LED_RED, 1 );
+    while( !feof( fp ) ) {
+      chunk_size = fread( ( void * ) &buf, sizeof( char ), sizeof( buf ) / sizeof( buf[ 0 ] ), fp );
+      size_t bytes_written = 0;
+      while( bytes_written < chunk_size ) {
+        i2s_channel_write( tx_handle, buf, chunk_size, &bytes_written, 2000 );
+      }
+    }
+    gpio_set_level( IO_LED_RED, 0 );
+
+    i2s_channel_disable( tx_handle );
+    gpio_set_level( IO_LED_GREEN, 0 );
+
+    fclose( fp );
+  }
+  else {
+    gpio_set_level( IO_LED_RED, 1 );
+  }
 
 }
 
@@ -103,10 +149,7 @@ void init_sdcard( void ) {
 
   ret = esp_vfs_fat_sdspi_mount( mount_point, &host, &slot_config, &mount_config, &card );
 
-  if( ret == ESP_OK ) {
-      gpio_set_level( IO_LED_GREEN, 1 );
-  }
-  else {
+  if( ret != ESP_OK ) {
     if( ret == ESP_FAIL ) {
       gpio_set_level( IO_LED_RED, 1 );
       gpio_set_level( IO_LED_GREEN, 1 );
@@ -195,6 +238,6 @@ void init( void ) {
   init_uart();
   init_relay();
   init_sdcard();
-  //init_i2s();
+  init_i2s();
   init_panel();
 }

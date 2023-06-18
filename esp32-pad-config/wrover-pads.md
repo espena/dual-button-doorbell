@@ -4,7 +4,7 @@
 |:---------------|:--------------------|:---------:|:--------:|:--------------------|:---------------------|:-----------------------|
 | I2S            | BCLK                |    25     |    0     | Func1 (CLK_OUT1)    | I2S0_CLK->CLK_OUT1   | n/a                    |
 | I2S            | LRCLK               |     8     |   32     | Func2 (GPIO)        | n/a                  | I2S0O_WS_out (26)      |
-| I2S            | DIN                 |     9     |   33     | Func2 (GPIO)        | n/a                  | I2S0O_DATA_out0 (140)  |
+| I2S            | DOUT                |     9     |   33     | Func2 (GPIO)        | n/a                  | I2S0O_DATA_out0 (140)  |
 | I2S            | /SD_MODE            |    12     |   27     | Func2 (GPIO)        | n/a                  | n/a                    |
 | I2C            | SCL                 |    26     |    4     | Func2 (GPIO)        | n/a                  | I2CEXT0_SCL (29)       |
 | I2C            | SDA                 |    29     |    5     | Func2 (GPIO)        | n/a                  | I2CEXT0_SDA (30)       |

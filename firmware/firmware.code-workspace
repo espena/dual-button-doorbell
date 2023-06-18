@@ -1,8 +1,20 @@
 {
 	"folders": [
-		{
-			"path": "dual-button-doorbell"
-		}
+    {
+      "path": "dual-button-doorbell"
+    },
+    {
+      "path": ".."
+    }
   ],
-  "settings": {}
+  "settings": {
+    "files.associations": {
+      "*.embeddedhtml": "html",
+      "*.blade.php": "html",
+      "*.tpl": "html",
+      "i2s_std.h": "c",
+      "sdmmc_host.h": "c",
+      "sdmmc_cmd.h": "c"
+    }
+  }
 }

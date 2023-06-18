@@ -1,2 +1,2 @@
-idf_component_register(SRCS "init.c" "main.c"
+idf_component_register(SRCS "main.cpp" "application.cpp" "components/led.cpp"
                        INCLUDE_DIRS ".")

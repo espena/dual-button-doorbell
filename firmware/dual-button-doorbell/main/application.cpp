@@ -18,24 +18,21 @@
 
 #include "application.hpp"
 
-espena::application::application( const configuration &conf ) : 
+using namespace espena;
+
+application::application( const configuration &conf ) : 
   m_config( conf ),
   m_led_green( conf.led_green ),
   m_led_red( conf.led_red ),
   m_relay( conf.relay ),
   m_sound( conf.sound ),
-  m_sdcard( conf.sdcard ) {
+  m_sdcard( conf.sdcard ) { }
 
-  }
+application::~application() { }
 
-espena::application::~application() {
-
-}
-
-void espena::application::run() {
-  m_led_green.on();
-  m_relay.on();
+void application::run() {
+  m_sdcard.mount();
   m_led_red.on();
-  m_sound.play( NULL );
+  m_sound.play( m_sdcard.open_file( "ousse.wav", "rb" ) );
   m_led_red.off();
 }

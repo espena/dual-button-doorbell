@@ -17,9 +17,11 @@
  */
 
 #include "sound.hpp"
+#include "memory.h"
 #include "driver/gpio.h"
 #include "driver/i2s_std.h"
 #include "../dummy_sound.h"
+#include "../io.h"
 
 using namespace espena::components;
 
@@ -52,10 +54,24 @@ sound::~sound() {
 }
 
 void sound::play( FILE * fp ) {
-  size_t bytes_written = 0;
-  i2s_channel_init_std_mode( m_i2s_tx_handle, &m_i2s_std_cfg );
-  i2s_channel_enable( m_i2s_tx_handle );
-  gpio_set_level( m_config.gpio_i2s_sd_mode, 1 );
-  i2s_channel_write( m_i2s_tx_handle, funker, 394240, &bytes_written, 2000 );
-  i2s_channel_disable( m_i2s_tx_handle );
+  if( fp ) {
+    waw_hdr_prologue whp;
+    fread( ( void * ) &whp, sizeof( whp ), 1, fp );
+    if( memcmp( whp.tag, ( void * ) "RIFF", 4 ) != 0 ) {
+      return;
+    }
+    i2s_channel_init_std_mode( m_i2s_tx_handle, &m_i2s_std_cfg );
+    i2s_channel_enable( m_i2s_tx_handle );
+    gpio_set_level( m_config.gpio_i2s_sd_mode, 1 );
+    char buf[ 1024 ] = { 0 };
+    while( !feof( fp ) ) {
+      size_t chunk_size = fread( ( void * ) &buf, 1, 1024, fp );
+      size_t bytes_written = 0;
+      while( bytes_written < chunk_size ) {
+        i2s_channel_write( m_i2s_tx_handle, buf, chunk_size, &bytes_written, 2000 );
+      }
+    }
+    i2s_channel_disable( m_i2s_tx_handle );
+    fclose( fp );
+  }
 }

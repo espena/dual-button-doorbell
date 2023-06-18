@@ -27,6 +27,14 @@ namespace espena::components {
 
   class sound {
 
+    typedef struct waw_hdr_prologue_st {
+      char tag[ 4 ];
+      union {
+        char b[ 4 ];
+        int16_t i;
+      } len;
+    } waw_hdr_prologue;
+
     public:
 
       typedef struct configuration_struct {

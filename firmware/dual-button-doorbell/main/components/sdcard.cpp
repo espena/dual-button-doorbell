@@ -1,6 +1,10 @@
 #include "sdcard.hpp"
 #include "esp_vfs_fat.h"
 #include "driver/spi_common.h"
+#include "../io.h"
+
+// IDF's C structs with unions are incompatible with this warning
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 using namespace espena::components;
 
@@ -17,7 +21,8 @@ void sdcard::mount() {
   esp_vfs_fat_sdmmc_mount_config_t mount_config = {
     .format_if_mount_failed = false,
     .max_files = 5,
-    .allocation_unit_size = 16 * 1024
+    .allocation_unit_size = 16 * 1024,
+    .disk_status_check_enable = false
   };
 
   sdmmc_card_t *card;
@@ -33,7 +38,7 @@ void sdcard::mount() {
     .max_transfer_sz = m_config.sdspi_max_transfer_sz
   };
 
-  spi_bus_initialize( m_config.sdspi_bus.id, &bus_cfg, m_config.sdspi_dma_channel );
+  esp_err_t ret = spi_bus_initialize( m_config.sdspi_bus.id, &bus_cfg, m_config.sdspi_dma_channel );
 
   sdspi_device_config_t slot_config = SDSPI_DEVICE_CONFIG_DEFAULT();
   slot_config.gpio_cs = m_config.gpio_sdspi_cs;
@@ -46,4 +51,12 @@ void sdcard::mount() {
     &mount_config,
     &card );
 
+}
+
+FILE * sdcard::open_file( const std::string name, const std::string access ) {
+  return fopen( ( m_config.mount_point + "/" + name ).c_str(), access.c_str() );
+}
+
+void sdcard::close_file( FILE * fp ) {
+  fclose( fp );
 }

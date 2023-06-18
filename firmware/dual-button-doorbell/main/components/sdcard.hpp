@@ -35,6 +35,8 @@ namespace espena::components {
       ~sdcard();
 
       void mount();
+      FILE *open_file( const std::string, const std::string );
+      void close_file( FILE * );
   
   }; // class sdcard
 

@@ -14,7 +14,8 @@
       "*.tpl": "html",
       "i2s_std.h": "c",
       "sdmmc_host.h": "c",
-      "sdmmc_cmd.h": "c"
+      "sdmmc_cmd.h": "c",
+      "__locale": "cpp"
     }
   }
 }

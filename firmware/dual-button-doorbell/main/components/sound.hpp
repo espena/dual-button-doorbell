@@ -16,26 +16,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "application.hpp"
+#ifndef __sound_hpp__
+#define __sound_hpp__
 
-espena::application::application( const configuration &conf ) : 
-  m_config( conf ),
-  m_led_green( conf.led_green ),
-  m_led_red( conf.led_red ),
-  m_relay( conf.relay ),
-  m_sound( conf.sound ),
-  m_sdcard( conf.sdcard ) {
+#include <string>
+#include "driver/gpio.h"
+#include "driver/i2s_std.h"
 
-  }
+namespace espena::components {
 
-espena::application::~application() {
+  class sound {
 
-}
+    public:
 
-void espena::application::run() {
-  m_led_green.on();
-  m_relay.on();
-  m_led_red.on();
-  m_sound.play( NULL );
-  m_led_red.off();
-}
+      typedef struct configuration_struct {
+        gpio_num_t gpio_i2s_sd_mode;
+        gpio_num_t gpio_i2s_bclk;
+        gpio_num_t gpio_i2s_lrclk;
+        gpio_num_t gpio_i2s_dout;
+      } configuration;
+
+    private:
+
+      const configuration &m_config;
+      i2s_chan_handle_t m_i2s_tx_handle;
+      i2s_std_config_t m_i2s_std_cfg;
+
+    public:
+
+      sound( const configuration & );
+      ~sound();
+
+      void play( FILE * );
+
+  }; // class sound
+
+}; // namespace espena::components
+
+#endif // __sound_hpp__

@@ -21,11 +21,19 @@
 
 using namespace espena::components;
 
-led::led( const led::configuration config ) {
+led::led( const led::configuration &config ) : m_config( config ) {
   gpio_reset_pin( config.gpio_num );
   gpio_set_direction( config.gpio_num, GPIO_MODE_OUTPUT );
 }
 
 led::~led() {
 
+}
+
+void led::on() {
+  gpio_set_level( m_config.gpio_num, 1 );
+}
+
+void led::off() {
+  gpio_set_level( m_config.gpio_num, 0 );
 }

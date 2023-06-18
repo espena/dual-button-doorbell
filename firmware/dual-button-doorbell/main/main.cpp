@@ -31,8 +31,27 @@ extern "C" void app_main() {
       .gpio_num = IO_LED_GREEN },
 
     .led_red = {
-      .gpio_num = IO_LED_RED }
+      .gpio_num = IO_LED_RED },
+    
+    .relay = {
+      .gpio_relay = IO_RELAY },
+    
+    .sound = {
+      .gpio_i2s_sd_mode = IO_I2S_SD_MODE,
+      .gpio_i2s_bclk = IO_I2S_BCLK,
+      .gpio_i2s_lrclk = IO_I2S_LRCLK,
+      .gpio_i2s_dout = IO_I2S_DOUT },
 
+    .sdcard = {
+      .gpio_sdspi_mosi = IO_SDCARD_MOSI,
+      .gpio_sdspi_miso = IO_SDCARD_MISO,
+      .gpio_sdspi_cs = IO_SDCARD_CS,
+      .gpio_sdspi_clk = IO_SDCARD_CLK,
+      .sdspi_bus = {
+        .slot = 1 },
+      .sdspi_max_transfer_sz = 4000,
+      .sdspi_dma_channel = 1,
+      .mount_point = "/sdcard" }
   };
 
   application app( config );

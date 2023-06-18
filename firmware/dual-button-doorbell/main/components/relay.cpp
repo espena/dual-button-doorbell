@@ -16,26 +16,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "application.hpp"
+#include "relay.hpp"
+#include "driver/gpio.h"
 
-espena::application::application( const configuration &conf ) : 
-  m_config( conf ),
-  m_led_green( conf.led_green ),
-  m_led_red( conf.led_red ),
-  m_relay( conf.relay ),
-  m_sound( conf.sound ),
-  m_sdcard( conf.sdcard ) {
+using namespace espena::components;
 
-  }
+relay::relay( const relay::configuration &config ) : m_config( config ) {
+  gpio_reset_pin( config.gpio_relay );
+  gpio_set_direction( config.gpio_relay, GPIO_MODE_OUTPUT );
+}
 
-espena::application::~application() {
+relay::~relay() {
 
 }
 
-void espena::application::run() {
-  m_led_green.on();
-  m_relay.on();
-  m_led_red.on();
-  m_sound.play( NULL );
-  m_led_red.off();
+void relay::on() {
+  gpio_set_level( m_config.gpio_relay, 1 );
+}
+
+void relay::off() {
+  gpio_set_level( m_config.gpio_relay, 0 );
 }

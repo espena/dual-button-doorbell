@@ -16,26 +16,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "application.hpp"
+#ifndef __relay_hpp__
+#define __relay_hpp__
 
-espena::application::application( const configuration &conf ) : 
-  m_config( conf ),
-  m_led_green( conf.led_green ),
-  m_led_red( conf.led_red ),
-  m_relay( conf.relay ),
-  m_sound( conf.sound ),
-  m_sdcard( conf.sdcard ) {
+#include "driver/gpio.h"
 
-  }
+namespace espena::components {
 
-espena::application::~application() {
+  class relay {
 
-}
+    public:
 
-void espena::application::run() {
-  m_led_green.on();
-  m_relay.on();
-  m_led_red.on();
-  m_sound.play( NULL );
-  m_led_red.off();
-}
+      typedef struct configuration_struct {
+        gpio_num_t gpio_relay;
+      } configuration;
+
+    private:
+
+      const configuration &m_config;
+
+    public:
+
+      relay( const configuration & );
+      ~relay();
+  
+      void on();
+      void off();
+
+  }; // class relay
+
+}; // namespace espena::components
+
+#endif // __relay_hpp__

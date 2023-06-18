@@ -20,22 +20,51 @@
 #define __application_h__
 
 #include "components/led.hpp"
+#include "components/relay.hpp"
+#include "components/sound.hpp"
+#include "components/sdcard.hpp"
 
 namespace espena {
 
   class application {
-    
-    components::led m_led_green;
-    components::led m_led_red;
 
-    public:
+    public:    
+
       /**
        * Main configuration
        */
       typedef struct configuration_struct {
         components::led::configuration led_green;
         components::led::configuration led_red;
+        components::relay::configuration relay;
+        components::sound::configuration sound;
+        components::sdcard::configuration sdcard;
       } configuration;
+
+    private:
+
+      /**
+        * Reference to relevant part of main config
+        */
+      const configuration &m_config;
+
+      components::led m_led_green;
+      components::led m_led_red;
+      components::relay m_relay;
+      components::sound m_sound;
+      components::sdcard m_sdcard;
+
+    public:
+
+      /**
+       * Constructor
+       */
+      application( const configuration & );
+
+      /**
+       * Destructor
+       */
+      ~application();
 
       /**
       * Application start
@@ -43,16 +72,6 @@ namespace espena {
       */
       void run();
     
-      /**
-       * Constructor
-       */
-      application( configuration );
-
-      /**
-       * Destructor
-       */
-      ~application();
-
   }; // class Application
 }; // namespace espena
 

@@ -31,9 +31,18 @@ namespace espena::components {
         gpio_num_t gpio_num;
       } configuration;
 
-      led( const configuration );
+    private:
+
+      const configuration &m_config;
+
+    public:
+
+      led( const configuration & );
       ~led();
   
+      void on();
+      void off();
+
   }; // class led
 
 }; // namespace espena::components

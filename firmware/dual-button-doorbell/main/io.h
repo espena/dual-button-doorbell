@@ -10,13 +10,6 @@
 
 #define IO_RELAY              GPIO_NUM_2
 
-/*
-#define IO_SDCARD_MOSI        GPIO_NUM_8
-#define IO_SDCARD_MISO        GPIO_NUM_7
-#define IO_SDCARD_CS          GPIO_NUM_11
-#define IO_SDCARD_CLK         GPIO_NUM_6
-*/
-
 #define IO_SDCARD_MOSI        GPIO_NUM_14
 #define IO_SDCARD_MISO        GPIO_NUM_13
 #define IO_SDCARD_CS          GPIO_NUM_26

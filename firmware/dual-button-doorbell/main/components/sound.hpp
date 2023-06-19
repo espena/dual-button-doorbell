@@ -29,13 +29,13 @@ namespace espena::components {
 
   class sound : public event::i_event_dispatcher {
 
-    typedef struct waw_hdr_prologue_st {
+    typedef struct wav_hdr_prologue_st {
       char tag[ 4 ];
       union {
         char b[ 4 ];
         int16_t i;
       } len;
-    } waw_hdr_prologue;
+    } wav_hdr_prologue;
 
     public:
 

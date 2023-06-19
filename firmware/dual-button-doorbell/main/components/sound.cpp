@@ -59,7 +59,7 @@ sound::~sound() {
 void sound::play( FILE * fp ) {
   if( fp ) {
     m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_START, NULL );
-    waw_hdr_prologue whp;
+    wav_hdr_prologue whp;
     fread( ( void * ) &whp, sizeof( whp ), 1, fp );
     if( memcmp( whp.tag, ( void * ) "RIFF", 4 ) != 0 ) {
       return;

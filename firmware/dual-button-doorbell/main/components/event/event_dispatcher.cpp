@@ -27,10 +27,12 @@ void event_dispatcher::dispatch( esp_event_base_t event_base,
                                  int32_t event_id,
                                  void * event_params )
 {
-  esp_event_post_to( m_event_loop_handle,
-                     event_base,
-                     event_id,
-                     event_params,
-                     0,
-                     10 );
+  if( m_event_loop_handle ) {
+    esp_event_post_to( m_event_loop_handle,
+                       event_base,
+                       event_id,
+                       event_params,
+                       0,
+                       10 );
+  }
 }

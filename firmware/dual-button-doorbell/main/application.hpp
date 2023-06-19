@@ -68,6 +68,8 @@ namespace espena {
        */
       esp_event_loop_handle_t m_event_loop_handle;
 
+      void add_event_listeners();
+
     public:
 
       /**
@@ -89,6 +91,7 @@ namespace espena {
                                  void *event_params );
 
       void event_handler_sdcard( int32_t event_id, void *event_params );
+      void event_handler_sound( int32_t event_id, void *event_params );
 
       /**
       * Application start

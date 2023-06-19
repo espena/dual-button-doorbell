@@ -19,6 +19,7 @@
 #include "application.hpp"
 #include "string.h"
 #include "esp_log.h"
+#include "esp_task_wdt.h"
 #include "esp_event.h"
 
 using namespace espena;
@@ -42,6 +43,7 @@ application::application( const configuration &conf ) :
     .task_core_id = tskNO_AFFINITY
   };
   esp_event_loop_create( &loop_args, &m_event_loop_handle );
+  m_sound.set_event_loop_handle( m_event_loop_handle );
   m_sdcard.set_event_loop_handle( m_event_loop_handle );
 }
 
@@ -58,7 +60,9 @@ void application::event_handler( void *handler_arg,
   if( source == ( char * ) components::sdcard::event_base ) {
     application::m_the_app->event_handler_sdcard( event_id, event_params );
   }
-  
+  if( source == ( char * ) components::sound::event_base ) {
+    application::m_the_app->event_handler_sound( event_id, event_params );
+  }
 }
 
 void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
@@ -69,20 +73,38 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
       break;
     case components::sdcard::ON_MOUNT_FAILED:
       // SD card did not mount
-      m_led_red.on();
+      m_led_red.blink( 50 );
       break;
+    default:
+      ;
   }
 }
 
-void application::run() {
+void application::event_handler_sound( int32_t event_id, void *event_params ) {
+  switch( event_id ) {
+    case components::sound::ON_PLAY_START:
+      m_led_red.blink( 100 );
+      break;
+    case components::sound::ON_PLAY_END:
+      m_led_red.stop();
+      break;
+    default:
+      ;
+  }
+}
 
+void application::add_event_listeners() {
   m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_OK, event_handler, NULL );
   m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_FAILED, event_handler, NULL );
+  m_sound.add_event_listener( components::sound::ON_PLAY_START, event_handler, NULL );
+  m_sound.add_event_listener( components::sound::ON_PLAY_END, event_handler, NULL );
+}
+
+void application::run() {
+  add_event_listeners();
   m_sdcard.mount();
-  
-  /*
-  m_led_red.on();
-  m_sound.play( m_sdcard.open_file( "ousse.wav", "rb" ) );
-  m_led_red.off();
-  */
+  m_sound.play( m_sdcard.open_file( "ousse.wav", "rb" ) );  
+  while( 1 ) {
+    ;    
+  }
 }

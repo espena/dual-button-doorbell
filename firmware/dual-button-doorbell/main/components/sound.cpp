@@ -17,6 +17,7 @@
  */
 
 #include "sound.hpp"
+#include "esp_event.h"
 #include "memory.h"
 #include "driver/gpio.h"
 #include "driver/i2s_std.h"
@@ -24,6 +25,8 @@
 #include "../io.h"
 
 using namespace espena::components;
+
+const esp_event_base_t sound::event_base = "SOUND_EVENT";
 
 sound::sound( const sound::configuration &config ) :
   m_config( config ),
@@ -55,6 +58,7 @@ sound::~sound() {
 
 void sound::play( FILE * fp ) {
   if( fp ) {
+    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_START, NULL );
     waw_hdr_prologue whp;
     fread( ( void * ) &whp, sizeof( whp ), 1, fp );
     if( memcmp( whp.tag, ( void * ) "RIFF", 4 ) != 0 ) {
@@ -73,5 +77,20 @@ void sound::play( FILE * fp ) {
     }
     i2s_channel_disable( m_i2s_tx_handle );
     fclose( fp );
+    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_END, NULL );
   }
+}
+
+void sound::set_event_loop_handle( esp_event_loop_handle_t event_loop_handle ) {
+  m_event_dispatcher.set_event_loop_handle( event_loop_handle );
+}
+
+void sound::add_event_listener( event_id event_id,
+                                esp_event_handler_t event_handler,
+                                void *event_params )
+{
+  m_event_dispatcher.add_event_listener( sound::event_base,
+                                          event_id,
+                                          event_handler,
+                                          event_params );
 }

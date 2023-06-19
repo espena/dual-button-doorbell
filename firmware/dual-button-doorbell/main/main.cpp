@@ -51,7 +51,15 @@ extern "C" void app_main() {
         .slot = 1 },
       .sdspi_max_transfer_sz = 4000,
       .sdspi_dma_channel = 1,
-      .mount_point = "/sdcard" }
+      .mount_point = "/sdcard" },
+
+    .button_left = {
+      .gpio_button = IO_PANEL_S1_INPUT,
+      .gpio_led = IO_PANEL_S1_RED },
+
+    .button_right = {
+      .gpio_button = IO_PANEL_S2_INPUT,
+      .gpio_led = IO_PANEL_S2_RED }
   };
 
   application app( config );

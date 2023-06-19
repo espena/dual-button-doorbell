@@ -28,11 +28,6 @@ namespace espena::components {
 
   class led {
 
-    typedef enum led_function_enum {
-      led_func_flash,
-      led_func_blink
-    } led_function;
-
     typedef struct led_task_params_struct {
       led *instance;
       TaskHandle_t task_handle;

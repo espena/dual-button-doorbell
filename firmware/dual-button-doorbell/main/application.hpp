@@ -19,6 +19,7 @@
 #ifndef __application_h__
 #define __application_h__
 
+#include "esp_event.h"
 #include "components/led.hpp"
 #include "components/relay.hpp"
 #include "components/sound.hpp"
@@ -44,15 +45,28 @@ namespace espena {
     private:
 
       /**
-        * Reference to relevant part of main config
-        */
+       * Reference to application instance, provided for static methods
+       */
+      static application *m_the_app;
+
+      /**
+       * Reference to relevant parts of main config
+       */
       const configuration &m_config;
 
+      /**
+       * Components
+       */
       components::led m_led_green;
       components::led m_led_red;
       components::relay m_relay;
       components::sound m_sound;
       components::sdcard m_sdcard;
+
+      /**
+       * Handle to custom event loop
+       */
+      esp_event_loop_handle_t m_event_loop_handle;
 
     public:
 
@@ -65,6 +79,16 @@ namespace espena {
        * Destructor
        */
       ~application();
+
+      /**
+       * Event - static handler for all incoming events
+       */
+      static void event_handler( void *handler_arg,
+                                 esp_event_base_t event_base,
+                                 int32_t event_id,
+                                 void *event_params );
+
+      void event_handler_sdcard( int32_t event_id, void *event_params );
 
       /**
       * Application start

@@ -24,6 +24,7 @@
 #include "components/relay.hpp"
 #include "components/sound.hpp"
 #include "components/sdcard.hpp"
+#include "components/button.hpp"
 
 namespace espena {
 
@@ -40,6 +41,8 @@ namespace espena {
         components::relay::configuration relay;
         components::sound::configuration sound;
         components::sdcard::configuration sdcard;
+        components::button::configuration button_left;
+        components::button::configuration button_right;
       } configuration;
 
     private:
@@ -62,6 +65,8 @@ namespace espena {
       components::relay m_relay;
       components::sound m_sound;
       components::sdcard m_sdcard;
+      components::button m_button_left;
+      components::button m_button_right;
 
       /**
        * Handle to custom event loop

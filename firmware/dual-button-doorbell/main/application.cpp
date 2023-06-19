@@ -32,7 +32,9 @@ application::application( const configuration &conf ) :
   m_led_red( conf.led_red ),
   m_relay( conf.relay ),
   m_sound( conf.sound ),
-  m_sdcard( conf.sdcard )
+  m_sdcard( conf.sdcard ),
+  m_button_left( conf.button_left ),
+  m_button_right( conf.button_right )
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
@@ -69,7 +71,7 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::sdcard::ON_MOUNT_OK:
       // SD card mounted successfully
-      m_led_green.on();
+      m_led_green.blink();
       break;
     case components::sdcard::ON_MOUNT_FAILED:
       // SD card did not mount

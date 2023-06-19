@@ -20,10 +20,27 @@
 #define __led_hpp__
 
 #include "driver/gpio.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_task.h"
 
 namespace espena::components {
 
   class led {
+
+    typedef enum led_function_enum {
+      led_func_flash,
+      led_func_blink
+    } led_function;
+
+    typedef struct led_task_params_struct {
+      led *instance;
+      TaskHandle_t task_handle;
+      int delay_ms;
+      int count;
+    } led_task_params;
+
+    led_task_params m_led_task_params;
 
     public:
 
@@ -35,13 +52,25 @@ namespace espena::components {
 
       const configuration &m_config;
 
+      void kill_led_task();
+      void led_op( int ms, int count );
+
     public:
 
       led( const configuration & );
       ~led();
   
+      static void led_task( void * );
+
       void on();
       void off();
+      void toggle();
+      void stop();
+      
+      // inline impl.
+      void blink() { blink( 500 ); }
+      void blink( int ms ) { led_op( ms, 0 ); }
+      void blink( int ms, int count ) { led_op( ms, count ); }
 
   }; // class led
 

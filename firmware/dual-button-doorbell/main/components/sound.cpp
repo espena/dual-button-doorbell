@@ -50,6 +50,7 @@ sound::sound( const sound::configuration &config ) :
   gpio_set_direction( config.gpio_i2s_sd_mode, GPIO_MODE_OUTPUT );
   i2s_chan_config_t chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG( I2S_NUM_0, I2S_ROLE_MASTER );
   i2s_new_channel( &chan_cfg, &m_i2s_tx_handle, NULL );
+  i2s_channel_init_std_mode( m_i2s_tx_handle, &m_i2s_std_cfg );
 }
 
 sound::~sound() {
@@ -58,13 +59,11 @@ sound::~sound() {
 
 void sound::play( FILE * fp ) {
   if( fp ) {
-    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_START, NULL );
     wav_hdr_prologue whp;
     fread( ( void * ) &whp, sizeof( whp ), 1, fp );
     if( memcmp( whp.tag, ( void * ) "RIFF", 4 ) != 0 ) {
       return;
     }
-    i2s_channel_init_std_mode( m_i2s_tx_handle, &m_i2s_std_cfg );
     i2s_channel_enable( m_i2s_tx_handle );
     gpio_set_level( m_config.gpio_i2s_sd_mode, 1 );
     char buf[ 1024 ] = { 0 };
@@ -77,7 +76,7 @@ void sound::play( FILE * fp ) {
     }
     i2s_channel_disable( m_i2s_tx_handle );
     fclose( fp );
-    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_END, NULL );
+    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_END, NULL, 0 );
   }
 }
 
@@ -86,11 +85,9 @@ void sound::set_event_loop_handle( esp_event_loop_handle_t event_loop_handle ) {
 }
 
 void sound::add_event_listener( event_id event_id,
-                                esp_event_handler_t event_handler,
-                                void *event_params )
+                                esp_event_handler_t event_handler )
 {
   m_event_dispatcher.add_event_listener( sound::event_base,
                                           event_id,
-                                          event_handler,
-                                          event_params );
+                                          event_handler );
 }

@@ -16,8 +16,8 @@ namespace espena::components::event {
       ~event_dispatcher();
 
       void set_event_loop_handle( esp_event_loop_handle_t );
-      void add_event_listener( esp_event_base_t, int32_t, esp_event_handler_t, void * );
-      void dispatch( esp_event_base_t, int32_t, void * );
+      void add_event_listener( esp_event_base_t, int32_t, esp_event_handler_t );
+      void dispatch( esp_event_base_t, int32_t, void *, size_t );
 
   }; // class event_dispatcher
 

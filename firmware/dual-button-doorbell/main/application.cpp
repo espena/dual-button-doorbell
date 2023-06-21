@@ -33,6 +33,7 @@ application::application( const configuration &conf ) :
   m_relay( conf.relay ),
   m_sound( conf.sound ),
   m_sdcard( conf.sdcard ),
+  m_rtc( conf.rtc ),
   m_button_left( conf.button_left ),
   m_button_right( conf.button_right )
 {
@@ -47,6 +48,8 @@ application::application( const configuration &conf ) :
   esp_event_loop_create( &loop_args, &m_event_loop_handle );
   m_sound.set_event_loop_handle( m_event_loop_handle );
   m_sdcard.set_event_loop_handle( m_event_loop_handle );
+  m_button_left.set_event_loop_handle( m_event_loop_handle );
+  m_button_right.set_event_loop_handle( m_event_loop_handle );
 }
 
 application::~application() {
@@ -65,13 +68,15 @@ void application::event_handler( void *handler_arg,
   if( source == ( char * ) components::sound::event_base ) {
     application::m_the_app->event_handler_sound( event_id, event_params );
   }
+  if( source == ( char * ) components::button::event_base ) {
+    application::m_the_app->event_handler_button( event_id, *( reinterpret_cast< int * >( event_params ) ) );
+  }
 }
 
 void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::sdcard::ON_MOUNT_OK:
       // SD card mounted successfully
-      m_led_green.blink();
       break;
     case components::sdcard::ON_MOUNT_FAILED:
       // SD card did not mount
@@ -84,11 +89,36 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
 
 void application::event_handler_sound( int32_t event_id, void *event_params ) {
   switch( event_id ) {
-    case components::sound::ON_PLAY_START:
-      m_led_red.blink( 100 );
-      break;
     case components::sound::ON_PLAY_END:
-      m_led_red.stop();
+      ESP_LOGI( "APPLICATION", "Lydavspilling avsluttet" );
+      m_led_red.off();
+      break;
+    default:
+      ;
+  }
+}
+
+void application::event_handler_button( int32_t event_id, int btn_id ) {
+  switch( event_id ) {
+    case components::button::ON_BTN_DOWN:
+      m_led_red.on();
+      switch( btn_id ) {
+        case 1:
+          m_relay.on();
+          vTaskDelay( 250 / portTICK_PERIOD_MS );
+          m_relay.off();
+          m_sound.play( m_sdcard.open_file( "pappa.wav", "rb" ) );
+          break;
+        case 2:
+          m_relay.on();
+          vTaskDelay( 250 / portTICK_PERIOD_MS );
+          m_relay.off();
+          m_sound.play( m_sdcard.open_file( "ungene.wav", "rb" ) );
+          break;
+        default:
+          m_led_green.blink( 1000, 1 );
+          m_led_red.blink( 1000, 1 );
+      }
       break;
     default:
       ;
@@ -96,17 +126,18 @@ void application::event_handler_sound( int32_t event_id, void *event_params ) {
 }
 
 void application::add_event_listeners() {
-  m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_OK, event_handler, NULL );
-  m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_FAILED, event_handler, NULL );
-  m_sound.add_event_listener( components::sound::ON_PLAY_START, event_handler, NULL );
-  m_sound.add_event_listener( components::sound::ON_PLAY_END, event_handler, NULL );
+  m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_OK, event_handler );
+  m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_FAILED, event_handler );
+  m_sound.add_event_listener( components::sound::ON_PLAY_START, event_handler );
+  m_sound.add_event_listener( components::sound::ON_PLAY_END, event_handler );
+  m_button_left.add_event_listener( components::button::ON_BTN_DOWN, event_handler );
+  m_button_right.add_event_listener( components::button::ON_BTN_DOWN, event_handler );
 }
 
 void application::run() {
   add_event_listeners();
   m_sdcard.mount();
-  m_sound.play( m_sdcard.open_file( "ousse.wav", "rb" ) );  
   while( 1 ) {
-    ;    
+    vTaskDelay( 10 );
   }
 }

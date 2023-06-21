@@ -43,13 +43,11 @@ void sdcard::set_event_loop_handle( esp_event_loop_handle_t event_loop_handle ) 
 }
 
 void sdcard::add_event_listener( event_id event_id,
-                                 esp_event_handler_t event_handler,
-                                 void *event_params )
+                                 esp_event_handler_t event_handler )
 {
   m_event_dispatcher.add_event_listener( sdcard::event_base,
                                          event_id,
-                                         event_handler,
-                                         event_params );
+                                         event_handler );
 }
 
 void sdcard::mount() {
@@ -88,10 +86,10 @@ void sdcard::mount() {
     &card );
 
   if( ret == ESP_OK ) {
-    m_event_dispatcher.dispatch( sdcard::event_base, ON_MOUNT_OK, NULL );
+    m_event_dispatcher.dispatch( sdcard::event_base, ON_MOUNT_OK, NULL, 0 );
   }
   else {
-    m_event_dispatcher.dispatch( sdcard::event_base, ON_MOUNT_FAILED, NULL );
+    m_event_dispatcher.dispatch( sdcard::event_base, ON_MOUNT_FAILED, NULL, 0 );
     return;
   }
 

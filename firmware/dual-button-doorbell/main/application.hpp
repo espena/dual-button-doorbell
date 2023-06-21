@@ -24,6 +24,7 @@
 #include "components/relay.hpp"
 #include "components/sound.hpp"
 #include "components/sdcard.hpp"
+#include "components/rtc.hpp"
 #include "components/button.hpp"
 
 namespace espena {
@@ -41,6 +42,7 @@ namespace espena {
         components::relay::configuration relay;
         components::sound::configuration sound;
         components::sdcard::configuration sdcard;
+        components::rtc::configuration rtc;
         components::button::configuration button_left;
         components::button::configuration button_right;
       } configuration;
@@ -65,6 +67,7 @@ namespace espena {
       components::relay m_relay;
       components::sound m_sound;
       components::sdcard m_sdcard;
+      components::rtc m_rtc;
       components::button m_button_left;
       components::button m_button_right;
 
@@ -95,8 +98,9 @@ namespace espena {
                                  int32_t event_id,
                                  void *event_params );
 
-      void event_handler_sdcard( int32_t event_id, void *event_params );
-      void event_handler_sound( int32_t event_id, void *event_params );
+      void event_handler_sdcard( int32_t, void * );
+      void event_handler_sound( int32_t, void * );
+      void event_handler_button( int32_t, int );
 
       /**
       * Application start

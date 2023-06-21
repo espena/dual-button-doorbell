@@ -43,8 +43,9 @@ void led::led_task( void *arg ) {
     params->instance->on();
     vTaskDelay( params->delay_ms / portTICK_PERIOD_MS );
     params->instance->off();
-    if( params->count > 0 && ++count == params->count ) {
+    if( params->count > 0 && ++count >= params->count ) {
       params->instance->kill_led_task();
+      count = 0;
     }
     vTaskDelay( params->delay_ms / portTICK_PERIOD_MS );
   }
@@ -59,10 +60,12 @@ void led::kill_led_task() {
 }
 
 void led::on() {
+  kill_led_task();
   gpio_set_level( m_config.gpio_num, 1 );
 }
 
 void led::off() {
+  kill_led_task();
   gpio_set_level( m_config.gpio_num, 0 );
 }
 
@@ -71,16 +74,16 @@ void led::toggle() {
 }
 
 void led::led_op( int ms, int count ) {
+  kill_led_task();
   m_led_task_params = {
     .instance = this,
     .task_handle = NULL,
     .delay_ms = ms,
     .count = count
   };
-  xTaskCreate( &led::led_task, "led_task", 1024, &m_led_task_params, 5, &( m_led_task_params.task_handle ) );
+  xTaskCreate( &led::led_task, "led_task", 2048, &m_led_task_params, 5, &( m_led_task_params.task_handle ) );
 }
 
 void led::stop() {
-  kill_led_task();
   off();
 }

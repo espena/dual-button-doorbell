@@ -69,8 +69,7 @@ namespace espena::components {
 
       void set_event_loop_handle( esp_event_loop_handle_t );
       void add_event_listener( event_id,
-                               esp_event_handler_t,
-                               void * );
+                               esp_event_handler_t );
 
   }; // class sound
 

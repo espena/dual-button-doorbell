@@ -53,15 +53,23 @@ extern "C" void app_main() {
       .sdspi_dma_channel = 1,
       .mount_point = "/sdcard" },
 
+    .rtc = {
+      .gpio_sda = IO_I2C_SDA,
+      .gpio_scl = IO_I2C_SCL
+    },
+
     .button_left = {
+      .btn_id = 1,
       .gpio_button = IO_PANEL_S1_INPUT,
       .gpio_led = IO_PANEL_S1_RED },
 
     .button_right = {
+      .btn_id = 2,
       .gpio_button = IO_PANEL_S2_INPUT,
       .gpio_led = IO_PANEL_S2_RED }
   };
 
+  gpio_install_isr_service( 0 );
   application app( config );
   app.run();
 }

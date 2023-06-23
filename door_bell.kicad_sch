@@ -6,7 +6,7 @@
 
   (title_block
     (title "Dual-button WiFi enabled door bell")
-    (date "2023-06-11")
+    (date "2023-06-23")
     (rev "1.1")
     (company "espenandersen.no")
   )
@@ -2712,9 +2712,6 @@
   (junction (at 118.11 50.8) (diameter 0) (color 0 0 0 0)
     (uuid 059dea70-ad3e-41f8-ad29-3d8f6b24fe3d)
   )
-  (junction (at 203.2 134.62) (diameter 0) (color 0 0 0 0)
-    (uuid 07f26462-4f87-4b00-9658-47238e7bf306)
-  )
   (junction (at 210.82 127) (diameter 0) (color 0 0 0 0)
     (uuid 08f7a6ba-4c3c-47cb-b87b-8e7e0a455993)
   )
@@ -2754,6 +2751,9 @@
   (junction (at 223.52 119.38) (diameter 0) (color 0 0 0 0)
     (uuid 2bec1276-3cdf-4c37-8225-20fb23b4b298)
   )
+  (junction (at 201.93 134.62) (diameter 0) (color 0 0 0 0)
+    (uuid 337ddf5d-411a-4ab3-ac88-edcf0920fc40)
+  )
   (junction (at 147.32 75.565) (diameter 0) (color 0 0 0 0)
     (uuid 37f7fab3-d569-4d5c-904c-aef3f03c4635)
   )
@@ -2783,9 +2783,6 @@
   )
   (junction (at 79.375 50.8) (diameter 0) (color 0 0 0 0)
     (uuid 5aac7451-6b91-4f4d-812e-df79e1424b85)
-  )
-  (junction (at 228.6 116.84) (diameter 0) (color 0 0 0 0)
-    (uuid 5d5cbc9f-d37a-412c-9ddd-c7a1c058c371)
   )
   (junction (at 207.01 102.87) (diameter 0) (color 0 0 0 0)
     (uuid 60e52237-3b02-4c04-bfde-974b9d32b251)
@@ -2886,6 +2883,9 @@
   (junction (at 80.01 67.945) (diameter 0) (color 0 0 0 0)
     (uuid aabff92f-5c76-47ab-bb9f-f3eeacaf1fae)
   )
+  (junction (at 227.33 116.84) (diameter 0) (color 0 0 0 0)
+    (uuid ad5065a0-2ded-4b8f-9d17-4383c04b7423)
+  )
   (junction (at 102.87 38.735) (diameter 0) (color 0 0 0 0)
     (uuid b9a26864-5421-4286-b85d-8075417841b3)
   )
@@ -2970,7 +2970,6 @@
   (no_connect (at 158.75 63.5) (uuid 4c3ad8f8-b496-4ba1-bf18-af6aaeab56d9))
   (no_connect (at 107.95 73.66) (uuid 53fcc9e1-a26b-4457-a7cb-7a07d8eb238e))
   (no_connect (at 134.62 113.03) (uuid 7b8565b1-5660-4aee-84c5-49bd3a5c3cfb))
-  (no_connect (at 200.66 66.675) (uuid 8749db9e-807b-4f66-b3ef-5a1052c026c5))
   (no_connect (at 55.88 187.325) (uuid 9d7b7308-cfb0-4468-869f-3bab4d3dad6a))
   (no_connect (at 106.68 115.57) (uuid a03f7620-1f03-4e1a-acba-a2aa9e69bb27))
   (no_connect (at 107.95 69.85) (uuid b43f3cbb-d963-45dd-a465-116d58c83d21))
@@ -3104,10 +3103,6 @@
     (stroke (width 0) (type default))
     (uuid 058a2115-226a-4695-a6d4-502032df0ac6)
   )
-  (wire (pts (xy 201.93 134.62) (xy 203.2 134.62))
-    (stroke (width 0) (type default))
-    (uuid 06065457-99d9-43cf-a580-b55281767a29)
-  )
   (wire (pts (xy 278.13 139.7) (xy 277.495 139.7))
     (stroke (width 0) (type default))
     (uuid 08433614-e48c-437a-81c5-aa5353f98a1c)
@@ -3157,10 +3152,6 @@
     (stroke (width 0) (type default))
     (uuid 0d9f8ebb-d678-4a2d-9b35-384314384d4b)
   )
-  (wire (pts (xy 201.93 135.89) (xy 203.2 134.62))
-    (stroke (width 0) (type default))
-    (uuid 0dd96d6e-529b-44b2-8aff-152d1333b164)
-  )
   (wire (pts (xy 213.36 127) (xy 234.315 127))
     (stroke (width 0) (type default))
     (uuid 0e7f4d17-905c-4c3b-9174-da0860882680)
@@ -3205,10 +3196,6 @@
   (wire (pts (xy 30.48 50.8) (xy 43.18 50.8))
     (stroke (width 0) (type default))
     (uuid 166df77d-a20d-4e3e-96c6-3a53001f560f)
-  )
-  (wire (pts (xy 227.33 118.11) (xy 228.6 116.84))
-    (stroke (width 0) (type default))
-    (uuid 190322ac-4cfa-4b9d-9658-2de0652120fc)
   )
   (wire (pts (xy 212.725 69.85) (xy 213.995 69.85))
     (stroke (width 0) (type default))
@@ -3340,11 +3327,7 @@
     (stroke (width 0) (type default))
     (uuid 2fb00115-316e-4cc5-be27-c7c6b1c8d1b0)
   )
-  (wire (pts (xy 201.93 135.89) (xy 201.93 140.335))
-    (stroke (width 0) (type default))
-    (uuid 3076c077-71f7-46a7-9797-c05f570446cf)
-  )
-  (wire (pts (xy 227.33 116.84) (xy 228.6 116.84))
+  (wire (pts (xy 227.33 116.84) (xy 234.315 116.84))
     (stroke (width 0) (type default))
     (uuid 31ecd091-ba60-45f3-996f-0c9a8b784242)
   )
@@ -3530,7 +3513,7 @@
     (stroke (width 0) (type default))
     (uuid 60929d4a-73d9-4c3c-b87d-13625b8b2f51)
   )
-  (wire (pts (xy 203.2 134.62) (xy 234.315 134.62))
+  (wire (pts (xy 201.93 134.62) (xy 234.315 134.62))
     (stroke (width 0) (type default))
     (uuid 6181b05b-40bd-43db-841c-084fc7d49b7e)
   )
@@ -3755,6 +3738,10 @@
   (wire (pts (xy 205.74 132.08) (xy 208.28 132.08))
     (stroke (width 0) (type default))
     (uuid 898896a2-585a-4f7a-9021-dace26540b0f)
+  )
+  (wire (pts (xy 201.93 134.62) (xy 201.93 140.335))
+    (stroke (width 0) (type default))
+    (uuid 89dd9fc0-002e-48b5-9e57-ddeeb8676a68)
   )
   (wire (pts (xy 101.6 105.41) (xy 106.68 105.41))
     (stroke (width 0) (type default))
@@ -4117,10 +4104,6 @@
     (stroke (width 0) (type default))
     (uuid bf048466-ed38-46ee-a6ad-11b32f107b75)
   )
-  (wire (pts (xy 228.6 116.84) (xy 234.315 116.84))
-    (stroke (width 0) (type default))
-    (uuid c04e2b93-8ff0-42bf-9302-deca45c8662f)
-  )
   (wire (pts (xy 194.31 43.18) (xy 196.85 43.18))
     (stroke (width 0) (type default))
     (uuid c18bb950-30da-4821-9cf3-e0fce7960fc6)
@@ -4325,7 +4308,7 @@
     (stroke (width 0) (type default))
     (uuid dc8dac34-f1e6-444d-aee5-562c3c0ecbc7)
   )
-  (wire (pts (xy 227.33 140.335) (xy 227.33 118.11))
+  (wire (pts (xy 227.33 116.84) (xy 227.33 140.335))
     (stroke (width 0) (type default))
     (uuid dcacb5db-5f8c-4a8a-8296-a6cee5d97f4b)
   )
@@ -4567,6 +4550,10 @@
     (effects (font (size 1.016 1.016)) (justify left bottom))
     (uuid 2e80afb9-f801-4cac-bcfe-7c1cb52af7d1)
   )
+  (text "*)" (at 210.82 88.265 0)
+    (effects (font (size 0.762 0.762)) (justify left bottom))
+    (uuid 3f48e887-932c-4314-90c9-d316536f15a4)
+  )
   (text "NC" (at 20.32 182.88 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 47085b7f-123c-4964-b67d-3ba060072bf0)
@@ -4574,6 +4561,14 @@
   (text "GND" (at 92.075 110.49 0)
     (effects (font (size 0.762 0.762)) (justify left bottom))
     (uuid 4e26646b-44e5-48fe-adec-3b4be9002651)
+  )
+  (text "*)" (at 224.79 86.995 0)
+    (effects (font (size 0.762 0.762)) (justify left bottom))
+    (uuid 4e2f7227-fc5b-4f30-a621-daba3292566b)
+  )
+  (text "*)" (at 210.82 84.455 0)
+    (effects (font (size 0.762 0.762)) (justify left bottom))
+    (uuid 5317eedf-e3d2-4483-9ba3-30dc741f1519)
   )
   (text "NO" (at 20.32 185.42 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
@@ -4587,9 +4582,17 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8bbc0385-5c16-43c5-b5dc-a894bad68ebd)
   )
+  (text "*)" (at 210.82 95.885 0)
+    (effects (font (size 0.762 0.762)) (justify left bottom))
+    (uuid 973eec9e-ab64-40e3-979e-fb4f5efaaafa)
+  )
   (text "25V" (at 54.61 83.82 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid ac4e9355-17cd-4c3b-b40c-62bcd8d3cc3c)
+  )
+  (text "*)" (at 210.82 92.075 0)
+    (effects (font (size 0.762 0.762)) (justify left bottom))
+    (uuid b6a7b499-75c3-4ae5-a093-d242d25d72a7)
   )
   (text "COM" (at 19.05 180.34 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
@@ -4598,6 +4601,11 @@
   (text "I2S" (at 153.035 137.16 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid e03f75ba-49ac-4fd3-85a5-e3513b6a246a)
+  )
+  (text "Use jumpers if current limiting resistors\nare preinstalled with panel LEDs.\nOtherwise, replace with resistors to limit\ndiode current to max. 30mA."
+    (at 226.06 92.71 0)
+    (effects (font (size 1.016 1.016)) (justify left bottom))
+    (uuid e4e3a93a-9fd1-4165-be43-ca3a02f75705)
   )
   (text "I2C" (at 153.035 91.44 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
@@ -4758,7 +4766,7 @@
   (symbol (lib_id "power:GND") (at 278.13 154.305 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 0463502e-9f77-4abe-95c8-3ada0871f445)
-    (property "Reference" "#PWR044" (at 278.13 160.655 0)
+    (property "Reference" "#PWR042" (at 278.13 160.655 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 278.13 158.75 0)
@@ -4774,7 +4782,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR044") (unit 1)
+          (reference "#PWR042") (unit 1)
         )
       )
     )
@@ -4783,7 +4791,7 @@
   (symbol (lib_id "Device:D_TVS_Filled") (at 196.85 144.145 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 06b4646d-b0dc-428b-b8e5-d18efbad6904)
-    (property "Reference" "D3" (at 197.485 139.7 90)
+    (property "Reference" "D4" (at 193.675 139.7 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TVS" (at 195.58 147.32 0)
@@ -4800,7 +4808,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D3") (unit 1)
+          (reference "D4") (unit 1)
         )
       )
     )
@@ -4834,7 +4842,7 @@
   (symbol (lib_id "Device:D_TVS_Filled") (at 222.25 144.145 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 09768053-abeb-466e-98ed-de5a1439bac4)
-    (property "Reference" "D10" (at 222.885 139.7 90)
+    (property "Reference" "D11" (at 218.44 139.7 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TVS" (at 220.98 147.32 0)
@@ -4851,7 +4859,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D10") (unit 1)
+          (reference "D11") (unit 1)
         )
       )
     )
@@ -4860,7 +4868,7 @@
   (symbol (lib_id "power:+VDC") (at 86.36 66.04 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 0ab9e46b-8fe9-456e-9519-e69f5facdf7e)
-    (property "Reference" "#PWR08" (at 86.36 68.58 0)
+    (property "Reference" "#PWR07" (at 86.36 68.58 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+VDC" (at 83.185 59.69 0)
@@ -4876,7 +4884,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR08") (unit 1)
+          (reference "#PWR07") (unit 1)
         )
       )
     )
@@ -4885,7 +4893,7 @@
   (symbol (lib_id "power:+3V3") (at 234.95 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0b78d903-53bf-4b44-bb81-6cc8134ebbe9)
-    (property "Reference" "#PWR040" (at 234.95 26.67 0)
+    (property "Reference" "#PWR038" (at 234.95 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 234.95 19.05 0)
@@ -4901,7 +4909,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR040") (unit 1)
+          (reference "#PWR038") (unit 1)
         )
       )
     )
@@ -4936,7 +4944,7 @@
   (symbol (lib_id "power:+5V") (at 61.595 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0eb14d44-14c8-4333-a8ac-97c9a7c87289)
-    (property "Reference" "#PWR07" (at 61.595 26.67 0)
+    (property "Reference" "#PWR06" (at 61.595 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+5V" (at 61.595 19.05 0)
@@ -4952,7 +4960,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR07") (unit 1)
+          (reference "#PWR06") (unit 1)
         )
       )
     )
@@ -5001,7 +5009,7 @@
   (symbol (lib_id "power:GND") (at 153.035 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 11e60740-7306-44b9-b45a-7cf720262394)
-    (property "Reference" "#PWR029" (at 153.035 62.23 0)
+    (property "Reference" "#PWR027" (at 153.035 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 150.495 59.055 0)
@@ -5017,7 +5025,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR029") (unit 1)
+          (reference "#PWR027") (unit 1)
         )
       )
     )
@@ -5052,7 +5060,7 @@
   (symbol (lib_id "Device:R") (at 234.95 55.88 0) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 17afadb7-8cb8-41f0-9319-92d41ade363e)
-    (property "Reference" "R23" (at 238.125 55.245 0)
+    (property "Reference" "R26" (at 238.125 55.245 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100k" (at 238.76 57.15 0)
@@ -5069,7 +5077,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R23") (unit 1)
+          (reference "R26") (unit 1)
         )
       )
     )
@@ -5078,7 +5086,7 @@
   (symbol (lib_id "power:+5V") (at 50.8 103.505 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 1a4f5bd7-e4ce-480a-a345-2f9fac10903c)
-    (property "Reference" "#PWR05" (at 50.8 107.315 0)
+    (property "Reference" "#PWR04" (at 50.8 107.315 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+5V" (at 53.34 100.965 0)
@@ -5094,7 +5102,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR05") (unit 1)
+          (reference "#PWR04") (unit 1)
         )
       )
     )
@@ -5129,7 +5137,7 @@
   (symbol (lib_id "power:GND") (at 48.26 144.78 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 1d038d51-159e-4c50-8a0b-29dad586091b)
-    (property "Reference" "#PWR04" (at 48.26 151.13 0)
+    (property "Reference" "#PWR03" (at 48.26 151.13 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 48.26 149.225 0)
@@ -5145,7 +5153,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR04") (unit 1)
+          (reference "#PWR03") (unit 1)
         )
       )
     )
@@ -5154,7 +5162,7 @@
   (symbol (lib_id "power:+5V") (at 36.83 154.94 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 1fbbd41b-d802-4ca7-a492-1c13d83701c2)
-    (property "Reference" "#PWR03" (at 36.83 158.75 0)
+    (property "Reference" "#PWR02" (at 36.83 158.75 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+5V" (at 39.37 152.4 0)
@@ -5170,7 +5178,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR03") (unit 1)
+          (reference "#PWR02") (unit 1)
         )
       )
     )
@@ -5179,7 +5187,7 @@
   (symbol (lib_id "power:GND") (at 137.16 147.32 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 23d2a88d-8148-47f0-bd40-6bd662c74b69)
-    (property "Reference" "#PWR025" (at 137.16 153.67 0)
+    (property "Reference" "#PWR024" (at 137.16 153.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 137.16 151.765 0)
@@ -5195,7 +5203,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR025") (unit 1)
+          (reference "#PWR024") (unit 1)
         )
       )
     )
@@ -5230,7 +5238,7 @@
   (symbol (lib_id "Device:R") (at 217.17 111.125 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 25aecfad-0437-4003-bd0c-e922e9095dfe)
-    (property "Reference" "R17" (at 217.17 107.315 0)
+    (property "Reference" "R20" (at 216.535 107.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 215.265 112.395 90)
@@ -5247,7 +5255,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R17") (unit 1)
+          (reference "R20") (unit 1)
         )
       )
     )
@@ -5282,7 +5290,7 @@
   (symbol (lib_id "Device:D_TVS_Filled") (at 201.93 144.145 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 29a37a85-10e9-4f8b-a196-e3d5654f874e)
-    (property "Reference" "D4" (at 202.565 139.7 90)
+    (property "Reference" "D5" (at 198.755 139.7 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TVS" (at 200.66 147.32 0)
@@ -5299,7 +5307,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D4") (unit 1)
+          (reference "D5") (unit 1)
         )
       )
     )
@@ -5340,7 +5348,7 @@
   (symbol (lib_id "Connector:Micro_SD_Card_Det_Hirose_DM3AT") (at 257.175 127 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 30031bc8-6975-4c99-bc8d-08d22cabea0d)
-    (property "Reference" "J8" (at 239.395 109.22 0)
+    (property "Reference" "J5" (at 239.395 109.22 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "MicroSD" (at 266.7 125.095 0)
@@ -5366,7 +5374,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "J8") (unit 1)
+          (reference "J5") (unit 1)
         )
       )
     )
@@ -5375,7 +5383,7 @@
   (symbol (lib_id "Device:D_TVS_Filled") (at 227.33 144.145 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 323bc502-1a0b-4426-98f9-bc1597ee09e0)
-    (property "Reference" "D11" (at 227.965 139.7 90)
+    (property "Reference" "D12" (at 223.52 139.7 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TVS" (at 226.06 147.32 0)
@@ -5392,7 +5400,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D11") (unit 1)
+          (reference "D12") (unit 1)
         )
       )
     )
@@ -5428,10 +5436,36 @@
     )
   )
 
+  (symbol (lib_id "Device:D_TVS_Filled") (at 80.01 78.105 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 3940b243-20d8-4ac8-ac45-264a146373ad)
+    (property "Reference" "D3" (at 81.915 76.835 90)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Value" "TVSP" (at 81.915 79.375 90)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Footprint" "Diode_SMD_espena:DO-214AA-2" (at 80.01 78.105 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 80.01 78.105 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 75bb8af2-470c-4f61-aa69-00d1c07b6b63))
+    (pin "2" (uuid 8032f3bc-5bd3-4e7f-953e-37ad445f53cb))
+    (instances
+      (project "door_bell"
+        (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
+          (reference "D3") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "Connector:Screw_Terminal_01x08") (at 264.16 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3bf4c35c-630a-4731-bb36-0ebe9c3bf0dd)
-    (property "Reference" "J4" (at 262.89 62.23 0)
+    (property "Reference" "J6" (at 262.89 62.23 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Door panel" (at 259.08 37.465 0)
@@ -5454,7 +5488,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "J4") (unit 1)
+          (reference "J6") (unit 1)
         )
       )
     )
@@ -5489,7 +5523,7 @@
   (symbol (lib_id "power:GND") (at 212.725 33.02 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3ed2dc07-7a91-4a00-96c7-56d05e576364)
-    (property "Reference" "#PWR034" (at 212.725 39.37 0)
+    (property "Reference" "#PWR032" (at 212.725 39.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 215.265 36.195 0)
@@ -5505,7 +5539,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR034") (unit 1)
+          (reference "#PWR032") (unit 1)
         )
       )
     )
@@ -5514,7 +5548,7 @@
   (symbol (lib_id "power:GND") (at 222.25 52.705 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 44437427-51be-4d80-9d8a-ac9fa2bb7890)
-    (property "Reference" "#PWR037" (at 222.25 59.055 0)
+    (property "Reference" "#PWR035" (at 222.25 59.055 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 222.25 57.15 0)
@@ -5530,7 +5564,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR037") (unit 1)
+          (reference "#PWR035") (unit 1)
         )
       )
     )
@@ -5539,7 +5573,7 @@
   (symbol (lib_id "Device:R") (at 198.755 77.47 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 44b8de84-ae40-4375-9da3-fcac3a5afefa)
-    (property "Reference" "R9" (at 198.755 75.565 90)
+    (property "Reference" "R12" (at 198.755 75.565 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100Ω" (at 198.755 80.01 90)
@@ -5556,7 +5590,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R9") (unit 1)
+          (reference "R12") (unit 1)
         )
       )
     )
@@ -5565,7 +5599,7 @@
   (symbol (lib_id "power:GND") (at 253.365 61.595 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 46c75392-c01b-44b6-ad7e-b991d5c3cf5c)
-    (property "Reference" "#PWR043" (at 253.365 67.945 0)
+    (property "Reference" "#PWR041" (at 253.365 67.945 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 253.365 66.04 0)
@@ -5581,7 +5615,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR043") (unit 1)
+          (reference "#PWR041") (unit 1)
         )
       )
     )
@@ -5590,7 +5624,7 @@
   (symbol (lib_id "Device:R") (at 234.95 38.1 0) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 48d02ac2-4fcf-44bc-a9d7-2fc40c9ffbf9)
-    (property "Reference" "R22" (at 238.125 37.465 0)
+    (property "Reference" "R25" (at 238.125 37.465 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100k" (at 238.76 39.37 0)
@@ -5607,7 +5641,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R22") (unit 1)
+          (reference "R25") (unit 1)
         )
       )
     )
@@ -5648,7 +5682,7 @@
   (symbol (lib_id "Device:R") (at 228.6 60.96 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4cf11626-8765-40e8-b3b6-b065bd20c1fe)
-    (property "Reference" "R21" (at 228.6 55.88 90)
+    (property "Reference" "R24" (at 228.6 55.88 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "10k" (at 228.6 58.42 90)
@@ -5665,7 +5699,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R21") (unit 1)
+          (reference "R24") (unit 1)
         )
       )
     )
@@ -5674,7 +5708,7 @@
   (symbol (lib_id "power:GND") (at 127 60.325 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 4e998163-c97e-47cb-b71a-f307aa29a7be)
-    (property "Reference" "#PWR020" (at 127 66.675 0)
+    (property "Reference" "#PWR019" (at 127 66.675 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 128.905 62.865 0)
@@ -5690,7 +5724,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR020") (unit 1)
+          (reference "#PWR019") (unit 1)
         )
       )
     )
@@ -5699,7 +5733,7 @@
   (symbol (lib_id "power:GND") (at 133.985 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5089d67a-b217-4d9a-9dcd-d837f36a42db)
-    (property "Reference" "#PWR022" (at 133.985 62.23 0)
+    (property "Reference" "#PWR021" (at 133.985 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 133.985 60.325 0)
@@ -5715,7 +5749,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR022") (unit 1)
+          (reference "#PWR021") (unit 1)
         )
       )
     )
@@ -5750,7 +5784,7 @@
   (symbol (lib_id "power:GND") (at 123.19 93.345 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 512ce9fe-097a-463d-9aa5-08f4d76464cd)
-    (property "Reference" "#PWR018" (at 123.19 99.695 0)
+    (property "Reference" "#PWR017" (at 123.19 99.695 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 125.095 95.885 0)
@@ -5766,7 +5800,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR018") (unit 1)
+          (reference "#PWR017") (unit 1)
         )
       )
     )
@@ -5775,7 +5809,7 @@
   (symbol (lib_id "power:+3V3") (at 233.045 99.695 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 51ed1f2e-faa7-4256-a7f7-894e9455ff77)
-    (property "Reference" "#PWR039" (at 233.045 103.505 0)
+    (property "Reference" "#PWR037" (at 233.045 103.505 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 233.045 95.885 0)
@@ -5791,7 +5825,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR039") (unit 1)
+          (reference "#PWR037") (unit 1)
         )
       )
     )
@@ -5800,10 +5834,10 @@
   (symbol (lib_id "Device:R") (at 204.47 90.17 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 546a1e72-0e7f-42b1-b02f-b21149d5acc2)
-    (property "Reference" "R12" (at 199.39 88.9 90)
+    (property "Reference" "R15" (at 199.39 88.9 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "75Ω" (at 209.55 88.9 90)
+    (property "Value" "0Ω" (at 209.55 88.9 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (at 204.47 91.948 90)
@@ -5817,7 +5851,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R12") (unit 1)
+          (reference "R15") (unit 1)
         )
       )
     )
@@ -5929,7 +5963,7 @@
   (symbol (lib_id "Device:R") (at 196.85 111.125 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6626d107-37e2-466d-8048-4607e9d7c519)
-    (property "Reference" "R7" (at 195.58 107.315 0)
+    (property "Reference" "R10" (at 196.215 107.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 194.945 112.395 90)
@@ -5946,7 +5980,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R7") (unit 1)
+          (reference "R10") (unit 1)
         )
       )
     )
@@ -5955,7 +5989,7 @@
   (symbol (lib_id "Device:D_TVS_Filled") (at 217.17 144.145 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6643771c-29c2-400e-a7b6-7a0011143cbe)
-    (property "Reference" "D9" (at 217.805 139.7 90)
+    (property "Reference" "D10" (at 213.36 139.7 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TVS" (at 215.9 147.32 0)
@@ -5972,7 +6006,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D9") (unit 1)
+          (reference "D10") (unit 1)
         )
       )
     )
@@ -5981,7 +6015,7 @@
   (symbol (lib_id "power:GND") (at 118.11 147.32 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 66a45ff5-62fa-4df5-9c6a-a8214cbc538c)
-    (property "Reference" "#PWR016" (at 118.11 153.67 0)
+    (property "Reference" "#PWR015" (at 118.11 153.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 115.57 150.495 0)
@@ -5997,7 +6031,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR016") (unit 1)
+          (reference "#PWR015") (unit 1)
         )
       )
     )
@@ -6006,7 +6040,7 @@
   (symbol (lib_id "power:+3V3") (at 147.32 74.93 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 67290b28-7996-4132-a7b2-2df2037fdc6a)
-    (property "Reference" "#PWR046" (at 147.32 78.74 0)
+    (property "Reference" "#PWR026" (at 147.32 78.74 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 147.955 71.12 0)
@@ -6022,7 +6056,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR046") (unit 1)
+          (reference "#PWR026") (unit 1)
         )
       )
     )
@@ -6058,7 +6092,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x03") (at 96.52 107.95 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6d135247-71c0-40d4-b663-3e18c17a5c8e)
-    (property "Reference" "J5" (at 96.52 113.665 0)
+    (property "Reference" "J4" (at 96.52 113.665 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "UART" (at 96.52 102.87 0)
@@ -6076,7 +6110,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "J5") (unit 1)
+          (reference "J4") (unit 1)
         )
       )
     )
@@ -6085,7 +6119,7 @@
   (symbol (lib_id "power:GND") (at 213.995 78.105 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 7157e694-72c9-49a7-a216-ab032beb791a)
-    (property "Reference" "#PWR036" (at 213.995 84.455 0)
+    (property "Reference" "#PWR034" (at 213.995 84.455 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 211.455 81.28 0)
@@ -6101,7 +6135,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR036") (unit 1)
+          (reference "#PWR034") (unit 1)
         )
       )
     )
@@ -6150,7 +6184,7 @@
   (symbol (lib_id "power:+3V3") (at 124.46 55.245 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 77054a6c-7989-4cfc-acbd-4abf3ced4bfb)
-    (property "Reference" "#PWR019" (at 124.46 59.055 0)
+    (property "Reference" "#PWR018" (at 124.46 59.055 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 123.825 51.435 0)
@@ -6166,7 +6200,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR019") (unit 1)
+          (reference "#PWR018") (unit 1)
         )
       )
     )
@@ -6237,7 +6271,7 @@
   (symbol (lib_id "power:+3V3") (at 120.65 88.265 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 78226b96-2063-4065-850d-350a0831102a)
-    (property "Reference" "#PWR017" (at 120.65 92.075 0)
+    (property "Reference" "#PWR016" (at 120.65 92.075 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 116.84 87.63 0)
@@ -6253,7 +6287,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR017") (unit 1)
+          (reference "#PWR016") (unit 1)
         )
       )
     )
@@ -6262,7 +6296,7 @@
   (symbol (lib_id "power:GND") (at 144.78 116.205 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 7979639d-4ce1-4c23-a83d-cc49cf97dabc)
-    (property "Reference" "#PWR026" (at 144.78 122.555 0)
+    (property "Reference" "#PWR025" (at 144.78 122.555 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 142.24 120.015 0)
@@ -6278,7 +6312,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR026") (unit 1)
+          (reference "#PWR025") (unit 1)
         )
       )
     )
@@ -6391,7 +6425,7 @@
   (symbol (lib_id "power:GND") (at 53.34 109.855 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 83aec291-a1a5-45cb-801a-3924ef0e3751)
-    (property "Reference" "#PWR06" (at 53.34 116.205 0)
+    (property "Reference" "#PWR05" (at 53.34 116.205 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 55.245 112.395 0)
@@ -6407,7 +6441,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR06") (unit 1)
+          (reference "#PWR05") (unit 1)
         )
       )
     )
@@ -6416,7 +6450,7 @@
   (symbol (lib_id "Device:D_TVS_Filled") (at 212.09 144.145 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 84bc39af-afba-4b2f-ab21-9da872c3f9d3)
-    (property "Reference" "D8" (at 212.725 139.7 90)
+    (property "Reference" "D9" (at 208.915 139.7 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TVS" (at 210.82 147.32 0)
@@ -6433,7 +6467,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D8") (unit 1)
+          (reference "D9") (unit 1)
         )
       )
     )
@@ -6442,7 +6476,7 @@
   (symbol (lib_id "power:+3V3") (at 210.185 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 860aa960-c89e-4fb3-9e5a-7e2f3819bcda)
-    (property "Reference" "#PWR033" (at 210.185 26.67 0)
+    (property "Reference" "#PWR031" (at 210.185 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 210.185 19.05 0)
@@ -6458,7 +6492,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR033") (unit 1)
+          (reference "#PWR031") (unit 1)
         )
       )
     )
@@ -6494,7 +6528,7 @@
   (symbol (lib_id "Device:R") (at 153.035 51.435 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 86ebced7-958c-454d-90f2-d94cb4f3133d)
-    (property "Reference" "R6" (at 154.305 50.8 0)
+    (property "Reference" "R7" (at 154.305 50.8 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 154.305 52.705 0)
@@ -6511,7 +6545,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R6") (unit 1)
+          (reference "R7") (unit 1)
         )
       )
     )
@@ -6550,7 +6584,7 @@
   (symbol (lib_id "power:GND") (at 86.36 93.345 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 88ec0fe2-51af-44b1-8cd8-6902942c0776)
-    (property "Reference" "#PWR09" (at 86.36 99.695 0)
+    (property "Reference" "#PWR08" (at 86.36 99.695 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 86.36 97.79 0)
@@ -6566,7 +6600,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR09") (unit 1)
+          (reference "#PWR08") (unit 1)
         )
       )
     )
@@ -6654,7 +6688,7 @@
   (symbol (lib_id "Device:R") (at 156.845 120.65 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 8bb34bd2-a64e-4f59-a564-42282cb38d8b)
-    (property "Reference" "R24" (at 158.115 120.015 0)
+    (property "Reference" "R8" (at 158.115 120.015 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "2,4k" (at 158.115 121.92 0)
@@ -6671,7 +6705,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R24") (unit 1)
+          (reference "R8") (unit 1)
         )
       )
     )
@@ -6708,7 +6742,7 @@
   (symbol (lib_id "Device:LED_Filled") (at 208.915 77.47 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 917d7ad4-9503-4652-bbf0-2dcba75026db)
-    (property "Reference" "D7" (at 208.915 74.93 0)
+    (property "Reference" "D8" (at 208.915 74.93 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "GREEN" (at 205.74 75.565 0)
@@ -6725,7 +6759,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D7") (unit 1)
+          (reference "D8") (unit 1)
         )
       )
     )
@@ -6734,7 +6768,7 @@
   (symbol (lib_id "Device:LED_Filled") (at 208.915 69.85 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 92dd3efa-4916-4f5a-8548-75c799185f4a)
-    (property "Reference" "D6" (at 208.915 67.31 0)
+    (property "Reference" "D7" (at 208.915 67.31 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "RED" (at 205.74 67.945 0)
@@ -6751,7 +6785,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D6") (unit 1)
+          (reference "D7") (unit 1)
         )
       )
     )
@@ -6760,7 +6794,7 @@
   (symbol (lib_id "Device:R") (at 146.05 80.01 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 93cdaf47-66c8-44ff-b70a-d0292344aa0d)
-    (property "Reference" "R25" (at 144.78 78.74 0)
+    (property "Reference" "R5" (at 144.78 78.74 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "2,4k" (at 144.78 81.28 0)
@@ -6777,7 +6811,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R25") (unit 1)
+          (reference "R5") (unit 1)
         )
       )
     )
@@ -6786,7 +6820,7 @@
   (symbol (lib_id "Device:R") (at 148.59 80.01 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 94379d5d-2851-4070-b147-b240085f40fb)
-    (property "Reference" "R26" (at 149.86 78.74 0)
+    (property "Reference" "R6" (at 149.86 78.74 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "2,4k" (at 149.86 81.28 0)
@@ -6803,7 +6837,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R26") (unit 1)
+          (reference "R6") (unit 1)
         )
       )
     )
@@ -6812,10 +6846,10 @@
   (symbol (lib_id "Device:R") (at 204.47 97.79 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 96b0e9c9-a28e-4382-b874-fbb97968886b)
-    (property "Reference" "R14" (at 199.39 96.52 90)
+    (property "Reference" "R17" (at 199.39 96.52 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "75Ω" (at 209.55 96.52 90)
+    (property "Value" "0Ω" (at 209.55 96.52 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (at 204.47 99.568 90)
@@ -6829,7 +6863,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R14") (unit 1)
+          (reference "R17") (unit 1)
         )
       )
     )
@@ -6838,7 +6872,7 @@
   (symbol (lib_id "Device:R") (at 198.755 69.85 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 97a3e54b-e457-4803-bf9f-8b6551fc8609)
-    (property "Reference" "R8" (at 198.755 67.945 90)
+    (property "Reference" "R11" (at 198.755 67.945 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100Ω" (at 198.755 72.39 90)
@@ -6855,7 +6889,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R8") (unit 1)
+          (reference "R11") (unit 1)
         )
       )
     )
@@ -6864,7 +6898,7 @@
   (symbol (lib_id "power:GND") (at 102.87 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 9b0a6f76-ba01-460e-80f0-823bd038257d)
-    (property "Reference" "#PWR015" (at 102.87 62.23 0)
+    (property "Reference" "#PWR014" (at 102.87 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 102.87 60.325 0)
@@ -6880,7 +6914,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR015") (unit 1)
+          (reference "#PWR014") (unit 1)
         )
       )
     )
@@ -6915,7 +6949,7 @@
   (symbol (lib_id "power:GND") (at 222.25 71.12 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 9f0e143b-15e9-42f6-ad98-dbcd1ce067c5)
-    (property "Reference" "#PWR038" (at 222.25 77.47 0)
+    (property "Reference" "#PWR036" (at 222.25 77.47 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 222.25 75.565 0)
@@ -6931,7 +6965,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR038") (unit 1)
+          (reference "#PWR036") (unit 1)
         )
       )
     )
@@ -6992,7 +7026,7 @@
   (symbol (lib_id "power:+3V3") (at 92.075 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid a5c75b8f-fb8a-4898-8c88-62e374a0ea4b)
-    (property "Reference" "#PWR010" (at 92.075 26.67 0)
+    (property "Reference" "#PWR09" (at 92.075 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 92.075 19.05 0)
@@ -7008,7 +7042,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR010") (unit 1)
+          (reference "#PWR09") (unit 1)
         )
       )
     )
@@ -7017,7 +7051,7 @@
   (symbol (lib_id "power:+3V3") (at 137.16 94.615 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid a7b54354-2a9c-468f-b309-29d52ddc8223)
-    (property "Reference" "#PWR024" (at 137.16 98.425 0)
+    (property "Reference" "#PWR023" (at 137.16 98.425 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 140.335 92.075 0)
@@ -7033,7 +7067,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR024") (unit 1)
+          (reference "#PWR023") (unit 1)
         )
       )
     )
@@ -7068,7 +7102,7 @@
   (symbol (lib_id "Device:R") (at 207.01 111.125 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid aeed59da-7a87-444e-b4f0-77d0981fc5f0)
-    (property "Reference" "R15" (at 207.01 107.315 0)
+    (property "Reference" "R18" (at 206.375 107.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 205.105 112.395 90)
@@ -7085,7 +7119,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R15") (unit 1)
+          (reference "R18") (unit 1)
         )
       )
     )
@@ -7094,7 +7128,7 @@
   (symbol (lib_id "power:+3V3") (at 102.87 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b4816d10-e3df-4949-ae1c-ec976c168b4b)
-    (property "Reference" "#PWR014" (at 102.87 26.67 0)
+    (property "Reference" "#PWR013" (at 102.87 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 102.87 19.05 0)
@@ -7110,7 +7144,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR014") (unit 1)
+          (reference "#PWR013") (unit 1)
         )
       )
     )
@@ -7119,7 +7153,7 @@
   (symbol (lib_id "power:GND") (at 213.995 70.485 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid b56c1d4d-4074-4332-83dc-2e0036c88240)
-    (property "Reference" "#PWR035" (at 213.995 76.835 0)
+    (property "Reference" "#PWR033" (at 213.995 76.835 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 216.535 73.66 0)
@@ -7135,7 +7169,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR035") (unit 1)
+          (reference "#PWR033") (unit 1)
         )
       )
     )
@@ -7144,7 +7178,7 @@
   (symbol (lib_id "power:GND") (at 178.435 37.465 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid b6a8ebf2-84ab-4741-a74f-32563bf16ae1)
-    (property "Reference" "#PWR032" (at 178.435 43.815 0)
+    (property "Reference" "#PWR030" (at 178.435 43.815 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 180.34 40.005 0)
@@ -7160,7 +7194,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR032") (unit 1)
+          (reference "#PWR030") (unit 1)
         )
       )
     )
@@ -7169,7 +7203,7 @@
   (symbol (lib_id "Device:R") (at 227.33 111.125 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid b85c264b-9204-4586-87f3-5399b4c9138f)
-    (property "Reference" "R19" (at 227.33 107.315 0)
+    (property "Reference" "R22" (at 226.695 107.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 225.425 112.395 90)
@@ -7186,7 +7220,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R19") (unit 1)
+          (reference "R22") (unit 1)
         )
       )
     )
@@ -7312,10 +7346,10 @@
   (symbol (lib_id "Device:R") (at 204.47 93.98 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid c3b3d295-ba71-4a09-8f88-86dfe7f0ac77)
-    (property "Reference" "R13" (at 199.39 92.71 90)
+    (property "Reference" "R16" (at 199.39 92.71 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "75Ω" (at 209.55 92.71 90)
+    (property "Value" "0Ω" (at 209.55 92.71 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (at 204.47 95.758 90)
@@ -7329,7 +7363,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R13") (unit 1)
+          (reference "R16") (unit 1)
         )
       )
     )
@@ -7364,7 +7398,7 @@
   (symbol (lib_id "power:+3V3") (at 99.06 125.095 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid c99cbe03-e5e0-49aa-955c-db9572ce2f8c)
-    (property "Reference" "#PWR012" (at 99.06 128.905 0)
+    (property "Reference" "#PWR011" (at 99.06 128.905 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 97.155 121.285 0)
@@ -7380,7 +7414,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR012") (unit 1)
+          (reference "#PWR011") (unit 1)
         )
       )
     )
@@ -7407,38 +7441,6 @@
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
           (reference "C14") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:D_Filled") (at 80.01 78.105 270) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid cac5068c-4978-47d2-a0dd-06f8d96a381f)
-    (property "Reference" "D12" (at 83.185 77.47 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "MRA4007T3G" (at 83.185 80.01 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Diode_SMD:D_SMB_Handsoldering" (at 80.01 78.105 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 80.01 78.105 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Sim.Device" "D" (at 80.01 78.105 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Sim.Pins" "1=K 2=A" (at 80.01 78.105 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid af4375af-6d59-44ce-9908-e13d9a3d06fe))
-    (pin "2" (uuid 7ba57a37-e885-41f2-9c7f-dc419c744a02))
-    (instances
-      (project "door_bell"
-        (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D12") (unit 1)
         )
       )
     )
@@ -7473,7 +7475,7 @@
   (symbol (lib_id "power:+3V3") (at 247.65 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d0556212-2761-4638-b6ce-70d74f18079a)
-    (property "Reference" "#PWR042" (at 247.65 26.67 0)
+    (property "Reference" "#PWR040" (at 247.65 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 247.65 19.05 0)
@@ -7489,7 +7491,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR042") (unit 1)
+          (reference "#PWR040") (unit 1)
         )
       )
     )
@@ -7498,7 +7500,7 @@
   (symbol (lib_id "Device_espena:C_Decoupling") (at 53.34 108.585 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d18dbfc2-72cf-41ae-8d43-4750f256f458)
-    (property "Reference" "C2" (at 53.975 106.68 0)
+    (property "Reference" "C3" (at 53.975 106.68 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "C_Decoupling" (at 53.594 110.617 0)
@@ -7515,7 +7517,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "C2") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
     )
@@ -7524,7 +7526,7 @@
   (symbol (lib_id "Device:D_TVS_Filled") (at 207.01 144.145 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d4448e62-7028-4b1d-9d5a-bb279b1eae2f)
-    (property "Reference" "D5" (at 207.645 139.7 90)
+    (property "Reference" "D6" (at 203.835 139.7 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TVS" (at 205.74 147.32 0)
@@ -7541,7 +7543,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "D5") (unit 1)
+          (reference "D6") (unit 1)
         )
       )
     )
@@ -7550,7 +7552,7 @@
   (symbol (lib_id "Device:C_Polarized") (at 53.34 78.105 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d9b59ba6-ee84-4246-b38f-ab9d7c98fb26)
-    (property "Reference" "C3" (at 48.895 75.565 0)
+    (property "Reference" "C2" (at 48.895 75.565 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "220uF" (at 53.975 81.28 0)
@@ -7567,7 +7569,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "C3") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
     )
@@ -7576,7 +7578,7 @@
   (symbol (lib_id "power:GND") (at 166.37 177.165 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid db75228a-e6f3-494a-8a0f-a7feb13c4c0c)
-    (property "Reference" "#PWR030" (at 166.37 183.515 0)
+    (property "Reference" "#PWR028" (at 166.37 183.515 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 166.37 181.61 0)
@@ -7592,7 +7594,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR030") (unit 1)
+          (reference "#PWR028") (unit 1)
         )
       )
     )
@@ -7601,7 +7603,7 @@
   (symbol (lib_id "Device:R") (at 212.09 111.125 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid dd8729a8-de50-48a5-85aa-8373117a6555)
-    (property "Reference" "R16" (at 212.09 107.315 0)
+    (property "Reference" "R19" (at 211.455 107.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 210.185 112.395 90)
@@ -7618,7 +7620,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R16") (unit 1)
+          (reference "R19") (unit 1)
         )
       )
     )
@@ -7627,7 +7629,7 @@
   (symbol (lib_id "power:GND") (at 133.985 86.36 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid e1ca8a4e-6ae2-4bbd-815b-cb70233bcdc4)
-    (property "Reference" "#PWR023" (at 133.985 92.71 0)
+    (property "Reference" "#PWR022" (at 133.985 92.71 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 131.445 90.17 0)
@@ -7643,7 +7645,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR023") (unit 1)
+          (reference "#PWR022") (unit 1)
         )
       )
     )
@@ -7652,7 +7654,7 @@
   (symbol (lib_id "Device:R") (at 156.845 146.685 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid e40eecf1-c84f-4920-8d7a-ca300cd073b3)
-    (property "Reference" "R5" (at 154.305 145.415 0)
+    (property "Reference" "R9" (at 154.305 145.415 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 154.94 147.955 0)
@@ -7669,7 +7671,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R5") (unit 1)
+          (reference "R9") (unit 1)
         )
       )
     )
@@ -7678,7 +7680,7 @@
   (symbol (lib_id "power:+3V3") (at 234.95 50.8 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e4ad0c01-6dc3-400a-915b-bf6f9b64b588)
-    (property "Reference" "#PWR041" (at 234.95 54.61 0)
+    (property "Reference" "#PWR039" (at 234.95 54.61 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 234.95 46.99 0)
@@ -7694,7 +7696,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR041") (unit 1)
+          (reference "#PWR039") (unit 1)
         )
       )
     )
@@ -7703,7 +7705,7 @@
   (symbol (lib_id "power:+3V3") (at 133.985 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e5e49d1c-b5db-4488-afad-78d01e98466f)
-    (property "Reference" "#PWR021" (at 133.985 26.67 0)
+    (property "Reference" "#PWR020" (at 133.985 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 133.985 19.05 0)
@@ -7719,7 +7721,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR021") (unit 1)
+          (reference "#PWR020") (unit 1)
         )
       )
     )
@@ -7728,7 +7730,7 @@
   (symbol (lib_id "power:+3V3") (at 176.53 22.86 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e65ea164-8469-47a2-93e9-5c6fa2a6b9ae)
-    (property "Reference" "#PWR031" (at 176.53 26.67 0)
+    (property "Reference" "#PWR029" (at 176.53 26.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (at 176.53 19.05 0)
@@ -7744,7 +7746,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR031") (unit 1)
+          (reference "#PWR029") (unit 1)
         )
       )
     )
@@ -7780,10 +7782,10 @@
   (symbol (lib_id "Device:R") (at 204.47 86.36 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ea0f7aaf-f2a6-4ebd-8775-8b2edbad76c6)
-    (property "Reference" "R11" (at 199.39 85.09 90)
+    (property "Reference" "R14" (at 199.39 85.09 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "75Ω" (at 209.55 85.09 90)
+    (property "Value" "0Ω" (at 209.55 85.09 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (at 204.47 88.138 90)
@@ -7797,7 +7799,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R11") (unit 1)
+          (reference "R14") (unit 1)
         )
       )
     )
@@ -7806,7 +7808,7 @@
   (symbol (lib_id "Device:R") (at 222.25 111.125 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid eaab2ce0-7886-4518-8e90-2e4dcf54b10c)
-    (property "Reference" "R18" (at 222.25 107.315 0)
+    (property "Reference" "R21" (at 221.615 107.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 220.345 112.395 90)
@@ -7823,7 +7825,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R18") (unit 1)
+          (reference "R21") (unit 1)
         )
       )
     )
@@ -7832,7 +7834,7 @@
   (symbol (lib_id "Device:R") (at 201.93 111.125 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid eb1f5ece-215e-454f-b7de-8848b18bc44d)
-    (property "Reference" "R10" (at 200.66 107.315 0)
+    (property "Reference" "R13" (at 201.295 107.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 200.025 112.395 90)
@@ -7849,7 +7851,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R10") (unit 1)
+          (reference "R13") (unit 1)
         )
       )
     )
@@ -7884,7 +7886,7 @@
   (symbol (lib_id "power:GND") (at 92.075 55.88 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ef7e4a8c-8479-406c-a604-d7e7d72f7dff)
-    (property "Reference" "#PWR011" (at 92.075 62.23 0)
+    (property "Reference" "#PWR010" (at 92.075 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 92.075 60.325 0)
@@ -7900,7 +7902,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR011") (unit 1)
+          (reference "#PWR010") (unit 1)
         )
       )
     )
@@ -7909,7 +7911,7 @@
   (symbol (lib_id "Device:R") (at 228.6 43.18 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f02a3aa8-44bd-4089-ac7b-6bb490bbd2d3)
-    (property "Reference" "R20" (at 228.6 38.735 90)
+    (property "Reference" "R23" (at 228.6 38.735 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "10k" (at 228.6 40.64 90)
@@ -7926,7 +7928,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "R20") (unit 1)
+          (reference "R23") (unit 1)
         )
       )
     )
@@ -7935,7 +7937,7 @@
   (symbol (lib_id "power:+VDC") (at 30.48 25.4 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f1dc56c7-7dcd-4774-960f-d05b1cc00ff6)
-    (property "Reference" "#PWR02" (at 30.48 27.94 0)
+    (property "Reference" "#PWR01" (at 30.48 27.94 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+VDC" (at 30.48 19.05 0)
@@ -7951,7 +7953,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR02") (unit 1)
+          (reference "#PWR01") (unit 1)
         )
       )
     )
@@ -7960,7 +7962,7 @@
   (symbol (lib_id "power:GND") (at 102.235 111.76 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f4e4cb01-0d58-4cf7-b9a2-59c34a4392c9)
-    (property "Reference" "#PWR013" (at 102.235 118.11 0)
+    (property "Reference" "#PWR012" (at 102.235 118.11 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 100.33 116.205 0)
@@ -7976,7 +7978,7 @@
     (instances
       (project "door_bell"
         (path "/c78ad4c4-54c1-4b1d-a971-e4b8abed6bf8"
-          (reference "#PWR013") (unit 1)
+          (reference "#PWR012") (unit 1)
         )
       )
     )

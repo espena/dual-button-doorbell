@@ -493,6 +493,9 @@
       "version": 3
     },
     "net_colors": {
+      "+3V3": "rgb(250, 255, 0)",
+      "+5V": "rgb(255, 165, 0)",
+      "+VDC": "rgb(188, 242, 255)",
       "GND": "rgb(15, 255, 0)"
     },
     "netclass_assignments": null,

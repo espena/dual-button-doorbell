@@ -572,5 +572,7 @@
       ""
     ]
   ],
-  "text_variables": {}
+  "text_variables": {
+    "PCB_SERIAL": "3165818C_Y3-230601"
+  }
 }

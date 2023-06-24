@@ -62,6 +62,7 @@ namespace espena {
       /**
        * Components
        */
+
       components::led m_led_green;
       components::led m_led_red;
       components::relay m_relay;
@@ -76,6 +77,8 @@ namespace espena {
        */
       esp_event_loop_handle_t m_event_loop_handle;
 
+      void ding_dong( const int, const int );
+      
       void add_event_listeners();
 
     public:

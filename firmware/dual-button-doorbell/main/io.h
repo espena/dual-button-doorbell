@@ -29,7 +29,7 @@
 #define IO_I2C_SCL            GPIO_NUM_4
 #define IO_I2C_SDA            GPIO_NUM_5
 
-#define IO_RELAY              GPIO_NUM_2
+#define IO_RELAY              GPIO_NUM_12
 
 #define IO_SDCARD_MOSI        GPIO_NUM_14
 #define IO_SDCARD_MISO        GPIO_NUM_13

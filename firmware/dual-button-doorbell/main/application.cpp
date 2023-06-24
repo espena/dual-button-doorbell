@@ -26,7 +26,7 @@ using namespace espena;
 
 application * application::m_the_app = NULL;
 
-application::application( const configuration &conf ) : 
+application::application( const configuration &conf ) :
   m_config( conf ),
   m_led_green( conf.led_green ),
   m_led_red( conf.led_red ),
@@ -98,21 +98,28 @@ void application::event_handler_sound( int32_t event_id, void *event_params ) {
   }
 }
 
+void application::ding_dong( const int count, const int speed_ms ) {
+  for( int i = 0; i < count; i++ ) {
+    m_relay.on();
+    vTaskDelay( speed_ms / portTICK_PERIOD_MS );
+    m_relay.off();
+    if( i < count - 1 ) {
+      vTaskDelay( speed_ms / portTICK_PERIOD_MS );
+    }
+  }
+}
+
 void application::event_handler_button( int32_t event_id, int btn_id ) {
   switch( event_id ) {
     case components::button::ON_BTN_DOWN:
       m_led_red.on();
       switch( btn_id ) {
         case 1:
-          m_relay.on();
-          vTaskDelay( 250 / portTICK_PERIOD_MS );
-          m_relay.off();
+          ding_dong( 1, 350 );
           m_sound.play( m_sdcard.open_file( "pappa.wav", "rb" ) );
           break;
         case 2:
-          m_relay.on();
-          vTaskDelay( 250 / portTICK_PERIOD_MS );
-          m_relay.off();
+          ding_dong( 3, 200 );
           m_sound.play( m_sdcard.open_file( "ungene.wav", "rb" ) );
           break;
         default:
@@ -138,6 +145,6 @@ void application::run() {
   add_event_listeners();
   m_sdcard.mount();
   while( 1 ) {
-    vTaskDelay( 10 );
+    vTaskDelay( 1 );
   }
 }

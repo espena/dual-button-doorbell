@@ -17,6 +17,7 @@
  */
 
 #include "sound.hpp"
+#include "esp_log.h"
 #include "esp_event.h"
 #include "memory.h"
 #include "driver/gpio.h"

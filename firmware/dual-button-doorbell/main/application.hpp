@@ -81,6 +81,9 @@ namespace espena {
       
       void add_event_listeners();
 
+      void block_buttons();
+      void release_buttons();
+
     public:
 
       /**

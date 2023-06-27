@@ -8,6 +8,7 @@ namespace espena::components::event {
 
   class event_dispatcher : public i_event_dispatcher {
 
+    esp_err_t m_handle_registered;
     esp_event_loop_handle_t m_event_loop_handle;
 
     public:

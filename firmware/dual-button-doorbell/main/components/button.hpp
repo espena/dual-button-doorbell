@@ -63,6 +63,9 @@ namespace espena::components {
 
       int get_id();
 
+      void intr_disable();
+      void intr_enable();
+
       void set_event_loop_handle( esp_event_loop_handle_t );
       void add_event_listener( event_id,
                                esp_event_handler_t );

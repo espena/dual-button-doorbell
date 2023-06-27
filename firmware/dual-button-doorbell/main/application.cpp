@@ -87,11 +87,22 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   }
 }
 
+void application::block_buttons() {
+  m_button_left.intr_disable();
+  m_button_right.intr_disable();
+}
+
+void application::release_buttons() {
+  m_button_left.intr_enable();
+  m_button_right.intr_enable();
+}
+
 void application::event_handler_sound( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::sound::ON_PLAY_END:
       ESP_LOGI( "APPLICATION", "Lydavspilling avsluttet" );
       m_led_red.off();
+      release_buttons();
       break;
     default:
       ;
@@ -112,6 +123,7 @@ void application::ding_dong( const int count, const int speed_ms ) {
 void application::event_handler_button( int32_t event_id, int btn_id ) {
   switch( event_id ) {
     case components::button::ON_BTN_DOWN:
+      block_buttons();
       m_led_red.on();
       switch( btn_id ) {
         case 1:

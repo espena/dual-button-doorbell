@@ -50,6 +50,14 @@ int button::get_id() {
   return m_config.btn_id;
 }
 
+void button::intr_disable() {
+  gpio_intr_disable( m_config.gpio_button );
+}
+
+void button::intr_enable() {
+  gpio_intr_enable( m_config.gpio_button );
+}
+
 void button::btn_isr_handler( void *args ) {
   button *btn = reinterpret_cast<button *>( args );
   xQueueSendFromISR( btn->m_message_queue, btn, NULL );

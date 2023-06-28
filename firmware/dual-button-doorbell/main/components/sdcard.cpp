@@ -31,7 +31,8 @@ const esp_event_base_t sdcard::event_base = "SDCARD_EVENT";
 
 sdcard::sdcard( const configuration &config ) : m_config( config )
 {
-
+  gpio_reset_pin( config.gpio_sd_det );
+  gpio_set_direction( config.gpio_sd_det, GPIO_MODE_INPUT );
 }
 
 sdcard::~sdcard() {

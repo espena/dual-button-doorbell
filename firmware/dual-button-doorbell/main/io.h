@@ -35,6 +35,7 @@
 #define IO_SDCARD_MISO        GPIO_NUM_13
 #define IO_SDCARD_CS          GPIO_NUM_26
 #define IO_SDCARD_CLK         GPIO_NUM_15
+#define IO_SDCARD_DET         GPIO_NUM_35
 
 #define IO_PANEL_S1_RED       GPIO_NUM_22
 #define IO_PANEL_S1_GREEN     GPIO_NUM_23

@@ -43,6 +43,7 @@ namespace espena::components {
         gpio_num_t gpio_sdspi_miso;
         gpio_num_t gpio_sdspi_cs;
         gpio_num_t gpio_sdspi_clk;
+        gpio_num_t gpio_sd_det;
         union {
           int slot;
           spi_host_device_t id;

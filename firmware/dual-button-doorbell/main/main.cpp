@@ -47,6 +47,7 @@ extern "C" void app_main() {
       .gpio_sdspi_miso = IO_SDCARD_MISO,
       .gpio_sdspi_cs = IO_SDCARD_CS,
       .gpio_sdspi_clk = IO_SDCARD_CLK,
+      .gpio_sd_det = IO_SDCARD_DET,
       .sdspi_bus = {
         .slot = 1 },
       .sdspi_max_transfer_sz = 4000,

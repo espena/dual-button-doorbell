@@ -29,14 +29,6 @@ namespace espena::components {
 
   class sound : public event::i_event_dispatcher {
 
-    typedef struct wav_hdr_prologue_st {
-      char tag[ 4 ];
-      union {
-        char b[ 4 ];
-        int16_t i;
-      } len;
-    } wav_hdr_prologue;
-
     public:
 
       static const esp_event_base_t event_base;
@@ -54,6 +46,22 @@ namespace espena::components {
       } configuration;
 
     private:
+
+      typedef struct wave_hdr_struct {
+        char  w_fileid[ 4 ];            /* chunk id 'RIFF'            */
+        uint32_t w_chunksize;           /* chunk size                 */
+        char  w_waveid[ 4 ];            /* wave chunk id 'WAVE'       */
+        char  w_fmtid[ 4 ];             /* format chunk id 'fmt '     */
+        uint32_t w_fmtchunksize;        /* format chunk size          */
+        uint16_t  w_fmttag;             /* format tag, 1 for PCM      */
+        uint16_t  w_nchannels;          /* number of channels         */
+        uint32_t w_samplespersec;       /* sample rate in hz          */
+        uint32_t w_navgbytespersec;     /* average bytes per second   */
+        uint16_t  w_nblockalign;        /* number of bytes per sample */
+        uint16_t  w_nbitspersample;     /* number of bits in a sample */
+        char  w_datachunkid[ 4 ];       /* data chunk id 'data'       */
+        uint32_t w_datachunksize;       /* length of data chunk       */
+      } wave_hdr;
 
       const configuration &m_config;
       i2s_chan_handle_t m_i2s_tx_handle;

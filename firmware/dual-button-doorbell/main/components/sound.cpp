@@ -61,9 +61,12 @@ sound::~sound() {
 void sound::play( FILE * fp ) {
   static const size_t BUFFER_SIZE = 1024;
   if( fp ) {
-    wav_hdr_prologue whp;
-    fread( ( void * ) &whp, sizeof( whp ), 1, fp );
-    if( memcmp( whp.tag, ( void * ) "RIFF", 4 ) != 0 ) {
+    wave_hdr wh;
+    fread( ( void * ) &wh, sizeof( wh ), 1, fp );
+    if( memcmp( wh.w_fileid, ( void * ) "RIFF", 4 ) != 0 ||
+        memcmp( wh.w_waveid, ( void * ) "WAVE", 4 ) != 0 ||
+        memcmp( wh.w_fmtid, ( void * ) "fmt ", 4 ) != 0 )
+    {
       return;
     }
     i2s_channel_enable( m_i2s_tx_handle );

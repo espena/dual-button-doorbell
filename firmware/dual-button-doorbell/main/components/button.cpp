@@ -30,7 +30,9 @@ using namespace espena::components;
 
 const esp_event_base_t button::event_base = "BUTTON_EVENT";
 
-button::button( const configuration &config ) : m_config( config )
+button::button( const configuration &config ) :
+  m_config( config ),
+  m_pressed( 0 )
 {
   m_message_queue = xQueueCreate( 10, sizeof( button * ) );
   gpio_reset_pin( config.gpio_button );
@@ -46,8 +48,8 @@ button::~button() {
 
 }
 
-int button::get_id() {
-  return m_config.btn_id;
+int button::is_pressed() {
+  return gpio_get_level( m_config.gpio_button );
 }
 
 void button::intr_disable() {
@@ -74,10 +76,9 @@ void button::button_event_task( void *arg ) {
 }
 
 void button::on_btn_event() {
-  const int pressed = gpio_get_level( m_config.gpio_button );
   m_event_dispatcher.dispatch(
     button::event_base,
-    pressed ? ON_BTN_DOWN : ON_BTN_UP,
+    is_pressed() ? ON_BTN_DOWN : ON_BTN_UP,
     ( void * ) &( m_config.btn_id ),
     sizeof( m_config.btn_id ) );
 }

@@ -35,7 +35,9 @@ application::application( const configuration &conf ) :
   m_sdcard( conf.sdcard ),
   m_rtc( conf.rtc ),
   m_button_left( conf.button_left ),
-  m_button_right( conf.button_right )
+  m_button_right( conf.button_right ),
+  m_led_button_left( conf.led_button_left ),
+  m_led_button_right( conf.led_button_right )
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
@@ -77,6 +79,7 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::sdcard::ON_MOUNT_OK:
       // SD card mounted successfully
+      m_led_green.blink( 1000, 1 );
       break;
     case components::sdcard::ON_MOUNT_FAILED:
       // SD card did not mount
@@ -88,11 +91,15 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
 }
 
 void application::block_buttons() {
+  m_button_left.is_pressed() ? m_led_button_left.blink() : m_led_button_left.on();
+  m_button_right.is_pressed() ? m_led_button_right.blink() : m_led_button_right.on();
   m_button_left.intr_disable();
   m_button_right.intr_disable();
 }
 
 void application::release_buttons() {
+  m_led_button_left.stop();
+  m_led_button_right.stop();
   m_button_left.intr_enable();
   m_button_right.intr_enable();
 }

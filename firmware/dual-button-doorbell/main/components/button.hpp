@@ -48,6 +48,7 @@ namespace espena::components {
     private:
 
       const configuration &m_config;
+      int m_pressed;
       ::espena::components::event::event_dispatcher m_event_dispatcher;
       QueueHandle_t m_message_queue;
 
@@ -61,7 +62,8 @@ namespace espena::components {
 
       static IRAM_ATTR void btn_isr_handler( void * );
 
-      int get_id();
+      int get_id() { return m_config.btn_id; }
+      int is_pressed();
 
       void intr_disable();
       void intr_enable();

@@ -45,6 +45,8 @@ namespace espena {
         components::rtc::configuration rtc;
         components::button::configuration button_left;
         components::button::configuration button_right;
+        components::led::configuration led_button_left;
+        components::led::configuration led_button_right;
       } configuration;
 
     private:
@@ -65,12 +67,20 @@ namespace espena {
 
       components::led m_led_green;
       components::led m_led_red;
+
       components::relay m_relay;
+
       components::sound m_sound;
+
       components::sdcard m_sdcard;
+
       components::rtc m_rtc;
+
       components::button m_button_left;
       components::button m_button_right;
+
+      components::led m_led_button_left;
+      components::led m_led_button_right;
 
       /**
        * Handle to custom event loop

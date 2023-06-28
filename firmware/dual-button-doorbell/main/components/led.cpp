@@ -40,7 +40,7 @@ void led::led_task( void *arg ) {
   led_task_params *params = reinterpret_cast<led_task_params *>( arg );
   int count = 0;
   while( 1 ) {
-    params->instance->on();
+  params->instance->on();
     vTaskDelay( params->delay_ms / portTICK_PERIOD_MS );
     params->instance->off();
     if( params->count > 0 && ++count >= params->count ) {
@@ -60,12 +60,10 @@ void led::kill_led_task() {
 }
 
 void led::on() {
-  kill_led_task();
   gpio_set_level( m_config.gpio_num, 1 );
 }
 
 void led::off() {
-  kill_led_task();
   gpio_set_level( m_config.gpio_num, 0 );
 }
 
@@ -81,9 +79,10 @@ void led::led_op( int ms, int count ) {
     .delay_ms = ms,
     .count = count
   };
-  xTaskCreate( &led::led_task, "led_task", 2048, &m_led_task_params, 5, &( m_led_task_params.task_handle ) );
+  xTaskCreate( &led::led_task, "led_task", 2048, &m_led_task_params, 1, &( m_led_task_params.task_handle ) );
 }
 
 void led::stop() {
   off();
+  kill_led_task();
 }

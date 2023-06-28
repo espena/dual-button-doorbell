@@ -55,8 +55,7 @@ extern "C" void app_main() {
 
     .rtc = {
       .gpio_sda = IO_I2C_SDA,
-      .gpio_scl = IO_I2C_SCL
-    },
+      .gpio_scl = IO_I2C_SCL },
 
     .button_left = {
       .btn_id = 1,
@@ -66,7 +65,14 @@ extern "C" void app_main() {
     .button_right = {
       .btn_id = 2,
       .gpio_button = IO_PANEL_S2_INPUT,
-      .gpio_led = IO_PANEL_S2_RED }
+      .gpio_led = IO_PANEL_S2_RED },
+
+    .led_button_left = {
+      .gpio_num = IO_PANEL_S1_RED },
+
+    .led_button_right = {
+      .gpio_num = IO_PANEL_S2_RED }
+
   };
 
   gpio_install_isr_service( 0 );

@@ -28,6 +28,8 @@ namespace espena::components {
 
   class led {
 
+    static const int LED_DEFAULT_BLINK_MS = 300;
+    
     typedef struct led_task_params_struct {
       led *instance;
       TaskHandle_t task_handle;
@@ -63,7 +65,7 @@ namespace espena::components {
       void stop();
       
       // inline impl.
-      void blink() { blink( 500 ); }
+      void blink() { blink( LED_DEFAULT_BLINK_MS ); }
       void blink( int ms ) { led_op( ms, 0 ); }
       void blink( int ms, int count ) { led_op( ms, count ); }
 

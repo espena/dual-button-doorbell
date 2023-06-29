@@ -20,6 +20,7 @@
 #define __application_h__
 
 #include "esp_event.h"
+#include "components/settings_file.hpp"
 #include "components/led.hpp"
 #include "components/relay.hpp"
 #include "components/sound.hpp"
@@ -62,6 +63,11 @@ namespace espena {
       const configuration &m_config;
 
       /**
+       * JSON settings read from from file on SD card
+       */
+      components::settings_file m_settings_file;
+
+      /**
        * Components
        */
 
@@ -90,6 +96,8 @@ namespace espena {
       void ding_dong( const int, const int );
       
       void add_event_listeners();
+
+      void load_settings();
 
       void block_buttons();
       void release_buttons();

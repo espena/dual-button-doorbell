@@ -3,5 +3,5 @@ managed_components
 sdkconfig
 build
 .devcontainer
-dummy_audio
+dummy_data
 blink_example_main._

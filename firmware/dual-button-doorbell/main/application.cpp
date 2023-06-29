@@ -17,7 +17,7 @@
  */
 
 #include "application.hpp"
-#include "string.h"
+#include <string>
 #include "esp_log.h"
 #include "esp_task_wdt.h"
 #include "esp_event.h"
@@ -75,11 +75,20 @@ void application::event_handler( void *handler_arg,
   }
 }
 
+void application::load_settings() {
+  FILE *settings_file = m_sdcard.open_file( "setting.jsn", "rb" );
+  if( settings_file ) {
+    m_settings_file.load( settings_file );
+    m_sdcard.close_file( settings_file );
+  }
+}
+
 void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::sdcard::ON_MOUNT_OK:
       // SD card mounted successfully
       m_led_green.blink( 1000, 1 );
+      load_settings();
       break;
     case components::sdcard::ON_MOUNT_FAILED:
       // SD card did not mount
@@ -133,13 +142,15 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
       block_buttons();
       m_led_red.on();
       switch( btn_id ) {
-        case 1:
-          ding_dong( 1, 350 );
-          m_sound.play( m_sdcard.open_file( "pappa.wav", "rb" ) );
+        case 1: // left button
+          ding_dong( m_settings_file.m_button_left_bell_count,
+                     m_settings_file.m_button_left_bell_delay );
+          m_sound.play( m_sdcard.open_file( m_settings_file.m_button_left_default_clip, "rb" ) );
           break;
-        case 2:
-          ding_dong( 3, 200 );
-          m_sound.play( m_sdcard.open_file( "ungene.wav", "rb" ) );
+        case 2: // right button
+          ding_dong( m_settings_file.m_button_right_bell_count,
+                     m_settings_file.m_button_right_bell_delay );
+          m_sound.play( m_sdcard.open_file( m_settings_file.m_button_right_default_clip, "rb" ) );
           break;
         default:
           m_led_green.blink( 1000, 1 );

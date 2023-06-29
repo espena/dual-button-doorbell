@@ -1,5 +1,6 @@
 idf_component_register( SRCS "main.cpp" 
                              "application.cpp"
+                             "components/settings_file.cpp"
                              "components/led.cpp"
                              "components/relay.cpp"
                              "components/sound.cpp"

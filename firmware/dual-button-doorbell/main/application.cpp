@@ -22,6 +22,10 @@
 #include "esp_task_wdt.h"
 #include "esp_event.h"
 
+#include "memory.h"
+#include "time.h"
+#include "esp_netif_sntp.h"
+
 using namespace espena;
 
 application * application::m_the_app = NULL;
@@ -52,6 +56,7 @@ application::application( const configuration &conf ) :
   m_sdcard.set_event_loop_handle( m_event_loop_handle );
   m_button_left.set_event_loop_handle( m_event_loop_handle );
   m_button_right.set_event_loop_handle( m_event_loop_handle );
+  m_wifi.set_event_loop_handle( m_event_loop_handle );
 }
 
 application::~application() {
@@ -72,6 +77,9 @@ void application::event_handler( void *handler_arg,
   }
   if( source == ( char * ) components::button::event_base ) {
     application::m_the_app->event_handler_button( event_id, *( reinterpret_cast< int * >( event_params ) ) );
+  }
+  if( source == ( char * ) components::wifi::event_base ) {
+    application::m_the_app->event_handler_wifi( event_id, event_params );
   }
 }
 
@@ -131,6 +139,29 @@ void application::event_handler_sound( int32_t event_id, void *event_params ) {
   }
 }
 
+void application::event_handler_wifi( int32_t event_id, void *event_params ) {
+  switch( event_id ) {
+    case components::wifi::ON_WIFI_CONNECTED:
+      ESP_LOGI( "APPLICATION", "Wifi connected!" );
+      esp_sntp_config_t sntp_config = ESP_NETIF_SNTP_DEFAULT_CONFIG( "pool.ntp.org" );
+      esp_netif_sntp_init( &sntp_config );
+      if( esp_netif_sntp_sync_wait( pdMS_TO_TICKS( 10000 ) ) != ESP_OK ) {
+        ESP_LOGI( "APPLICATION", "SNTP time sync failed" );
+      }
+      else {
+        ESP_LOGI( "APPLICATION", "SNTP time sync success!" );
+        time_t tt;
+        tt = time( NULL );
+        tm *tm_now = localtime( &tt );
+        char timestr[ 100 ];
+        memset( &timestr, 0x00, sizeof( timestr ) );
+        strftime( timestr, sizeof( timestr ) - 1, "%Y-%m-%d %H:%M:%S", tm_now );
+        ESP_LOGI( "APPLICATION", "Time is now %s", timestr );
+      }
+      break;
+  }
+}
+
 void application::ding_dong( const int count, const int speed_ms ) {
   for( int i = 0; i < count; i++ ) {
     m_relay.on();
@@ -175,6 +206,7 @@ void application::add_event_listeners() {
   m_sound.add_event_listener( components::sound::ON_PLAY_END, event_handler );
   m_button_left.add_event_listener( components::button::ON_BTN_DOWN, event_handler );
   m_button_right.add_event_listener( components::button::ON_BTN_DOWN, event_handler );
+  m_wifi.add_event_listener( components::wifi::ON_WIFI_CONNECTED, event_handler );
 }
 
 void application::run() {

@@ -133,6 +133,7 @@ namespace espena {
       void event_handler_sdcard( int32_t, void * );
       void event_handler_sound( int32_t, void * );
       void event_handler_button( int32_t, int );
+      void event_handler_wifi( int32_t, void * );
 
       /**
       * Application start

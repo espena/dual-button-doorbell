@@ -25,40 +25,52 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "esp_event.h"
+#include "event/event_dispatcher.hpp"
 
 namespace espena::components {
 
-  class wifi {
+  class wifi : public event::i_event_dispatcher {
 
-    static const configSTACK_DEPTH_TYPE WIFI_TASK_STACK_DEPTH = 32768;
-    
-    typedef struct wifi_task_params_struct {
-      wifi *instance;
-      TaskHandle_t task_handle;
-    } wifi_task_params;
+    public:
 
-    typedef enum {
-      wifi_connect
-    } wifi_task_message;
+      static const esp_event_base_t event_base;
 
-    typedef struct wifi_task_queue_item_struct {
-      wifi_task_message message;
-      void *arg;
-    } wifi_task_queue_item;
+      typedef enum {
+        ON_WIFI_CONNECTED
+      } event_id;
 
-    static EventGroupHandle_t m_wifi_event_group;
-    QueueHandle_t m_message_queue;
+    private:
 
-    void on_message( wifi_task_message, void * );
+      static const configSTACK_DEPTH_TYPE WIFI_TASK_STACK_DEPTH = 32768;
+      
+      typedef struct wifi_task_params_struct {
+        wifi *instance;
+        TaskHandle_t task_handle;
+      } wifi_task_params;
 
-    wifi_task_params m_wifi_task_params;
-    std::string m_ssid;
-    std::string m_password;
+      typedef enum {
+        wifi_connect
+      } wifi_task_message;
 
-    static void event_handler( void *, esp_event_base_t, int32_t, void * );
-    static void wifi_task( void * );
+      typedef struct wifi_task_queue_item_struct {
+        wifi_task_message message;
+        void *arg;
+      } wifi_task_queue_item;
 
-    void connect( void );
+      static EventGroupHandle_t m_wifi_event_group;
+      QueueHandle_t m_message_queue;
+
+      void on_message( wifi_task_message, void * );
+
+      wifi_task_params m_wifi_task_params;
+      std::string m_ssid;
+      std::string m_password;
+      ::espena::components::event::event_dispatcher m_event_dispatcher;
+
+      static void event_handler( void *, esp_event_base_t, int32_t, void * );
+      static void wifi_task( void * );
+
+      void connect( void );
 
     public:
 
@@ -66,6 +78,10 @@ namespace espena::components {
       ~wifi();
 
       void connect( std::string, std::string );
+      void set_event_loop_handle( esp_event_loop_handle_t );
+      void add_event_listener( event_id,
+                               esp_event_handler_t );
+
 
   }; // class wifi
 

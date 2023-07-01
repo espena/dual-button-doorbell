@@ -24,10 +24,10 @@ void event_dispatcher::add_event_listener( esp_event_base_t event_base,
                                      event_handler );
 
   esp_event_handler_register_with( m_event_loop_handle,
-                                    event_base,
-                                    event_id,
-                                    event_handler,
-                                    NULL );
+                                   event_base,
+                                   event_id,
+                                   event_handler,
+                                   NULL );
 }
 
 void event_dispatcher::dispatch( esp_event_base_t event_base,

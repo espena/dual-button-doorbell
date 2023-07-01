@@ -20,6 +20,7 @@
 #include <string>
 #include <memory.h>
 #include <algorithm>
+#include "time.h"
 #include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -35,6 +36,8 @@
 #define WIFI_FAIL_BIT      BIT1
 
 using namespace espena::components;
+
+const esp_event_base_t wifi::event_base = "WIFI_EVENT";
 
 EventGroupHandle_t wifi::m_wifi_event_group = xEventGroupCreate();
 
@@ -65,6 +68,18 @@ void wifi::wifi_task( void *arg ) {
   }
 }
 
+void wifi::set_event_loop_handle( esp_event_loop_handle_t event_loop_handle ) {
+  m_event_dispatcher.set_event_loop_handle( event_loop_handle );
+}
+
+void wifi::add_event_listener( event_id event_id,
+                                esp_event_handler_t event_handler )
+{
+  m_event_dispatcher.add_event_listener( wifi::event_base,
+                                          event_id,
+                                          event_handler );
+}
+
 void wifi::on_message( wifi_task_message msg, void *arg ) {
   switch( msg ) {
     case wifi_connect:
@@ -79,6 +94,7 @@ void wifi::event_handler( void *arg,
                           void *event_data )
 {
   static int retries = 0;
+  wifi *instance = reinterpret_cast<wifi *>( arg );
   if( event_base == WIFI_EVENT ) {
     switch( event_id ) {
       case WIFI_EVENT_STA_START:
@@ -102,6 +118,7 @@ void wifi::event_handler( void *arg,
         ESP_LOGI( "wifi", "Got ip:" IPSTR, IP2STR( &( e->ip_info.ip ) ) );
         retries = 0;
         xEventGroupSetBits( m_wifi_event_group, WIFI_CONNECTED_BIT );
+        instance->m_event_dispatcher.dispatch( wifi::event_base, ON_WIFI_CONNECTED, arg, 0 );
         break;
     }
   }
@@ -159,7 +176,7 @@ void wifi::connect( void ) {
     esp_event_handler_instance_register( WIFI_EVENT,
                                         ESP_EVENT_ANY_ID,
                                         &event_handler,
-                                        NULL,
+                                        this,
                                         &instance_any_id );
 
     ESP_LOGI( "wifi", "Register event handler for IP event" );
@@ -167,7 +184,7 @@ void wifi::connect( void ) {
     esp_event_handler_instance_register( IP_EVENT,
                                         IP_EVENT_STA_GOT_IP,
                                         &event_handler,
-                                        NULL,
+                                        this,
                                         &instance_got_ip );
 
 

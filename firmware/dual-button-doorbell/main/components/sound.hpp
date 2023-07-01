@@ -20,6 +20,9 @@
 #define __sound_hpp__
 
 #include <string>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_task.h"
 #include "driver/gpio.h"
 #include "driver/i2s_std.h"
 #include "esp_event.h"

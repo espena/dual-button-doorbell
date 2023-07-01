@@ -7,5 +7,6 @@ idf_component_register( SRCS "main.cpp"
                              "components/sdcard.cpp"
                              "components/rtc.cpp"
                              "components/button.cpp"
+                             "components/wifi.cpp"
                              "components/event/event_dispatcher.cpp"
                         INCLUDE_DIRS "." )

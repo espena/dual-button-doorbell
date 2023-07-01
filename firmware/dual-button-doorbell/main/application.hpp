@@ -27,6 +27,7 @@
 #include "components/sdcard.hpp"
 #include "components/rtc.hpp"
 #include "components/button.hpp"
+#include "components/wifi.hpp"
 
 namespace espena {
 
@@ -68,6 +69,11 @@ namespace espena {
       components::settings_file m_settings_file;
 
       /**
+       * WiFi support
+       */
+      components::wifi m_wifi;
+
+      /**
        * Components
        */
 
@@ -98,6 +104,8 @@ namespace espena {
       void add_event_listeners();
 
       void load_settings();
+      
+      void wifi_connect();
 
       void block_buttons();
       void release_buttons();

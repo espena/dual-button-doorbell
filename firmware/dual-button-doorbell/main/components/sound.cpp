@@ -58,7 +58,7 @@ sound::~sound() {
 
 }
 
-void sound::play( FILE * fp ) {
+void sound::play( FILE *fp ) {
   static const size_t BUFFER_SIZE = 1024;
   if( fp ) {
     wave_hdr wh;
@@ -76,9 +76,9 @@ void sound::play( FILE * fp ) {
       size_t chunk_size = fread( ( void * ) &buf, 1, sizeof( buf ) / sizeof( buf[ 0 ] ), fp );
       size_t bytes_written = 0;
       while( bytes_written < chunk_size ) {
-        i2s_channel_write( m_i2s_tx_handle, buf, chunk_size, &bytes_written, 2000 );
-        vTaskDelay( 1 );
+        i2s_channel_write( m_i2s_tx_handle, buf, chunk_size, &bytes_written, 15000 );
       }
+      vTaskDelay( 1 );
     }
     i2s_channel_disable( m_i2s_tx_handle );
     fclose( fp );

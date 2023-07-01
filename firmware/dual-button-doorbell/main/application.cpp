@@ -41,10 +41,10 @@ application::application( const configuration &conf ) :
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
-    .queue_size = 5,
+    .queue_size = 1000,
     .task_name = "loop_task",
     .task_priority = uxTaskPriorityGet( NULL ),
-    .task_stack_size = 3072,
+    .task_stack_size = 8192,
     .task_core_id = tskNO_AFFINITY
   };
   esp_event_loop_create( &loop_args, &m_event_loop_handle );
@@ -83,12 +83,18 @@ void application::load_settings() {
   }
 }
 
+void application::wifi_connect() {
+  m_wifi.connect( m_settings_file.m_wifi_ssid,
+                  m_settings_file.m_wifi_password );
+}
+
 void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::sdcard::ON_MOUNT_OK:
       // SD card mounted successfully
       m_led_green.blink( 1000, 1 );
       load_settings();
+      wifi_connect();
       break;
     case components::sdcard::ON_MOUNT_FAILED:
       // SD card did not mount

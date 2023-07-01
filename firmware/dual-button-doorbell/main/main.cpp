@@ -50,7 +50,7 @@ extern "C" void app_main() {
       .gpio_sd_det = IO_SDCARD_DET,
       .sdspi_bus = {
         .slot = 1 },
-      .sdspi_max_transfer_sz = 4000,
+      .sdspi_max_transfer_sz = 2000,
       .sdspi_dma_channel = 1,
       .mount_point = "/sdcard" },
 

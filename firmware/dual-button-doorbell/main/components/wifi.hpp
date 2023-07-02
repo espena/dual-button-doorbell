@@ -32,6 +32,7 @@ namespace espena::components {
   class wifi : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
+    static const int MAX_RETRIES = 100;
 
     public:
 

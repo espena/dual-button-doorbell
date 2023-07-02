@@ -102,11 +102,12 @@ void wifi::event_handler( void *arg,
         esp_wifi_connect();
         break;
       case WIFI_EVENT_STA_DISCONNECTED:
-        if( retries++ < 10 ) {
+        if( retries++ < MAX_RETRIES ) {
           esp_wifi_connect();
-          ESP_LOGI( LOG_TAG, "Retry connection to network" );
+          ESP_LOGI( LOG_TAG, "Retry connection to network %d of %d", retries, MAX_RETRIES );
         }
         else {
+          ESP_LOGE( LOG_TAG, "Unable to connect to WiFi network %s", instance->m_ssid.c_str() );
           xEventGroupSetBits( m_wifi_event_group, WIFI_FAIL_BIT );
         }
         break;

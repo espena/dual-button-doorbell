@@ -31,6 +31,8 @@ namespace espena::components {
 
   class wifi : public event::i_event_dispatcher {
 
+    static const char *LOG_TAG;
+
     public:
 
       static const esp_event_base_t event_base;
@@ -63,8 +65,10 @@ namespace espena::components {
       void on_message( wifi_task_message, void * );
 
       wifi_task_params m_wifi_task_params;
+
       std::string m_ssid;
       std::string m_password;
+
       ::espena::components::event::event_dispatcher m_event_dispatcher;
 
       static void event_handler( void *, esp_event_base_t, int32_t, void * );

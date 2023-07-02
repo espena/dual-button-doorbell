@@ -27,6 +27,7 @@
 
 using namespace espena::components;
 
+const char *sdcard::LOG_TAG = "sdcard";
 const esp_event_base_t sdcard::event_base = "SDCARD_EVENT";
 
 sdcard::sdcard( const configuration &config ) : m_config( config )

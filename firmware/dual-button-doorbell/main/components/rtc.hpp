@@ -25,6 +25,8 @@ namespace espena::components {
 
   class rtc {
 
+    static const char *LOG_TAG;
+
     public:
 
       typedef struct configuration_struct {

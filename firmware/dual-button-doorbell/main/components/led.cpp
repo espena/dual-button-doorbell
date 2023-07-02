@@ -26,6 +26,8 @@
 
 using namespace espena::components;
 
+const char *led::LOG_TAG = "led";
+
 led::led( const led::configuration &config ) : m_config( config ) {
   memset( &m_led_task_params, 0x00, sizeof m_led_task_params );
   gpio_reset_pin( config.gpio_num );

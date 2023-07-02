@@ -28,6 +28,7 @@ namespace espena::components {
 
   class led {
 
+    static const char *LOG_TAG;
     static const int LED_DEFAULT_BLINK_MS = 300;
     
     typedef struct led_task_params_struct {

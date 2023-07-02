@@ -21,6 +21,8 @@
 
 using namespace espena::components;
 
+const char *relay::LOG_TAG = "relay";
+
 relay::relay( const relay::configuration &config ) : m_config( config ) {
   gpio_reset_pin( config.gpio_relay );
   gpio_set_direction( config.gpio_relay, GPIO_MODE_OUTPUT );

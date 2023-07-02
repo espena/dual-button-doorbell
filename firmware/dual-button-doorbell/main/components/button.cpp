@@ -28,6 +28,7 @@
 
 using namespace espena::components;
 
+const char *button::LOG_TAG = "button";
 const esp_event_base_t button::event_base = "BUTTON_EVENT";
 
 button::button( const configuration &config ) :

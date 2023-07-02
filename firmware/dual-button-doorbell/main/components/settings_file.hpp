@@ -27,6 +27,8 @@ namespace espena::components {
 
   class settings_file {
 
+    static const char *LOG_TAG;
+
     void fetch_default_clip( cJSON *, std::string & );
     void fetch_bell_settings( cJSON *, int &, int & );
     void fetch_wifi_settings( cJSON *, std::string &, std::string & );

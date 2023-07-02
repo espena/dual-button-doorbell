@@ -29,6 +29,8 @@ namespace espena::components {
 
   class sdcard : public event::i_event_dispatcher {
 
+    static const char *LOG_TAG;
+
     public:
 
       static const esp_event_base_t event_base;

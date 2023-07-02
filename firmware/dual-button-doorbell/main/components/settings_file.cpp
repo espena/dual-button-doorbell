@@ -23,6 +23,8 @@
 
 using namespace espena::components;
 
+const char *settings_file::LOG_TAG = "settings_file";
+
 settings_file::settings_file() :
   m_button_left_default_clip( "left.wav" ),
   m_button_right_default_clip( "right.wav" ),
@@ -84,7 +86,7 @@ void settings_file::fetch_wifi_settings( cJSON *wifi,
 
 void settings_file::load( FILE * settings_json ) {
 
-  ESP_LOGI( "settings_file", "Load settings from file" );
+  ESP_LOGI( LOG_TAG, "Load settings from file" );
   fseek( settings_json, 0, SEEK_END );
   const size_t filesize = ftell( settings_json );
   fseek( settings_json, 0L, SEEK_SET );
@@ -130,13 +132,13 @@ void settings_file::load( FILE * settings_json ) {
   cJSON_Delete( root );
   delete [ ] buf;
 
-  ESP_LOGI( "settings_file", "m_button_left_default_clip: %s", m_button_left_default_clip.c_str() );
-  ESP_LOGI( "settings_file", "m_button_right_default_clip: %s", m_button_right_default_clip.c_str() );
-  ESP_LOGI( "settings_file", "m_button_left_bell_count: %d", m_button_left_bell_count );
-  ESP_LOGI( "settings_file", "m_button_right_bell_count: %d", m_button_right_bell_count );
-  ESP_LOGI( "settings_file", "m_button_left_bell_delay: %d", m_button_left_bell_delay );
-  ESP_LOGI( "settings_file", "m_button_right_bell_delay: %d", m_button_right_bell_delay );
-  ESP_LOGI( "settings_file", "m_wifi_ssid: %s", m_wifi_ssid.c_str() );
-  ESP_LOGI( "settings_file", "m_wifi_password: %s", m_wifi_password.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_left_default_clip: %s", m_button_left_default_clip.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_right_default_clip: %s", m_button_right_default_clip.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_left_bell_count: %d", m_button_left_bell_count );
+  ESP_LOGI( LOG_TAG, "m_button_right_bell_count: %d", m_button_right_bell_count );
+  ESP_LOGI( LOG_TAG, "m_button_left_bell_delay: %d", m_button_left_bell_delay );
+  ESP_LOGI( LOG_TAG, "m_button_right_bell_delay: %d", m_button_right_bell_delay );
+  ESP_LOGI( LOG_TAG, "m_wifi_ssid: %s", m_wifi_ssid.c_str() );
+  ESP_LOGI( LOG_TAG, "m_wifi_password: %s", m_wifi_password.c_str() );
 
 }

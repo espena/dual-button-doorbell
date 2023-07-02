@@ -27,6 +27,7 @@
 
 using namespace espena::components;
 
+const char *sound::LOG_TAG = "sound";
 const esp_event_base_t sound::event_base = "SOUND_EVENT";
 
 sound::sound( const sound::configuration &config ) :

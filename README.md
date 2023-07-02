@@ -6,13 +6,14 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 
 ## Planned features
 
-- Two-button interface with red/green indicators
+- Two-button interface with led indicators
 - Personalized doorbell sound from custom wav files
 - SD card support for storing audio files and configuration
 - WiFi interface for push notifications and remote configuration
 - NTP corrected Real time clock for alarms and bedtime signal
 - Volume reduction during bedtime
 - Relay interface for triggering external equipment
+- Accepts AC or DC power input from existing doorbell power supplies
 
 ## Circuit
 

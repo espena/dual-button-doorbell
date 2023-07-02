@@ -24,6 +24,9 @@ extern "C" void app_main() {
 
   using namespace espena;
 
+  static const char *NTP_DEFAULT_SERVER = "pool.ntp.org";
+  static const char *NTP_DEFAULT_TIMEZONE = "Europe/Oslo";
+
   /* Main configuration */
   application::configuration config = {
 
@@ -57,6 +60,10 @@ extern "C" void app_main() {
     .rtc = {
       .gpio_sda = IO_I2C_SDA,
       .gpio_scl = IO_I2C_SCL },
+
+    .ntp = {
+      .server = NTP_DEFAULT_SERVER,
+      .timezone = NTP_DEFAULT_TIMEZONE },
 
     .button_left = {
       .btn_id = 1,

@@ -4577,7 +4577,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 656507ff-d1c3-488d-a878-1166e8fef87f)
   )
-  (text "5V signal\nlevel" (at 102.235 104.14 0)
+  (text "±5V signal\nlevel" (at 100.965 104.14 0)
     (effects (font (size 1.016 1.016)) (justify left bottom))
     (uuid 87ffc4b3-2c38-4771-90cb-27bcb26e5d0a)
   )

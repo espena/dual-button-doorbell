@@ -38,6 +38,7 @@ application::application( const configuration &conf ) :
   m_sound( conf.sound ),
   m_sdcard( conf.sdcard ),
   m_rtc( conf.rtc ),
+  m_ntp( conf.ntp ),
   m_button_left( conf.button_left ),
   m_button_right( conf.button_right ),
   m_led_button_left( conf.led_button_left ),
@@ -143,21 +144,7 @@ void application::event_handler_wifi( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::wifi::ON_WIFI_CONNECTED:
       ESP_LOGI( "APPLICATION", "Wifi connected!" );
-      esp_sntp_config_t sntp_config = ESP_NETIF_SNTP_DEFAULT_CONFIG( "pool.ntp.org" );
-      esp_netif_sntp_init( &sntp_config );
-      if( esp_netif_sntp_sync_wait( pdMS_TO_TICKS( 10000 ) ) != ESP_OK ) {
-        ESP_LOGI( "APPLICATION", "SNTP time sync failed" );
-      }
-      else {
-        ESP_LOGI( "APPLICATION", "SNTP time sync success!" );
-        time_t tt;
-        tt = time( NULL );
-        tm *tm_now = localtime( &tt );
-        char timestr[ 100 ];
-        memset( &timestr, 0x00, sizeof( timestr ) );
-        strftime( timestr, sizeof( timestr ) - 1, "%Y-%m-%d %H:%M:%S", tm_now );
-        ESP_LOGI( "APPLICATION", "Time is now %s", timestr );
-      }
+      m_ntp.time_update_async();
       break;
   }
 }

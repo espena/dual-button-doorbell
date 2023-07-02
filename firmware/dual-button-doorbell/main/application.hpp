@@ -27,6 +27,7 @@
 #include "components/sdcard.hpp"
 #include "components/rtc.hpp"
 #include "components/button.hpp"
+#include "components/ntp.hpp"
 #include "components/wifi.hpp"
 
 namespace espena {
@@ -45,6 +46,7 @@ namespace espena {
         components::sound::configuration sound;
         components::sdcard::configuration sdcard;
         components::rtc::configuration rtc;
+        components::ntp::configuration ntp;
         components::button::configuration button_left;
         components::button::configuration button_right;
         components::led::configuration led_button_left;
@@ -87,6 +89,8 @@ namespace espena {
       components::sdcard m_sdcard;
 
       components::rtc m_rtc;
+
+      components::ntp m_ntp;
 
       components::button m_button_left;
       components::button m_button_right;

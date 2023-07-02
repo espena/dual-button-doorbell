@@ -84,6 +84,20 @@ void settings_file::fetch_wifi_settings( cJSON *wifi,
   }
 }
 
+void settings_file::fetch_ntp_settings( cJSON *ntp,
+                                        std::string &server,
+                                        std::string &timezone )
+{
+  cJSON *ntp_server = cJSON_GetObjectItem( ntp, "server" );
+  if( ntp_server ) {
+    server = ntp_server->valuestring;
+  }
+  cJSON *ntp_timezone = cJSON_GetObjectItem( ntp, "timezone" );
+  if( ntp_timezone ) {
+    timezone = ntp_timezone->valuestring;
+  }
+}
+
 void settings_file::load( FILE * settings_json ) {
 
   ESP_LOGI( LOG_TAG, "Load settings from file" );
@@ -127,6 +141,13 @@ void settings_file::load( FILE * settings_json ) {
     fetch_wifi_settings( wifi,
                         m_wifi_ssid,
                         m_wifi_password );
+  }
+
+  cJSON *ntp = cJSON_GetObjectItem( root, "ntp" );
+  if( ntp ) {
+    fetch_ntp_settings( ntp,
+                        m_ntp_server,
+                        m_ntp_timezone );
   }
 
   cJSON_Delete( root );

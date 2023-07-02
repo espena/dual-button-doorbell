@@ -32,6 +32,7 @@ namespace espena::components {
     void fetch_default_clip( cJSON *, std::string & );
     void fetch_bell_settings( cJSON *, int &, int & );
     void fetch_wifi_settings( cJSON *, std::string &, std::string & );
+    void fetch_ntp_settings( cJSON *, std::string &, std::string & );
     
     public:
 
@@ -46,6 +47,9 @@ namespace espena::components {
 
       std::string m_wifi_ssid;
       std::string m_wifi_password;
+
+      std::string m_ntp_server;
+      std::string m_ntp_timezone;
 
       settings_file();
       ~settings_file();

@@ -103,6 +103,8 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
       // SD card mounted successfully
       m_led_green.blink( 1000, 1 );
       load_settings();
+      m_ntp.initialize( m_settings_file.m_ntp_server,
+                        m_settings_file.m_ntp_timezone );
       wifi_connect();
       break;
     case components::sdcard::ON_MOUNT_FAILED:

@@ -27,7 +27,7 @@ const char *ntp::LOG_TAG = "ntp";
 const esp_event_base_t ntp::event_base = "NTP_EVENT";
 
 ntp::ntp( const ntp::configuration &config ) :
-  m_config( config ),
+  m_config( config ), // Defaults
   m_time_updated( false )
 {
   ESP_LOGI( LOG_TAG, "Server is %s", m_config.server.c_str() );
@@ -69,8 +69,9 @@ void ntp::on_message( ntp_task_message msg, void *arg ) {
 void ntp::initialize( const std::string server,
                       const std::string timezone )
 {
-  m_config.server = server;
-  m_config.timezone = timezone;
+  // Do not overwrite defaults with empty user settings
+  if( !server.empty() ) m_config.server = server;
+  if( !timezone.empty() ) m_config.timezone = timezone;
 }
 
 void ntp::time_update_async() {

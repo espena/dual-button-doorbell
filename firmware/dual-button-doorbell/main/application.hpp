@@ -29,12 +29,15 @@
 #include "components/button.hpp"
 #include "components/ntp.hpp"
 #include "components/wifi.hpp"
+#include "components/cron.hpp"
 
 namespace espena {
 
   class application {
 
-    public:    
+    static const char *LOG_TAG;
+
+    public:
 
       /**
        * Main configuration
@@ -51,6 +54,7 @@ namespace espena {
         components::button::configuration button_right;
         components::led::configuration led_button_left;
         components::led::configuration led_button_right;
+        components::cron::configuration cron;
       } configuration;
 
     private:
@@ -98,6 +102,8 @@ namespace espena {
       components::led m_led_button_left;
       components::led m_led_button_right;
 
+      components::cron m_cron;
+
       /**
        * Handle to custom event loop
        */
@@ -138,6 +144,7 @@ namespace espena {
       void event_handler_sound( int32_t, void * );
       void event_handler_button( int32_t, int );
       void event_handler_wifi( int32_t, void * );
+      void event_handler_ntp( int32_t, void * );
 
       /**
       * Application start

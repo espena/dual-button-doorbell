@@ -17,6 +17,8 @@
  */
 
 #include "ntp.hpp"
+#include "memory.h"
+#include "time.h"
 #include "esp_netif_sntp.h"
 #include "esp_event.h"
 #include "esp_log.h"
@@ -45,6 +47,18 @@ ntp::ntp( const ntp::configuration &config ) :
 
 ntp::~ntp() {
 
+}
+
+void ntp::set_event_loop_handle( esp_event_loop_handle_t event_loop_handle ) {
+  m_event_dispatcher.set_event_loop_handle( event_loop_handle );
+}
+
+void ntp::add_event_listener( event_id event_id,
+                              esp_event_handler_t event_handler )
+{
+  m_event_dispatcher.add_event_listener( ntp::event_base,
+                                         event_id,
+                                         event_handler );
 }
 
 void ntp::ntp_task( void *arg ) {
@@ -83,14 +97,24 @@ void ntp::time_update_async() {
 }
 
 void ntp::time_update() {
+  esp_netif_sntp_deinit();
   esp_sntp_config_t sntp_config = ESP_NETIF_SNTP_DEFAULT_CONFIG( m_config.server.c_str() );
   esp_netif_sntp_init( &sntp_config );
   if( esp_netif_sntp_sync_wait( pdMS_TO_TICKS( 20000 ) ) != ESP_OK ) {
     ESP_LOGW( LOG_TAG, "Failed to update system time within 20s timeout" );
   }
   else {
+    m_event_dispatcher.dispatch( ntp::event_base, ON_NTP_TIME_UPDATED, NULL, 0 );
     m_time_updated = true;
-    ESP_LOGI( LOG_TAG, "System time successfully updated!" );
+    const char *tz = m_config.timezone.c_str();
+    setenv( "TZ", tz, 1 );
+    tzset();
+    time_t t = time( NULL );
+    tm *now = localtime( &t );
+    char timestr[ 100 ];
+    memset( &timestr, 0x00, sizeof( timestr ) );
+    strftime( timestr, sizeof( timestr ) - 1, "%Y-%m-%d %H:%M:%S", now );
+    ESP_LOGI( LOG_TAG, "Time zone set to %s: %s", tz, timestr );
   }
 
 }

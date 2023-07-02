@@ -9,5 +9,8 @@ idf_component_register( SRCS "main.cpp"
                              "components/ntp.cpp"
                              "components/button.cpp"
                              "components/wifi.cpp"
+                             "components/cron.cpp"
                              "components/event/event_dispatcher.cpp"
+                             "ccronexpr/ccronexpr.c"
                         INCLUDE_DIRS "." )
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DCRON_USE_LOCAL_TIME")

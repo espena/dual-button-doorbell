@@ -28,6 +28,7 @@
 
 using namespace espena;
 
+const char *application::LOG_TAG = "application";
 application * application::m_the_app = NULL;
 
 application::application( const configuration &conf ) :
@@ -42,7 +43,8 @@ application::application( const configuration &conf ) :
   m_button_left( conf.button_left ),
   m_button_right( conf.button_right ),
   m_led_button_left( conf.led_button_left ),
-  m_led_button_right( conf.led_button_right )
+  m_led_button_right( conf.led_button_right ),
+  m_cron( conf.cron )
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
@@ -58,6 +60,7 @@ application::application( const configuration &conf ) :
   m_button_left.set_event_loop_handle( m_event_loop_handle );
   m_button_right.set_event_loop_handle( m_event_loop_handle );
   m_wifi.set_event_loop_handle( m_event_loop_handle );
+  m_ntp.set_event_loop_handle( m_event_loop_handle );
 }
 
 application::~application() {
@@ -81,6 +84,9 @@ void application::event_handler( void *handler_arg,
   }
   if( source == ( char * ) components::wifi::event_base ) {
     application::m_the_app->event_handler_wifi( event_id, event_params );
+  }
+  if( source == ( char * ) components::ntp::event_base ) {
+    application::m_the_app->event_handler_ntp( event_id, event_params );
   }
 }
 
@@ -116,6 +122,36 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   }
 }
 
+void application::event_handler_sound( int32_t event_id, void *event_params ) {
+  switch( event_id ) {
+    case components::sound::ON_PLAY_END:
+      ESP_LOGI( LOG_TAG, "Lydavspilling avsluttet" );
+      m_led_red.off();
+      release_buttons();
+      break;
+    default:
+      ;
+  }
+}
+
+void application::event_handler_wifi( int32_t event_id, void *event_params ) {
+  switch( event_id ) {
+    case components::wifi::ON_WIFI_CONNECTED:
+      ESP_LOGI( LOG_TAG, "Wifi connected!" );
+      m_ntp.time_update_async();
+      break;
+  }
+}
+
+void application::event_handler_ntp( int32_t event_id, void *event_params ) {
+  switch( event_id ) {
+    case components::ntp::ON_NTP_TIME_UPDATED:
+      ESP_LOGI( LOG_TAG, "NTP updated system time" );
+      m_cron.start();
+      break;
+  }
+}
+
 void application::block_buttons() {
   m_button_left.is_pressed() ? m_led_button_left.blink() : m_led_button_left.on();
   m_button_right.is_pressed() ? m_led_button_right.blink() : m_led_button_right.on();
@@ -128,27 +164,6 @@ void application::release_buttons() {
   m_led_button_right.stop();
   m_button_left.intr_enable();
   m_button_right.intr_enable();
-}
-
-void application::event_handler_sound( int32_t event_id, void *event_params ) {
-  switch( event_id ) {
-    case components::sound::ON_PLAY_END:
-      ESP_LOGI( "APPLICATION", "Lydavspilling avsluttet" );
-      m_led_red.off();
-      release_buttons();
-      break;
-    default:
-      ;
-  }
-}
-
-void application::event_handler_wifi( int32_t event_id, void *event_params ) {
-  switch( event_id ) {
-    case components::wifi::ON_WIFI_CONNECTED:
-      ESP_LOGI( "APPLICATION", "Wifi connected!" );
-      m_ntp.time_update_async();
-      break;
-  }
 }
 
 void application::ding_dong( const int count, const int speed_ms ) {
@@ -196,6 +211,7 @@ void application::add_event_listeners() {
   m_button_left.add_event_listener( components::button::ON_BTN_DOWN, event_handler );
   m_button_right.add_event_listener( components::button::ON_BTN_DOWN, event_handler );
   m_wifi.add_event_listener( components::wifi::ON_WIFI_CONNECTED, event_handler );
+  m_ntp.add_event_listener( components::ntp::ON_NTP_TIME_UPDATED, event_handler );
 }
 
 void application::run() {

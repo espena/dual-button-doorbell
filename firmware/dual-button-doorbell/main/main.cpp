@@ -25,7 +25,7 @@ extern "C" void app_main() {
   using namespace espena;
 
   static const char *NTP_DEFAULT_SERVER = "pool.ntp.org";
-  static const char *NTP_DEFAULT_TIMEZONE = "Europe/Oslo";
+  static const char *NTP_DEFAULT_TIMEZONE = "CET-1CEST,M3.5.0,M10.5.0/3"; // Europe/Oslo
 
   /* Main configuration */
   application::configuration config = {
@@ -79,7 +79,10 @@ extern "C" void app_main() {
       .gpio_num = IO_PANEL_S1_RED },
 
     .led_button_right = {
-      .gpio_num = IO_PANEL_S2_RED }
+      .gpio_num = IO_PANEL_S2_RED },
+
+    .cron = {
+      .crontab_file = "crontab.txt" }
 
   };
 

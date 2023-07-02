@@ -24,10 +24,12 @@
 #include "freertos/queue.h"
 #include "freertos/task.h"
 #include "esp_event.h"
+#include "event/i_event_dispatcher.hpp"
+#include "event/event_dispatcher.hpp"
 
 namespace espena::components {
 
-  class ntp {
+  class ntp : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
 
@@ -71,9 +73,9 @@ namespace espena::components {
 
       ntp_task_params m_ntp_task_params;
 
+      ::espena::components::event::event_dispatcher m_event_dispatcher;
 
       static void ntp_task( void * );
-
 
     public:
 
@@ -86,6 +88,10 @@ namespace espena::components {
       void time_update_async();
 
       bool is_time_updated() { return m_time_updated; }
+
+      void set_event_loop_handle( esp_event_loop_handle_t );
+      void add_event_listener( event_id,
+                               esp_event_handler_t );
 
   }; // class ntp
 

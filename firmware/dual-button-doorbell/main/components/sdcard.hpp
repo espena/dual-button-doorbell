@@ -23,11 +23,12 @@
 #include "driver/gpio.h"
 #include "driver/spi_common.h"
 #include "esp_event.h"
+#include "i_file_io.hpp"
 #include "event/event_dispatcher.hpp"
 
 namespace espena::components {
 
-  class sdcard : public event::i_event_dispatcher {
+  class sdcard : public i_file_io, event::i_event_dispatcher {
 
     static const char *LOG_TAG;
 
@@ -67,10 +68,13 @@ namespace espena::components {
 
       void mount();
       
+      // i_file_io members
       FILE *open_file( const std::string, const std::string );
       void close_file( FILE * );
 
+      // i_event_dispatcher member
       void set_event_loop_handle( esp_event_loop_handle_t );
+
       void add_event_listener( event_id,
                                esp_event_handler_t );
 

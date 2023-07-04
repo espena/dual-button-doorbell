@@ -17,6 +17,8 @@
  */
 
 #include "application.hpp"
+#include "components/i_file_io.hpp"
+
 #include <string>
 #include "esp_log.h"
 #include "esp_task_wdt.h"
@@ -147,33 +149,8 @@ void application::event_handler_ntp( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::ntp::ON_NTP_TIME_UPDATED:
       ESP_LOGI( LOG_TAG, "NTP updated system time" );
-      m_cron.start();
+      m_cron.start( &m_sdcard );
       break;
-  }
-}
-
-void application::block_buttons() {
-  m_button_left.is_pressed() ? m_led_button_left.blink() : m_led_button_left.on();
-  m_button_right.is_pressed() ? m_led_button_right.blink() : m_led_button_right.on();
-  m_button_left.intr_disable();
-  m_button_right.intr_disable();
-}
-
-void application::release_buttons() {
-  m_led_button_left.stop();
-  m_led_button_right.stop();
-  m_button_left.intr_enable();
-  m_button_right.intr_enable();
-}
-
-void application::ding_dong( const int count, const int speed_ms ) {
-  for( int i = 0; i < count; i++ ) {
-    m_relay.on();
-    vTaskDelay( speed_ms / portTICK_PERIOD_MS );
-    m_relay.off();
-    if( i < count - 1 ) {
-      vTaskDelay( speed_ms / portTICK_PERIOD_MS );
-    }
   }
 }
 
@@ -200,6 +177,31 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
       break;
     default:
       ;
+  }
+}
+
+void application::block_buttons() {
+  m_button_left.is_pressed() ? m_led_button_left.blink() : m_led_button_left.on();
+  m_button_right.is_pressed() ? m_led_button_right.blink() : m_led_button_right.on();
+  m_button_left.intr_disable();
+  m_button_right.intr_disable();
+}
+
+void application::release_buttons() {
+  m_led_button_left.stop();
+  m_led_button_right.stop();
+  m_button_left.intr_enable();
+  m_button_right.intr_enable();
+}
+
+void application::ding_dong( const int count, const int speed_ms ) {
+  for( int i = 0; i < count; i++ ) {
+    m_relay.on();
+    vTaskDelay( speed_ms / portTICK_PERIOD_MS );
+    m_relay.off();
+    if( i < count - 1 ) {
+      vTaskDelay( speed_ms / portTICK_PERIOD_MS );
+    }
   }
 }
 

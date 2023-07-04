@@ -25,6 +25,8 @@
 #include "freertos/event_groups.h"
 #include "esp_event.h"
 #include "event/event_dispatcher.hpp"
+#include "i_file_io.hpp"
+#include "../ccronexpr/ccronexpr.h"
 
 namespace espena::components {
 
@@ -32,6 +34,7 @@ namespace espena::components {
 
     static const char *LOG_TAG;
     static const configSTACK_DEPTH_TYPE CRON_TASK_STACK_DEPTH = 32768;
+    static const size_t MAX_CRON_ENTRIES = 25;
     
     typedef enum {
       cron_start
@@ -53,6 +56,16 @@ namespace espena::components {
 
     cron_task_params m_cron_task_params;
 
+    typedef struct cron_entry_struct {
+      bool enabled;
+      cron_expr expression;
+      char wav_file[ 12 ]; // FAT 7.3 naming convention (plus terminating zero)
+      time_t last_run;
+    } cron_entry;
+
+    cron_entry m_cron_entries[ MAX_CRON_ENTRIES ];
+    int m_cron_entries_count;
+
     public:
 
       typedef struct configuration_struct {
@@ -62,6 +75,11 @@ namespace espena::components {
     private:
 
       const configuration &m_config;
+      i_file_io *m_filesys;
+
+      void init_cron_entries();
+      
+      void parse_cron_line( char * );
 
       void on_message( cron_task_message, void * );
 
@@ -74,7 +92,7 @@ namespace espena::components {
   
       static void cron_task( void * );
 
-      void start();
+      void start( i_file_io * );
 
   }; // class cron
 

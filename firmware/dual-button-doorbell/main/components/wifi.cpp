@@ -103,6 +103,7 @@ void wifi::event_handler( void *arg,
         break;
       case WIFI_EVENT_STA_DISCONNECTED:
         if( retries++ < MAX_RETRIES ) {
+          vTaskDelay( 1000 / portTICK_PERIOD_MS );
           esp_wifi_connect();
           ESP_LOGI( LOG_TAG, "Retry connection to network %d of %d", retries, MAX_RETRIES );
         }

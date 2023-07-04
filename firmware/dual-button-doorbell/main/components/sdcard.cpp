@@ -98,7 +98,9 @@ void sdcard::mount() {
 }
 
 FILE * sdcard::open_file( const std::string name, const std::string access ) {
-  return fopen( ( m_config.mount_point + "/" + name ).c_str(), access.c_str() );
+  std::string filepath = ( m_config.mount_point + "/" + name );
+  ESP_LOGI( LOG_TAG, "Opening file %s", filepath.c_str() );
+  return fopen( filepath.c_str(), access.c_str() );
 }
 
 void sdcard::close_file( FILE * fp ) {

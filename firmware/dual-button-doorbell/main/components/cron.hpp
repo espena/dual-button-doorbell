@@ -34,7 +34,7 @@ namespace espena::components {
 
     static const char *LOG_TAG;
     static const configSTACK_DEPTH_TYPE CRON_TASK_STACK_DEPTH = 8192;
-    static const size_t MAX_CRON_ENTRIES = 10;
+    static const size_t MAX_CRON_ENTRIES = 25;
     
     typedef enum {
       cron_start

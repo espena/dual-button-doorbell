@@ -33,8 +33,8 @@ namespace espena::components {
   class cron {
 
     static const char *LOG_TAG;
-    static const configSTACK_DEPTH_TYPE CRON_TASK_STACK_DEPTH = 32768;
-    static const size_t MAX_CRON_ENTRIES = 25;
+    static const configSTACK_DEPTH_TYPE CRON_TASK_STACK_DEPTH = 8192;
+    static const size_t MAX_CRON_ENTRIES = 10;
     
     typedef enum {
       cron_start
@@ -80,8 +80,12 @@ namespace espena::components {
       void init_cron_entries();
       
       void parse_cron_line( char * );
+      
+      void print_time( time_t );
 
       void on_message( cron_task_message, void * );
+
+      void loop();
 
       void service_start();
 

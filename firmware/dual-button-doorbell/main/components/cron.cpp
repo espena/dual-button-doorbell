@@ -110,6 +110,34 @@ void cron::parse_cron_line( char *ln ) {
   }
 }
 
+void cron::print_time( time_t time ) {
+  tm *time_tm = localtime( &time );
+  char time_str[ 100 ];
+  memset( &time_str, 0x00, sizeof( time_str ) );
+  strftime( time_str, sizeof( time_str ) - 1, "%Y-%m-%d %H:%M:%S", time_tm );
+  ESP_LOGI( LOG_TAG, "Time: %s", time_str );
+}
+
+void cron::loop() {
+  ESP_LOGI( LOG_TAG, "Entering loop" );
+  while( 1 ) {
+    time_t now = time( NULL );
+    for( int i = 0; i < m_cron_entries_count; i++ ) {
+      cron_entry &entry = m_cron_entries[ i ];
+      if( entry.last_run >= now ) {
+        continue;
+      }
+      time_t next = cron_next( &entry.expression, now );
+      const time_t delta = ( next - now );
+      if( delta > 0 && delta < 2 ) {
+        ESP_LOGI( LOG_TAG, "Scheduled playback of %s", entry.wav_file );
+        entry.last_run = next;
+      }
+    }
+    vTaskDelay( 500 / portTICK_PERIOD_MS );
+  }
+}
+
 void cron::service_start() {
   ESP_LOGI( LOG_TAG, "Starting cron service" );
   init_cron_entries();
@@ -121,6 +149,9 @@ void cron::service_start() {
         parse_cron_line( ln );
       }
       m_filesys->close_file( fp );
+      if( m_cron_entries_count > 0 ) {
+        loop();
+      }
     }
     else {
       ESP_LOGW( LOG_TAG, "Crontab file %s not found", m_config.crontab_file.c_str() );
@@ -129,20 +160,6 @@ void cron::service_start() {
   else {
     ESP_LOGW( LOG_TAG, "No file system" );
   }
-
-  /*
-    cron_expr expr;
-    const char* err = NULL;
-    memset( &expr, 0x00, sizeof( expr ) );
-    cron_parse_expr( "0 7 * * * *", &expr, &err );
-    time_t cur = time( NULL );
-    time_t next_time = cron_next( &expr, cur );
-    tm *next = localtime( &next_time );
-    char next_time_str[ 100 ];
-    memset( &next_time_str, 0x00, sizeof( next_time_str ) );
-    strftime( next_time_str, sizeof( next_time_str ) - 1, "%Y-%m-%d %H:%M:%S", next );
-    ESP_LOGI( LOG_TAG, "Next cron time: %s", next_time_str );
-  */
 
 }
 

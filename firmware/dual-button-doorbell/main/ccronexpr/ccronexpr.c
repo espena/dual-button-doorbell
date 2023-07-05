@@ -108,18 +108,22 @@ time_t cron_mktime_gm(struct tm* tm) {
     /* http://www.catb.org/esr/time-programming/ */
     /* portable version of timegm() */
     time_t ret;
-    char *tz;
-    tz = getenv("TZ");
-    if (tz)
-        tz = strdup(tz);
-    setenv("TZ", "UTC+0", 1);
+    /* Horrible workaround to avoid catastrophic memory leak, */
+    /* previous tz string must be at least 5 characters long */
+    char *tz = NULL;
+    char *tzbuf = getenv("TZ");
+    if (tzbuf)
+        tz = strdup(tzbuf);
+    strncpy( tzbuf, "UTC+0", strlen( tzbuf ) );
     tzset();
     ret = mktime(tm);
     if (tz) {
-        setenv("TZ", tz, 1);
+        // Ugh!
+        strncpy( tzbuf, tz, strlen( tzbuf ) );
         free(tz);
     } else
-        unsetenv("TZ");
+        // Ugh!
+        strncpy( tzbuf, "", strlen( tzbuf ) );
     tzset();
     return ret;
 #elif defined(ANDROID)
@@ -152,6 +156,7 @@ struct tm* cron_time_gm(time_t* date, struct tm* out) {
 
 time_t cron_mktime_local(struct tm* tm) {
     tm->tm_isdst = -1;
+    return time( 0x00 );
     return mktime(tm);
 }
 
@@ -978,6 +983,9 @@ time_t cron_next(cron_expr* expr, time_t date) {
 
      ...
      */
+
+
+    
     if (!expr) return CRON_INVALID_INSTANT;
     struct tm calval;
     memset(&calval, 0, sizeof(struct tm));
@@ -992,7 +1000,7 @@ time_t cron_next(cron_expr* expr, time_t date) {
     time_t calculated = cron_mktime(calendar);
     if (CRON_INVALID_INSTANT == calculated) return CRON_INVALID_INSTANT;
     if (calculated == original) {
-        /* We arrived at the original timestamp - round up to the next whole second and try again... */
+        // We arrived at the original timestamp - round up to the next whole second and try again...
         res = add_to_field(calendar, CRON_CF_SECOND, 1);
         if (0 != res) return CRON_INVALID_INSTANT;
         res = do_next(expr, calendar, calendar->tm_year);

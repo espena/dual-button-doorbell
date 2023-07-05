@@ -1,6 +1,5 @@
 managed_components
 *.lock
-sdkconfig
 build
 .devcontainer
 dummy_data

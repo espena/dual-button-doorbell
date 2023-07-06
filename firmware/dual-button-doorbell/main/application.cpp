@@ -46,8 +46,7 @@ application::application( const configuration &conf ) :
   m_button_right( conf.button_right ),
   m_led_button_left( conf.led_button_left ),
   m_led_button_right( conf.led_button_right ),
-  m_cron( conf.cron ),
-  m_current_wav_file( NULL )
+  m_cron( conf.cron )
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
@@ -97,8 +96,8 @@ void application::ding_dong( const int count, const int speed_ms ) {
 
 void application::play_sound( const std::string wav_file ) {
   ESP_LOGI( LOG_TAG, "Playing file %s", wav_file.c_str() );
-  m_current_wav_file = m_sdcard.open_file( wav_file, "rb" );
-  m_sound.play_async( m_current_wav_file );
+  FILE *fp = m_sdcard.open_file( wav_file, "rb" );
+  m_sound.play_async( fp );
 }
 
 void application::stop_sound() {
@@ -115,7 +114,7 @@ void application::event_handler( void *handler_arg,
     application::m_the_app->event_handler_sdcard( event_id, event_params );
   }
   if( source == ( char * ) components::sound::event_base ) {
-    application::m_the_app->event_handler_sound( event_id, event_params );
+    application::m_the_app->event_handler_sound( event_id, *( reinterpret_cast<FILE **>( event_params ) ) );
   }
   if( source == ( char * ) components::button::event_base ) {
     application::m_the_app->event_handler_button( event_id, *( reinterpret_cast< int * >( event_params ) ) );
@@ -150,11 +149,11 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
   }
 }
 
-void application::event_handler_sound( int32_t event_id, void *event_params ) {
-  FILE *fp = reinterpret_cast<FILE *>( event_params );
+void application::event_handler_sound( int32_t event_id, FILE *fp ) {
   switch( event_id ) {
     case components::sound::ON_PLAY_END:
       ESP_LOGI( LOG_TAG, "Playback ended" );
+      ESP_LOGI( LOG_TAG, "File descriptor: %lu", ( long unsigned int ) fp );
       m_sdcard.close_file( fp );
       m_led_red.off();
       release_buttons();

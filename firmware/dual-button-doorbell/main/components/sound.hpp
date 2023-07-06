@@ -53,6 +53,7 @@ namespace espena::components {
     private:
 
       volatile bool m_stop;
+      bool m_playing;
 
       typedef struct wave_hdr_struct {
         char  w_fileid[ 4 ];            /* chunk id 'RIFF'            */

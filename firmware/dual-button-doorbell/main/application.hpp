@@ -109,11 +109,6 @@ namespace espena {
        */
       esp_event_loop_handle_t m_event_loop_handle;
 
-      /**
-       * Pointer to file currently playing
-       */
-      FILE * m_current_wav_file;
-      
       void play_sound( const std::string );
       void stop_sound();
 
@@ -149,7 +144,7 @@ namespace espena {
                                  void *event_params );
 
       void event_handler_sdcard( int32_t, void * );
-      void event_handler_sound( int32_t, void * );
+      void event_handler_sound( int32_t, FILE * );
       void event_handler_button( int32_t, int );
       void event_handler_wifi( int32_t, void * );
       void event_handler_ntp( int32_t, void * );

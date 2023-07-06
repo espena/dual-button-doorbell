@@ -31,6 +31,8 @@ const char *sound::LOG_TAG = "sound";
 const esp_event_base_t sound::event_base = "SOUND_EVENT";
 
 sound::sound( const sound::configuration &config ) :
+  m_stop( false ),
+  m_playing( false ),
   m_config( config ),
   m_i2s_std_cfg( {
     .clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG( 44100 ),
@@ -93,6 +95,9 @@ void sound::on_message( sound_task_message msg, void *arg ) {
 }
 
 void sound::play_async( FILE *fp ) {
+  while( m_playing ) {
+    vTaskDelay( 1 );
+  }
   sound_task_queue_item item = {
     .message = sound_play,
     .arg = fp
@@ -105,6 +110,7 @@ void sound::stop_async() {
 }
 
 void sound::play( FILE *fp ) {
+  m_playing = true;
   while( m_stop ) m_stop = false;
   static const size_t BUFFER_SIZE = 1024;
   if( fp ) {
@@ -130,13 +136,21 @@ void sound::play( FILE *fp ) {
       bytes_left_to_write -= chunk_size;
       size_t bytes_written = 0;
       while( !m_stop && bytes_written < chunk_size ) {
-        i2s_channel_write( m_i2s_tx_handle, buf, chunk_size, &bytes_written, 5000 );
+        i2s_channel_write( m_i2s_tx_handle,
+                           buf,
+                           chunk_size,
+                           &bytes_written,
+                           5000 );
       }
       vTaskDelay( 1 );
     } while( !m_stop && !feof( fp ) ); 
     i2s_channel_disable( m_i2s_tx_handle );
-    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_END, fp, 0 );
+    m_event_dispatcher.dispatch( sound::event_base,
+                                 ON_PLAY_END,
+                                 &fp,
+                                 sizeof( FILE * ) );
   }
+  m_playing = false;
 }
 
 void sound::set_event_loop_handle( esp_event_loop_handle_t event_loop_handle ) {

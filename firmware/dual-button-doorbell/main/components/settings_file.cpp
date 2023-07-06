@@ -28,6 +28,8 @@ const char *settings_file::LOG_TAG = "settings_file";
 settings_file::settings_file() :
   m_button_left_default_clip( "left.wav" ),
   m_button_right_default_clip( "right.wav" ),
+  m_button_left_silent_clip( "silent.wav" ),
+  m_button_right_silent_clip( "silent.wav" ),
   m_button_left_bell_count( 1 ),
   m_button_right_bell_count( 1 ),
   m_button_left_bell_delay( 200 ),
@@ -45,13 +47,44 @@ settings_file::~settings_file() {
 void settings_file::fetch_default_clip( cJSON *button,
                                         std::string &default_clip )
 {
-  cJSON *clips = cJSON_GetObjectItem( button, "clips" );
+  ESP_LOGI( LOG_TAG, "Seeking buttons->left/right->default" );
+  cJSON *def = cJSON_GetObjectItem( button, "default" );
+  if( def ) {
+    ESP_LOGI( LOG_TAG, "Seeking buttons->left/right->default->clips" );
+    cJSON *clips = cJSON_GetObjectItem( def, "clips" );
+    if( clips ) {
+      ESP_LOGI( LOG_TAG, "Seeking buttons->left/right->default->clips[ 0 ]" );
+      const int clip_count = cJSON_GetArraySize( clips );
+      if( clip_count > 0 ) {
+        cJSON *clip = cJSON_GetArrayItem( clips, 0 );
+        default_clip = clip->valuestring;
+        ESP_LOGI( LOG_TAG, "buttons->left/right->default->clips[ 0 ] == %s", default_clip.c_str() );
+      }
+    }
+  }
+}
+
+void settings_file::fetch_silent_clip( cJSON *button,
+                                       std::string &silent_clip,
+                                       std::string &silent_from,
+                                       time_t &silent_duration )
+{
+  cJSON *silent = cJSON_GetObjectItem( button, "silent" );
+  cJSON *clips = cJSON_GetObjectItem( silent, "clips" );
   if( clips ) {
     const int clip_count = cJSON_GetArraySize( clips );
     if( clip_count > 0 ) {
       cJSON *clip = cJSON_GetArrayItem( clips, 0 );
-      default_clip = clip->valuestring;
+      silent_clip = clip->valuestring;
     }
+  }
+  cJSON *from = cJSON_GetObjectItem( silent, "from" );
+  if( from ) {
+    silent_from = from->valuestring;
+  }
+  cJSON *duration_hours = cJSON_GetObjectItem( silent, "duration_hours" );
+  if( duration_hours ) {
+    silent_duration = duration_hours->valueint * 3600;
   }
 }
 
@@ -98,6 +131,23 @@ void settings_file::fetch_ntp_settings( cJSON *ntp,
   }
 }
 
+void settings_file::debug_output() {
+  ESP_LOGI( LOG_TAG, "m_button_left_default_clip: %s", m_button_left_default_clip.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_left_silent_clip: %s", m_button_left_silent_clip.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_left_silent_from: %s", m_button_left_silent_from.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_left_silent_duration: %lli", m_button_left_silent_duration );
+  ESP_LOGI( LOG_TAG, "m_button_right_default_clip: %s", m_button_right_default_clip.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_right_silent_clip: %s", m_button_right_silent_clip.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_right_silent_from: %s", m_button_right_silent_from.c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_right_silent_duration: %lli", m_button_right_silent_duration );
+  ESP_LOGI( LOG_TAG, "m_button_left_bell_count: %d", m_button_left_bell_count );
+  ESP_LOGI( LOG_TAG, "m_button_right_bell_count: %d", m_button_right_bell_count );
+  ESP_LOGI( LOG_TAG, "m_button_left_bell_delay: %d", m_button_left_bell_delay );
+  ESP_LOGI( LOG_TAG, "m_button_right_bell_delay: %d", m_button_right_bell_delay );
+  ESP_LOGI( LOG_TAG, "m_wifi_ssid: %s", m_wifi_ssid.c_str() );
+  ESP_LOGI( LOG_TAG, "m_wifi_password: %s", m_wifi_password.c_str() );
+}
+
 void settings_file::load( FILE * settings_json ) {
 
   ESP_LOGI( LOG_TAG, "Load settings from file" );
@@ -118,6 +168,11 @@ void settings_file::load( FILE * settings_json ) {
       fetch_default_clip( left,
                           m_button_left_default_clip );
 
+      fetch_silent_clip( left,
+                         m_button_left_silent_clip,
+                         m_button_left_silent_from,
+                         m_button_left_silent_duration );
+
       fetch_bell_settings( left,
                            m_button_left_bell_count,
                            m_button_left_bell_delay );
@@ -129,6 +184,11 @@ void settings_file::load( FILE * settings_json ) {
 
       fetch_default_clip( right,
                           m_button_right_default_clip );
+
+      fetch_silent_clip( right,
+                         m_button_right_silent_clip,
+                         m_button_right_silent_from,
+                         m_button_right_silent_duration );
 
       fetch_bell_settings( right,
                            m_button_right_bell_count,
@@ -153,13 +213,6 @@ void settings_file::load( FILE * settings_json ) {
   cJSON_Delete( root );
   delete [ ] buf;
 
-  ESP_LOGI( LOG_TAG, "m_button_left_default_clip: %s", m_button_left_default_clip.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_right_default_clip: %s", m_button_right_default_clip.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_left_bell_count: %d", m_button_left_bell_count );
-  ESP_LOGI( LOG_TAG, "m_button_right_bell_count: %d", m_button_right_bell_count );
-  ESP_LOGI( LOG_TAG, "m_button_left_bell_delay: %d", m_button_left_bell_delay );
-  ESP_LOGI( LOG_TAG, "m_button_right_bell_delay: %d", m_button_right_bell_delay );
-  ESP_LOGI( LOG_TAG, "m_wifi_ssid: %s", m_wifi_ssid.c_str() );
-  ESP_LOGI( LOG_TAG, "m_wifi_password: %s", m_wifi_password.c_str() );
+  debug_output();
 
 }

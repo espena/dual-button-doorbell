@@ -176,6 +176,18 @@ void cron::add_event_listener( cron::event_id event_id,
                                          event_handler );
 }
 
+time_t cron::get_prev( char *cron_expression ) {
+  cron_expr expr;
+  memset( &expr, 0x00, sizeof( expr ) );
+  const char *err = NULL;
+  cron_parse_expr( cron_expression,  &expr, &err );
+  if( !err ) {
+    time_t prev = cron_prev( &expr, time( NULL ) );
+    return prev;
+  }
+  return 0;
+}
+
 void cron::start( i_file_io *filesys ) {
   m_filesys = filesys;
   cron_task_queue_item item = {

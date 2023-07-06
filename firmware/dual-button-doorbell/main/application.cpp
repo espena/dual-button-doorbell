@@ -144,8 +144,6 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
       // SD card did not mount
       m_led_red.blink( 50 );
       break;
-    default:
-      ;
   }
 }
 
@@ -191,27 +189,39 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
   switch( event_id ) {
     case components::button::ON_BTN_DOWN:
       block_buttons();
+      stop_sound(); // Give priority to doorbell buttons
       m_led_red.on();
+      time_t silent_time = 0;
       switch( btn_id ) {
         case 1: // left button
-          stop_sound(); // Give priority to doorbell buttons
-          ding_dong( m_settings_file.m_button_left_bell_count,
-                     m_settings_file.m_button_left_bell_delay );
-          play_sound( m_settings_file.m_button_left_default_clip );
+          silent_time = m_cron.get_prev( m_settings_file.m_button_left_silent_from.data() );
+          if( ( silent_time + m_settings_file.m_button_left_silent_duration ) > time( NULL ) ) {
+            ESP_LOGI( LOG_TAG, "Silent mode" );
+            play_sound( m_settings_file.m_button_left_silent_clip );
+          }
+          else {
+            ding_dong( m_settings_file.m_button_left_bell_count,
+                      m_settings_file.m_button_left_bell_delay );
+            play_sound( m_settings_file.m_button_left_default_clip );
+          }
           break;
         case 2: // right button
-          stop_sound(); // Give priority to doorbell buttons
-          ding_dong( m_settings_file.m_button_right_bell_count,
-                     m_settings_file.m_button_right_bell_delay );
-          play_sound( m_settings_file.m_button_right_default_clip );
+          silent_time = m_cron.get_prev( m_settings_file.m_button_right_silent_from.data() );
+          if( ( silent_time + m_settings_file.m_button_right_silent_duration ) > time( NULL ) ) {
+            ESP_LOGI( LOG_TAG, "Silent mode" );
+            play_sound( m_settings_file.m_button_right_silent_clip );
+          }
+          else {
+            ding_dong( m_settings_file.m_button_right_bell_count,
+                      m_settings_file.m_button_right_bell_delay );
+            play_sound( m_settings_file.m_button_right_default_clip );
+          }
           break;
         default:
           m_led_green.blink( 1000, 1 );
           m_led_red.blink( 1000, 1 );
       }
       break;
-    default:
-      ;
   }
 }
 

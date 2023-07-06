@@ -116,6 +116,7 @@ namespace espena::components {
 
       void add_event_listener( event_id, esp_event_handler_t );
 
+      time_t get_prev( char * );
 
   }; // class cron
 

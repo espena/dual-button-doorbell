@@ -30,14 +30,26 @@ namespace espena::components {
     static const char *LOG_TAG;
 
     void fetch_default_clip( cJSON *, std::string & );
+    void fetch_silent_clip( cJSON *, std::string &, std::string &, time_t & );
     void fetch_bell_settings( cJSON *, int &, int & );
     void fetch_wifi_settings( cJSON *, std::string &, std::string & );
     void fetch_ntp_settings( cJSON *, std::string &, std::string & );
+
+    void debug_output();
     
     public:
 
       std::string m_button_left_default_clip;
       std::string m_button_right_default_clip;
+
+      std::string m_button_left_silent_clip;
+      std::string m_button_right_silent_clip;
+
+      std::string m_button_left_silent_from;
+      std::string m_button_right_silent_from;
+
+      time_t m_button_left_silent_duration;
+      time_t m_button_right_silent_duration;
 
       int m_button_left_bell_count;
       int m_button_right_bell_count;

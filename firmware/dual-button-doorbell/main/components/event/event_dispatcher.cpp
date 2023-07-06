@@ -4,7 +4,12 @@
 
 using namespace espena::components::event;
 
-event_dispatcher::event_dispatcher() : m_handle_registered( ESP_ERR_NOT_FINISHED ) { }
+event_dispatcher::event_dispatcher() :
+  m_handle_registered( ESP_ERR_NOT_FINISHED ),
+  m_event_loop_handle( NULL )
+{
+
+}
 
 event_dispatcher::~event_dispatcher() { }
 

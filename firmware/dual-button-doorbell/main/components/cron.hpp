@@ -24,13 +24,14 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "esp_event.h"
+#include "event/i_event_dispatcher.hpp"
 #include "event/event_dispatcher.hpp"
 #include "i_file_io.hpp"
 #include "../ccronexpr/ccronexpr.h"
 
 namespace espena::components {
 
-  class cron {
+  class cron : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
     static const configSTACK_DEPTH_TYPE CRON_TASK_STACK_DEPTH = 8192;
@@ -60,13 +61,19 @@ namespace espena::components {
       bool enabled;
       cron_expr expression;
       char wav_file[ 12 ]; // FAT 7.3 naming convention (plus terminating zero)
-      time_t last_run;
+      time_t next_run;
     } cron_entry;
 
     cron_entry m_cron_entries[ MAX_CRON_ENTRIES ];
     int m_cron_entries_count;
 
     public:
+
+      static const esp_event_base_t event_base;
+
+      typedef enum {
+        ON_TIMED_EVENT
+      } event_id;
 
       typedef struct configuration_struct {
         std::string crontab_file;
@@ -76,6 +83,8 @@ namespace espena::components {
 
       const configuration &m_config;
       i_file_io *m_filesys;
+
+      ::espena::components::event::event_dispatcher m_event_dispatcher;
 
       void init_cron_entries();
       
@@ -89,6 +98,10 @@ namespace espena::components {
 
       void service_start();
 
+      static void cron_event_task( void * );
+
+      void on_cron_event();
+
     public:
 
       cron( const configuration & );
@@ -97,6 +110,12 @@ namespace espena::components {
       static void cron_task( void * );
 
       void start( i_file_io * );
+      
+      // i_event_dispatcher member
+      void set_event_loop_handle( esp_event_loop_handle_t );
+
+      void add_event_listener( event_id, esp_event_handler_t );
+
 
   }; // class cron
 

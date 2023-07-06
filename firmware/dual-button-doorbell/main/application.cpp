@@ -63,10 +63,42 @@ application::application( const configuration &conf ) :
   m_button_right.set_event_loop_handle( m_event_loop_handle );
   m_wifi.set_event_loop_handle( m_event_loop_handle );
   m_ntp.set_event_loop_handle( m_event_loop_handle );
+  m_cron.set_event_loop_handle( m_event_loop_handle );
 }
 
 application::~application() {
   esp_event_loop_delete( m_event_loop_handle );
+}
+
+void application::load_settings() {
+  FILE *settings_file = m_sdcard.open_file( "setting.jsn", "rb" );
+  if( settings_file ) {
+    m_settings_file.load( settings_file );
+    m_sdcard.close_file( settings_file );
+  }
+}
+
+void application::wifi_connect() {
+  m_wifi.connect( m_settings_file.m_wifi_ssid,
+                  m_settings_file.m_wifi_password );
+}
+
+void application::ding_dong( const int count, const int speed_ms ) {
+  for( int i = 0; i < count; i++ ) {
+    m_relay.on();
+    vTaskDelay( speed_ms / portTICK_PERIOD_MS );
+    m_relay.off();
+    if( i < count - 1 ) {
+      vTaskDelay( speed_ms / portTICK_PERIOD_MS );
+    }
+  }
+}
+
+void application::play_sound( const std::string wav_file ) {
+  ESP_LOGI( LOG_TAG, "Playing file %s", wav_file.c_str() );
+  FILE* fp = m_sdcard.open_file( wav_file, "rb" );
+  m_sound.play( fp );
+  m_sdcard.close_file( fp );
 }
 
 void application::event_handler( void *handler_arg,
@@ -90,19 +122,9 @@ void application::event_handler( void *handler_arg,
   if( source == ( char * ) components::ntp::event_base ) {
     application::m_the_app->event_handler_ntp( event_id, event_params );
   }
-}
-
-void application::load_settings() {
-  FILE *settings_file = m_sdcard.open_file( "setting.jsn", "rb" );
-  if( settings_file ) {
-    m_settings_file.load( settings_file );
-    m_sdcard.close_file( settings_file );
+  if( source == ( char * ) components::cron::event_base ) {
+    application::m_the_app->event_handler_cron( event_id, reinterpret_cast<char *>( event_params ) );
   }
-}
-
-void application::wifi_connect() {
-  m_wifi.connect( m_settings_file.m_wifi_ssid,
-                  m_settings_file.m_wifi_password );
 }
 
 void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
@@ -127,7 +149,7 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
 void application::event_handler_sound( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::sound::ON_PLAY_END:
-      ESP_LOGI( LOG_TAG, "Lydavspilling avsluttet" );
+      ESP_LOGI( LOG_TAG, "Playback ended" );
       m_led_red.off();
       release_buttons();
       break;
@@ -154,6 +176,14 @@ void application::event_handler_ntp( int32_t event_id, void *event_params ) {
   }
 }
 
+void application::event_handler_cron( int32_t event_id, const char *wav_file ) {
+  switch( event_id ) {
+    case components::cron::ON_TIMED_EVENT:
+      play_sound( wav_file );
+      break;
+  }
+}
+
 void application::event_handler_button( int32_t event_id, int btn_id ) {
   switch( event_id ) {
     case components::button::ON_BTN_DOWN:
@@ -163,12 +193,12 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
         case 1: // left button
           ding_dong( m_settings_file.m_button_left_bell_count,
                      m_settings_file.m_button_left_bell_delay );
-          m_sound.play( m_sdcard.open_file( m_settings_file.m_button_left_default_clip, "rb" ) );
+          play_sound( m_settings_file.m_button_left_default_clip );
           break;
         case 2: // right button
           ding_dong( m_settings_file.m_button_right_bell_count,
                      m_settings_file.m_button_right_bell_delay );
-          m_sound.play( m_sdcard.open_file( m_settings_file.m_button_right_default_clip, "rb" ) );
+          play_sound( m_settings_file.m_button_right_default_clip );
           break;
         default:
           m_led_green.blink( 1000, 1 );
@@ -194,17 +224,6 @@ void application::release_buttons() {
   m_button_right.intr_enable();
 }
 
-void application::ding_dong( const int count, const int speed_ms ) {
-  for( int i = 0; i < count; i++ ) {
-    m_relay.on();
-    vTaskDelay( speed_ms / portTICK_PERIOD_MS );
-    m_relay.off();
-    if( i < count - 1 ) {
-      vTaskDelay( speed_ms / portTICK_PERIOD_MS );
-    }
-  }
-}
-
 void application::add_event_listeners() {
   m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_OK, event_handler );
   m_sdcard.add_event_listener( components::sdcard::ON_MOUNT_FAILED, event_handler );
@@ -214,6 +233,7 @@ void application::add_event_listeners() {
   m_button_right.add_event_listener( components::button::ON_BTN_DOWN, event_handler );
   m_wifi.add_event_listener( components::wifi::ON_WIFI_CONNECTED, event_handler );
   m_ntp.add_event_listener( components::ntp::ON_NTP_TIME_UPDATED, event_handler );
+  m_cron.add_event_listener( components::cron::ON_TIMED_EVENT, event_handler );
 }
 
 void application::run() {

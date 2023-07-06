@@ -64,6 +64,7 @@ void sound::play( FILE *fp ) {
   if( fp ) {
     wave_hdr wh;
     fread( ( void * ) &wh, sizeof( wh ), 1, fp );
+    ESP_LOGI( LOG_TAG, "Wave file has data chunk size %lu", wh.w_datachunksize );
     if( memcmp( wh.w_fileid, ( void * ) "RIFF", 4 ) != 0 ||
         memcmp( wh.w_waveid, ( void * ) "WAVE", 4 ) != 0 ||
         memcmp( wh.w_fmtid, ( void * ) "fmt ", 4 ) != 0 )
@@ -72,17 +73,22 @@ void sound::play( FILE *fp ) {
     }
     i2s_channel_enable( m_i2s_tx_handle );
     gpio_set_level( m_config.gpio_i2s_sd_mode, 1 );
-    char buf[ BUFFER_SIZE ] = { 0 };
-    while( !feof( fp ) ) {
-      size_t chunk_size = fread( ( void * ) &buf, 1, sizeof( buf ) / sizeof( buf[ 0 ] ), fp );
+    char buf[ BUFFER_SIZE ];
+    size_t bytes_left_to_write = wh.w_datachunksize;
+    do {
+      size_t chunk_size = fread( ( void * ) buf, 1, sizeof( buf ) / sizeof( buf[ 0 ] ), fp );
+      if( chunk_size > bytes_left_to_write ) {
+        chunk_size = bytes_left_to_write;
+        fseek( fp, 0, SEEK_END ); // Reach end of data chunk, skip footer
+      }
+      bytes_left_to_write -= chunk_size;
       size_t bytes_written = 0;
       while( bytes_written < chunk_size ) {
-        i2s_channel_write( m_i2s_tx_handle, buf, chunk_size, &bytes_written, 15000 );
+        i2s_channel_write( m_i2s_tx_handle, buf, chunk_size, &bytes_written, 5000 );
       }
       vTaskDelay( 1 );
-    }
+    } while( !feof( fp ) ); 
     i2s_channel_disable( m_i2s_tx_handle );
-    fclose( fp );
     m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_END, NULL, 0 );
   }
 }

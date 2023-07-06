@@ -27,6 +27,7 @@
 using namespace espena::components;
 
 const char *cron::LOG_TAG = "cron";
+const esp_event_base_t cron::event_base = "CRON_EVENT";
 
 cron::cron( const cron::configuration &config ) :
   m_config( config ),
@@ -66,11 +67,9 @@ void cron::cron_task( void *arg ) {
 }
 
 void cron::on_message( cron_task_message msg, void *arg ) {
-  cron_task_queue_item *item = reinterpret_cast<cron_task_queue_item *>( arg );
-  cron *instance = reinterpret_cast<cron *>( item->arg );
   switch( msg ) {
     case cron_start:
-      instance->service_start();
+      service_start();
       break;
   }
 }
@@ -101,6 +100,7 @@ void cron::parse_cron_line( char *ln ) {
   if( !err ) {
     ESP_LOGI( LOG_TAG, "Input: %s -> %s", ln, wav_file );
     strncpy( entry.wav_file, wav_file, sizeof( entry.wav_file ) );
+    entry.next_run = cron_next( &expr, time( NULL ) );
     m_cron_entries_count++;
   }
   else {
@@ -123,23 +123,25 @@ void cron::loop() {
   while( 1 ) {
     time_t now = time( NULL );
     for( int i = 0; i < m_cron_entries_count; i++ ) {
-      cron_entry &entry = m_cron_entries[ i ];
-      if( entry.last_run >= now ) {
-        continue;
-      }
-      time_t next = cron_next( &entry.expression, now );
-      const time_t delta = ( next - now );
-      if( delta > 0 && delta < 2 ) {
-        ESP_LOGI( LOG_TAG, "Scheduled playback of %s", entry.wav_file );
-        entry.last_run = next;
+      cron_entry &e = m_cron_entries[ i ];
+      if( now >= e.next_run ) {
+        time_t next = cron_next( &e.expression, now );
+        ESP_LOGI( LOG_TAG, "Scheduled playback of %s", e.wav_file );
+        e.next_run = next;
+        m_event_dispatcher.dispatch(
+          cron::event_base,
+          ON_TIMED_EVENT,
+          ( void * ) &e.wav_file,
+          sizeof( e.wav_file ) );
       }
     }
-    vTaskDelay( 500 / portTICK_PERIOD_MS );
+    vTaskDelay( 250 / portTICK_PERIOD_MS );
   }
 }
 
 void cron::service_start() {
-  ESP_LOGI( LOG_TAG, "Starting cron service" );
+
+  ESP_LOGI( LOG_TAG, "Starting cron service..." );
   init_cron_entries();
   if( m_filesys ) {
     FILE *fp = m_filesys->open_file( m_config.crontab_file, "r" );
@@ -160,7 +162,18 @@ void cron::service_start() {
   else {
     ESP_LOGW( LOG_TAG, "No file system" );
   }
+}
 
+void cron::set_event_loop_handle( esp_event_loop_handle_t event_loop_handle ) {
+  m_event_dispatcher.set_event_loop_handle( event_loop_handle );
+}
+
+void cron::add_event_listener( cron::event_id event_id,
+                               esp_event_handler_t event_handler )
+{
+  m_event_dispatcher.add_event_listener( cron::event_base,
+                                         event_id,
+                                         event_handler );
 }
 
 void cron::start( i_file_io *filesys ) {

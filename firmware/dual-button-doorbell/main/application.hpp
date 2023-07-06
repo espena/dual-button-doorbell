@@ -109,6 +109,8 @@ namespace espena {
        */
       esp_event_loop_handle_t m_event_loop_handle;
 
+      void play_sound( const std::string );
+
       void ding_dong( const int, const int );
       
       void add_event_listeners();
@@ -145,6 +147,7 @@ namespace espena {
       void event_handler_button( int32_t, int );
       void event_handler_wifi( int32_t, void * );
       void event_handler_ntp( int32_t, void * );
+      void event_handler_cron( int32_t, const char * );
 
       /**
       * Application start

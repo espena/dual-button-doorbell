@@ -13,5 +13,4 @@ idf_component_register( SRCS "main.cpp"
                              "components/event/event_dispatcher.cpp"
                              "ccronexpr/ccronexpr.c"
                         INCLUDE_DIRS "." )
-#add_definitions( -DCRON_USE_LOCAL_TIME )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCRON_USE_LOCAL_TIME")

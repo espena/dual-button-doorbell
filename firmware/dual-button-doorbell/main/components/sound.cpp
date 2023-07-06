@@ -47,19 +47,65 @@ sound::sound( const sound::configuration &config ) :
         .ws_inv = false
       }
     }
-  } ) {
-  gpio_reset_pin( config.gpio_i2s_sd_mode );
-  gpio_set_direction( config.gpio_i2s_sd_mode, GPIO_MODE_OUTPUT );
-  i2s_chan_config_t chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG( I2S_NUM_0, I2S_ROLE_MASTER );
-  i2s_new_channel( &chan_cfg, &m_i2s_tx_handle, NULL );
-  i2s_channel_init_std_mode( m_i2s_tx_handle, &m_i2s_std_cfg );
+  } )
+{
+  m_message_queue = xQueueCreate( 10, sizeof( sound_task_queue_item ) );
+  m_sound_task_params.instance = this;
+  m_sound_task_params.task_handle = NULL;
+  xTaskCreate( &sound::sound_task,
+               "sound_task",
+               SOUND_TASK_STACK_DEPTH,
+               &m_sound_task_params,
+               2,
+               &m_sound_task_params.task_handle );
+  initialize();
 }
 
 sound::~sound() {
 
 }
 
+void sound::initialize() {
+  gpio_reset_pin( m_config.gpio_i2s_sd_mode );
+  gpio_set_direction( m_config.gpio_i2s_sd_mode, GPIO_MODE_OUTPUT );
+  i2s_chan_config_t chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG( I2S_NUM_0, I2S_ROLE_MASTER );
+  i2s_new_channel( &chan_cfg, &m_i2s_tx_handle, NULL );
+  i2s_channel_init_std_mode( m_i2s_tx_handle, &m_i2s_std_cfg );
+}
+
+void sound::sound_task( void *arg ) {
+  sound_task_params *params = reinterpret_cast<sound_task_params *>( arg );
+  sound *inst = params->instance;
+  sound_task_queue_item item;
+  while( 1 ) {
+    if( xQueueReceive( inst->m_message_queue, &item, portMAX_DELAY ) ) {
+      inst->on_message( item.message, item.arg );
+    }
+  }
+}
+
+void sound::on_message( sound_task_message msg, void *arg ) {
+  switch( msg ) {
+    case sound_play:
+      play( reinterpret_cast<FILE *>( arg ) );
+      break;
+  }
+}
+
+void sound::play_async( FILE *fp ) {
+  sound_task_queue_item item = {
+    .message = sound_play,
+    .arg = fp
+  };
+  xQueueSend( m_message_queue, &item, 1 );  
+}
+
+void sound::stop_async() {
+  while( !m_stop ) m_stop = true;
+}
+
 void sound::play( FILE *fp ) {
+  while( m_stop ) m_stop = false;
   static const size_t BUFFER_SIZE = 1024;
   if( fp ) {
     wave_hdr wh;
@@ -83,13 +129,13 @@ void sound::play( FILE *fp ) {
       }
       bytes_left_to_write -= chunk_size;
       size_t bytes_written = 0;
-      while( bytes_written < chunk_size ) {
+      while( !m_stop && bytes_written < chunk_size ) {
         i2s_channel_write( m_i2s_tx_handle, buf, chunk_size, &bytes_written, 5000 );
       }
       vTaskDelay( 1 );
-    } while( !feof( fp ) ); 
+    } while( !m_stop && !feof( fp ) ); 
     i2s_channel_disable( m_i2s_tx_handle );
-    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_END, NULL, 0 );
+    m_event_dispatcher.dispatch( sound::event_base, ON_PLAY_END, fp, 0 );
   }
 }
 

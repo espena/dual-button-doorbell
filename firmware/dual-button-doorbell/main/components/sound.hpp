@@ -52,6 +52,8 @@ namespace espena::components {
 
     private:
 
+      volatile bool m_stop;
+
       typedef struct wave_hdr_struct {
         char  w_fileid[ 4 ];            /* chunk id 'RIFF'            */
         uint32_t w_chunksize;           /* chunk size                 */
@@ -73,12 +75,42 @@ namespace espena::components {
       i2s_std_config_t m_i2s_std_cfg;
       ::espena::components::event::event_dispatcher m_event_dispatcher;
 
+      static const configSTACK_DEPTH_TYPE SOUND_TASK_STACK_DEPTH = 32768;
+      
+      typedef struct sound_task_params_struct {
+        sound *instance;
+        TaskHandle_t task_handle;
+      } sound_task_params;
+
+      typedef enum {
+        sound_play
+      } sound_task_message;
+
+      typedef struct sound_task_queue_item_struct {
+        sound_task_message message;
+        void *arg;
+      } sound_task_queue_item;
+
+      QueueHandle_t m_message_queue;
+
+      void on_message( sound_task_message, void * );
+
+      static void sound_task( void * );
+
+      sound_task_params m_sound_task_params;
+
+      void initialize();
+
+      void play( FILE * );
+      void stop();
+
     public:
 
       sound( const configuration & );
       ~sound();
 
-      void play( FILE * );
+      void play_async( FILE * );
+      void stop_async();
 
       void set_event_loop_handle( esp_event_loop_handle_t );
       void add_event_listener( event_id,

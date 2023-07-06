@@ -109,7 +109,13 @@ namespace espena {
        */
       esp_event_loop_handle_t m_event_loop_handle;
 
+      /**
+       * Pointer to file currently playing
+       */
+      FILE * m_current_wav_file;
+      
       void play_sound( const std::string );
+      void stop_sound();
 
       void ding_dong( const int, const int );
       

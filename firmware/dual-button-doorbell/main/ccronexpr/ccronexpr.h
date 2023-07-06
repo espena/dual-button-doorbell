@@ -24,7 +24,9 @@
 #ifndef CCRONEXPR_H
 #define CCRONEXPR_H
 
+#ifndef CRON_USE_LOCAL_TIME
 #define CRON_USE_LOCAL_TIME
+#endif
 
 #if defined(__cplusplus) && !defined(CRON_COMPILE_AS_CXX)
 extern "C" {

@@ -92,15 +92,18 @@ void settings_file::fetch_bell_settings( cJSON *button,
                                          int &count,
                                          int &delay )
 {
-  cJSON *bell = cJSON_GetObjectItem( button, "bell" );
-  if( bell ) {
-    cJSON *bell_count = cJSON_GetObjectItem( bell, "count" );
-    if( bell_count ) {
-      count = bell_count->valueint;
-    }
-    cJSON *bell_delay = cJSON_GetObjectItem( bell, "delay" );
-    if( bell_delay ) {
-      delay = bell_delay->valueint;
+  cJSON *def = cJSON_GetObjectItem( button, "default" );
+  if( def ) {
+    cJSON *bell = cJSON_GetObjectItem( def, "bell" );
+    if( bell ) {
+      cJSON *bell_count = cJSON_GetObjectItem( bell, "count" );
+      if( bell_count ) {
+        count = bell_count->valueint;
+      }
+      cJSON *bell_delay = cJSON_GetObjectItem( bell, "delay" );
+      if( bell_delay ) {
+        delay = bell_delay->valueint;
+      }
     }
   }
 }

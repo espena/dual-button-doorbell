@@ -23,9 +23,7 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 
 ## Firmware
 
-Written in C/C++ using [FreeRTOS](https://www.freertos.org/) and [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/).
-
-Additionally, I use the brilliant [ccronexpr](https://github.com/staticlibs/ccronexpr) C library for parsing the cron-alike sound schedule.
+Written in C/C++ using [FreeRTOS](https://www.freertos.org/) and [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/). Additionally I use the brilliant [ccronexpr](https://github.com/staticlibs/ccronexpr) C library for parsing the cron-alike sound schedule.
 
 Source code is located in the [firmware/dual-button-doorbell](firmware/dual-button-doorbell) folder within this repository.
 

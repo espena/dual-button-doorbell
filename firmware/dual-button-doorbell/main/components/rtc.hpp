@@ -20,12 +20,15 @@
 #define __rtc_hpp__
 
 #include "driver/gpio.h"
+#include "driver/i2c.h"
 
 namespace espena::components {
 
   class rtc {
 
     static const char *LOG_TAG;
+
+    char m_tz[ 50 ];
 
     public:
 
@@ -37,12 +40,27 @@ namespace espena::components {
     private:
 
       const configuration &m_config;
+      i2c_config_t m_i2c_config;
+
+      void save_current_timezone();
+      void utc_push();
+      void utc_pop();
+
+      static uint8_t dec2bcd( uint8_t );
+      static uint8_t bcd2dec( uint8_t );
+
+      void get_time_string( char *, size_t, tm * );
 
     public:
 
       rtc( const configuration & );
       ~rtc();
-  
+
+      void get_time( tm &rtc_tm );
+      void print_time();
+      void sync_to_systime();
+      void sync_from_systime();
+
   }; // class rtc
 
 }; // namespace espena::components

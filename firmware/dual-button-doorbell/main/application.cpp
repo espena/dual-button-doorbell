@@ -172,7 +172,9 @@ void application::event_handler_ntp( int32_t event_id, void *event_params ) {
   switch( event_id ) {
     case components::ntp::ON_NTP_TIME_UPDATED:
       ESP_LOGI( LOG_TAG, "NTP updated system time" );
-      m_cron.start( &m_sdcard );
+      m_rtc.sync_from_systime(); // Sync RTC with fresh NTP time
+      m_rtc.print_time(); // Show off!
+      m_cron.start( &m_sdcard ); // Launch time schedule
       break;
   }
 }
@@ -254,7 +256,14 @@ void application::add_event_listeners() {
 void application::run() {
   add_event_listeners();
   m_sdcard.mount();
+  time_t t0 = 0;
   while( 1 ) {
     vTaskDelay( 1 );
+    const time_t t1 = time( NULL );
+    if( t0 == 0 || t1 - t0 > 300 ) {
+      // Kick systime back in place every fifth minute
+      m_rtc.sync_to_systime();
+      t0 = t1;
+    }
   }
 }

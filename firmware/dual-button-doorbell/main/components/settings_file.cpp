@@ -134,17 +134,17 @@ void settings_file::fetch_ntp_settings( cJSON *ntp,
   }
 }
 
-void settings_file::fetch_mtqq_settings( cJSON *mtqq,
+void settings_file::fetch_mqtt_settings( cJSON *mqtt,
                                          std::string &server,
                                          std::string &cert_file )
 {
-  cJSON *mtqq_server = cJSON_GetObjectItem( mtqq, "server" );
-  if( mtqq_server ) {
-    server = mtqq_server->valuestring;
+  cJSON *mqtt_server = cJSON_GetObjectItem( mqtt, "server" );
+  if( mqtt_server ) {
+    server = mqtt_server->valuestring;
   }
-  cJSON *mtqq_cert_file = cJSON_GetObjectItem( mtqq, "cert_file" );
-  if( mtqq_cert_file ) {
-    cert_file = mtqq_cert_file->valuestring;
+  cJSON *mqtt_cert_file = cJSON_GetObjectItem( mqtt, "cert_file" );
+  if( mqtt_cert_file ) {
+    cert_file = mqtt_cert_file->valuestring;
   }
 }
 
@@ -163,8 +163,8 @@ void settings_file::debug_output() {
   ESP_LOGI( LOG_TAG, "m_button_right_bell_delay: %d", m_button_right_bell_delay );
   ESP_LOGI( LOG_TAG, "m_wifi_ssid: %s", m_wifi_ssid.c_str() );
   ESP_LOGI( LOG_TAG, "m_wifi_password: %s", m_wifi_password.c_str() );
-  ESP_LOGI( LOG_TAG, "m_mtqq_server: %s", m_mtqq_server.c_str() );
-  ESP_LOGI( LOG_TAG, "m_mtqq_cert_file: %s", m_mtqq_cert_file.c_str() );
+  ESP_LOGI( LOG_TAG, "m_mqtt_server: %s", m_mqtt_server.c_str() );
+  ESP_LOGI( LOG_TAG, "m_mqtt_cert_file: %s", m_mqtt_cert_file.c_str() );
 }
 
 void settings_file::load( FILE * settings_json ) {
@@ -229,11 +229,11 @@ void settings_file::load( FILE * settings_json ) {
                         m_ntp_timezone );
   }
 
-  cJSON *mtqq = cJSON_GetObjectItem( root, "mtqq" );
-  if( mtqq ) {
-    fetch_mtqq_settings( mtqq,
-                         m_mtqq_server,
-                         m_mtqq_cert_file );
+  cJSON *mqtt = cJSON_GetObjectItem( root, "mqtt" );
+  if( mqtt ) {
+    fetch_mqtt_settings( mqtt,
+                         m_mqtt_server,
+                         m_mqtt_cert_file );
   }
 
   cJSON_Delete( root );

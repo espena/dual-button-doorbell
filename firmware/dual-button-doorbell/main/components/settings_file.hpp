@@ -34,7 +34,7 @@ namespace espena::components {
     void fetch_bell_settings( cJSON *, int &, int & );
     void fetch_wifi_settings( cJSON *, std::string &, std::string & );
     void fetch_ntp_settings( cJSON *, std::string &, std::string & );
-    void fetch_mtqq_settings( cJSON *, std::string &, std::string & );
+    void fetch_mqtt_settings( cJSON *, std::string &, std::string & );
 
     void debug_output();
     
@@ -64,8 +64,8 @@ namespace espena::components {
       std::string m_ntp_server;
       std::string m_ntp_timezone;
 
-      std::string m_mtqq_server;
-      std::string m_mtqq_cert_file;
+      std::string m_mqtt_server;
+      std::string m_mqtt_cert_file;
 
       settings_file();
       ~settings_file();

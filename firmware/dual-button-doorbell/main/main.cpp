@@ -82,7 +82,11 @@ extern "C" void app_main() {
       .gpio_num = IO_PANEL_S2_RED },
 
     .cron = {
-      .crontab_file = "crontab.txt" }
+      .crontab_file = "crontab.txt" },
+
+    .mqtt = {
+      .server = "mqtt.eclipseprojects.io",
+      .cert_file = "mqtt.pem" }
 
   };
 

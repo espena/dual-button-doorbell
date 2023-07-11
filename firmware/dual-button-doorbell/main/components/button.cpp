@@ -62,12 +62,12 @@ void button::intr_enable() {
 }
 
 void button::btn_isr_handler( void *args ) {
-  button *btn = reinterpret_cast<button *>( args );
+  button *btn = static_cast<button *>( args );
   xQueueSendFromISR( btn->m_message_queue, btn, NULL );
 }
 
 void button::button_event_task( void *arg ) {
-  button *btn = reinterpret_cast<button *>( arg );
+  button *btn = static_cast<button *>( arg );
   button *btn2 = NULL;
   while( 1 ) {
     if( xQueueReceive( btn->m_message_queue, &btn2, portMAX_DELAY ) ) {

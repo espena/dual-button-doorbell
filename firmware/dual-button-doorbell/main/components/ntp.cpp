@@ -62,7 +62,7 @@ void ntp::add_event_listener( event_id event_id,
 }
 
 void ntp::ntp_task( void *arg ) {
-  ntp_task_params *params = reinterpret_cast<ntp_task_params *>( arg );
+  ntp_task_params *params = static_cast<ntp_task_params *>( arg );
   ntp *inst = params->instance;
   ntp_task_queue_item item;
   while( 1 ) {

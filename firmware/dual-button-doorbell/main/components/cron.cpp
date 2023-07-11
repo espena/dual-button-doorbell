@@ -56,7 +56,7 @@ void cron::init_cron_entries() {
 }
 
 void cron::cron_task( void *arg ) {
-  cron_task_params *params = reinterpret_cast<cron_task_params *>( arg );
+  cron_task_params *params = static_cast<cron_task_params *>( arg );
   cron *inst = params->instance;
   cron_task_queue_item item;
   while( 1 ) {

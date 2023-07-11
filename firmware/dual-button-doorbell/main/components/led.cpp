@@ -39,7 +39,7 @@ led::~led() {
 }
 
 void led::led_task( void *arg ) {
-  led_task_params *params = reinterpret_cast<led_task_params *>( arg );
+  led_task_params *params = static_cast<led_task_params *>( arg );
   int count = 0;
   while( 1 ) {
   params->instance->on();

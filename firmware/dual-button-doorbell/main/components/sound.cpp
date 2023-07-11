@@ -76,7 +76,7 @@ void sound::initialize() {
 }
 
 void sound::sound_task( void *arg ) {
-  sound_task_params *params = reinterpret_cast<sound_task_params *>( arg );
+  sound_task_params *params = static_cast<sound_task_params *>( arg );
   sound *inst = params->instance;
   sound_task_queue_item item;
   while( 1 ) {
@@ -89,7 +89,7 @@ void sound::sound_task( void *arg ) {
 void sound::on_message( sound_task_message msg, void *arg ) {
   switch( msg ) {
     case sound_play:
-      play( reinterpret_cast<FILE *>( arg ) );
+      play( static_cast<FILE *>( arg ) );
       break;
   }
 }

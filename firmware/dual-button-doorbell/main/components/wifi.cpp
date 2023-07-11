@@ -59,7 +59,7 @@ wifi::~wifi() {
 }
 
 void wifi::wifi_task( void *arg ) {
-  wifi_task_params *params = reinterpret_cast<wifi_task_params *>( arg );
+  wifi_task_params *params = static_cast<wifi_task_params *>( arg );
   wifi *inst = params->instance;
   wifi_task_queue_item item;
   while( 1 ) {
@@ -95,7 +95,7 @@ void wifi::event_handler( void *arg,
                           void *event_data )
 {
   static int retries = 0;
-  wifi *instance = reinterpret_cast<wifi *>( arg );
+  wifi *instance = static_cast<wifi *>( arg );
   if( event_base == WIFI_EVENT ) {
     switch( event_id ) {
       case WIFI_EVENT_STA_START:
@@ -117,7 +117,7 @@ void wifi::event_handler( void *arg,
   else if( event_base == IP_EVENT ) {
     switch( event_id ) {
       case IP_EVENT_STA_GOT_IP:
-        ip_event_got_ip_t *e = reinterpret_cast<ip_event_got_ip_t *>( event_data );
+        ip_event_got_ip_t *e = static_cast<ip_event_got_ip_t *>( event_data );
         ESP_LOGI( LOG_TAG, "Got ip:" IPSTR, IP2STR( &( e->ip_info.ip ) ) );
         retries = 0;
         xEventGroupSetBits( m_wifi_event_group, WIFI_CONNECTED_BIT );

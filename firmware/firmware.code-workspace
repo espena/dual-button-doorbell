@@ -19,7 +19,8 @@
       "sdmmc_host.h": "c",
       "sdmmc_cmd.h": "c",
       "__locale": "cpp",
-      "string": "cpp"
+      "string": "cpp",
+      "system_error": "cpp"
     }
   }
 }

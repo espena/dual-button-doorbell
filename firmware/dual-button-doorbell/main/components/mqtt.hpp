@@ -32,7 +32,7 @@ namespace espena::components {
   class mqtt {
 
       static const char *LOG_TAG;
-      static const configSTACK_DEPTH_TYPE MQTT_TASK_STACK_DEPTH = 16384;
+      static const configSTACK_DEPTH_TYPE MQTT_TASK_STACK_DEPTH = 8192;
 
       typedef enum {
         start_service,
@@ -69,6 +69,7 @@ namespace espena::components {
 
       i_file_io *m_filesys;
 
+      char m_client_id[ 13 ];
       std::string m_server;
       std::string m_cert_file;
       std::string m_topic;
@@ -82,7 +83,8 @@ namespace espena::components {
 
       void on_mqtt_event( esp_mqtt_event_id_t, esp_mqtt_event_handle_t );
 
-      void get_cert(); // Load TLS certificate into m_cert
+      void get_client_id(); // Load MAC address into m_client_id
+      void get_cert(); // Load TLS CA certificate into m_cert
 
       void start();
       void push( char *data );

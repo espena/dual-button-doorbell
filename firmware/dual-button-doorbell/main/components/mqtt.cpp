@@ -23,6 +23,7 @@
 #include "esp_log.h"
 #include "esp_event.h"
 #include "esp_tls.h"
+#include "esp_mac.h"
 #include "mqtt_client.h"
 #include "i_file_io.hpp"
 
@@ -39,7 +40,7 @@ mqtt::mqtt( const configuration &config ) :
 {
 
   ESP_LOGI( LOG_TAG, "Initializing" );
-
+  get_client_id();
   esp_log_level_set( "*", ESP_LOG_VERBOSE );
   m_message_queue = xQueueCreate( 10, sizeof( mqtt_task_queue_item ) );
   m_mqtt_task_params.instance = this;
@@ -48,7 +49,7 @@ mqtt::mqtt( const configuration &config ) :
               "mqtt_task",
               MQTT_TASK_STACK_DEPTH,
               &m_mqtt_task_params,
-              2,
+              configMAX_PRIORITIES - 1,
               &m_mqtt_task_params.task_handle );
 }
 
@@ -156,6 +157,20 @@ void mqtt::init( const std::string server,
           : topic.c_str();
 }
 
+void mqtt::get_client_id() {
+  uint8_t chipmacid[ 6 ];
+  esp_efuse_mac_get_default( chipmacid );
+  sprintf( m_client_id,
+           "%02X%02X%02X%02X%02X%02X",
+           chipmacid[ 0 ],
+           chipmacid[ 1 ],
+           chipmacid[ 2 ],
+           chipmacid[ 3 ],
+           chipmacid[ 4 ],
+           chipmacid[ 5 ] );
+  ESP_LOGI( LOG_TAG, "Assigned client ID: %s", m_client_id );
+}
+
 void mqtt::get_cert() {
   ESP_LOGI( LOG_TAG, "Retrieve TLS certificate" );
   if( m_filesys ) {
@@ -201,7 +216,7 @@ void mqtt::start() {
 
   memset( &m_mqtt_cfg, 0x00, sizeof( m_mqtt_cfg ) );
   m_mqtt_cfg.session.keepalive = 10800; // 3h
-  m_mqtt_cfg.credentials.client_id = "dualbuttondoorbell";
+  m_mqtt_cfg.credentials.client_id = m_client_id;
   m_mqtt_cfg.broker.address.uri = m_server.c_str();
   m_mqtt_cfg.broker.verification.certificate = ( char * ) m_cert;
 

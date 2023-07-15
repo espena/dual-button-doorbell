@@ -32,6 +32,7 @@ namespace espena::components {
   class wifi : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
+    static const configSTACK_DEPTH_TYPE WIFI_TASK_STACK_DEPTH = 4096;
     static const int MAX_RETRIES = 100;
 
     public:
@@ -44,8 +45,6 @@ namespace espena::components {
 
     private:
 
-      static const configSTACK_DEPTH_TYPE WIFI_TASK_STACK_DEPTH = 32768;
-      
       typedef struct wifi_task_params_struct {
         wifi *instance;
         TaskHandle_t task_handle;

@@ -32,6 +32,7 @@ namespace espena::components {
   class ntp : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
+    static const configSTACK_DEPTH_TYPE NTP_TASK_STACK_DEPTH = 2048;
 
     public:
 
@@ -47,8 +48,6 @@ namespace espena::components {
       } configuration;
 
     private:
-
-      static const configSTACK_DEPTH_TYPE NTP_TASK_STACK_DEPTH = 32768;
 
       configuration m_config;
       bool m_time_updated;

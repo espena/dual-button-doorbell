@@ -33,6 +33,7 @@ namespace espena::components {
   class sound : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
+    static const configSTACK_DEPTH_TYPE SOUND_TASK_STACK_DEPTH = 4096;
 
     public:
 
@@ -76,8 +77,6 @@ namespace espena::components {
       i2s_std_config_t m_i2s_std_cfg;
       ::espena::components::event::event_dispatcher m_event_dispatcher;
 
-      static const configSTACK_DEPTH_TYPE SOUND_TASK_STACK_DEPTH = 32768;
-      
       typedef struct sound_task_params_struct {
         sound *instance;
         TaskHandle_t task_handle;

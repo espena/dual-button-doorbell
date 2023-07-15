@@ -30,6 +30,7 @@
 #include "components/ntp.hpp"
 #include "components/wifi.hpp"
 #include "components/cron.hpp"
+#include "components/mqtt.hpp"
 
 namespace espena {
 
@@ -55,6 +56,7 @@ namespace espena {
         components::led::configuration led_button_left;
         components::led::configuration led_button_right;
         components::cron::configuration cron;
+        components::mqtt::configuration mqtt;
       } configuration;
 
     private:
@@ -103,6 +105,8 @@ namespace espena {
       components::led m_led_button_right;
 
       components::cron m_cron;
+
+      components::mqtt m_mqtt;
 
       /**
        * Handle to custom event loop

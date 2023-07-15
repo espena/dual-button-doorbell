@@ -25,16 +25,18 @@
 #include "freertos/task.h"
 #include "esp_event.h"
 #include "mqtt_client.h"
+#include "i_file_io.hpp"
 
 namespace espena::components {
 
   class mqtt {
 
       static const char *LOG_TAG;
-      static const configSTACK_DEPTH_TYPE MQTT_TASK_STACK_DEPTH = 32768;
+      static const configSTACK_DEPTH_TYPE MQTT_TASK_STACK_DEPTH = 16384;
 
       typedef enum {
-        notification
+        start_service,
+        push_notify
       } mqtt_task_message;
 
       typedef struct mqtt_task_queue_item_struct {
@@ -49,16 +51,29 @@ namespace espena::components {
 
       QueueHandle_t m_message_queue;
       mqtt_task_params m_mqtt_task_params;
+      esp_mqtt_client_config_t m_mqtt_cfg;
 
     public:
 
       typedef struct configuration_struct {
-
+        std::string server;
+        std::string cert_file;
+        std::string topic;
       } configuration;
 
     private:
 
-      configuration m_config;
+      const configuration &m_config;
+      unsigned char *m_cert;
+      size_t m_cert_len;
+
+      i_file_io *m_filesys;
+
+      std::string m_server;
+      std::string m_cert_file;
+      std::string m_topic;
+
+      esp_mqtt_client_handle_t m_client;
 
       void on_message( mqtt_task_message, void * );
 
@@ -67,10 +82,20 @@ namespace espena::components {
 
       void on_mqtt_event( esp_mqtt_event_id_t, esp_mqtt_event_handle_t );
 
+      void get_cert(); // Load TLS certificate into m_cert
+
+      void start();
+      void push( char *data );
+
     public:
 
       mqtt( const configuration & );
       ~mqtt();
+
+      void init( const std::string, const std::string, const std::string );
+
+      void start_async( espena::components::i_file_io * );
+      void push_async( char *data );
 
   }; // class mqtt
 

@@ -44,21 +44,26 @@ settings_file::~settings_file() {
 
 }
 
+void settings_file::fetch_button_properties( cJSON *button,
+                                             std::string &label )
+{
+  cJSON *button_label = cJSON_GetObjectItem( button, "label" );
+  if( button_label ) {
+    label = button_label->valuestring;
+  }
+}
+
 void settings_file::fetch_default_clip( cJSON *button,
                                         std::string &default_clip )
 {
-  ESP_LOGI( LOG_TAG, "Seeking buttons->left/right->default" );
   cJSON *def = cJSON_GetObjectItem( button, "default" );
   if( def ) {
-    ESP_LOGI( LOG_TAG, "Seeking buttons->left/right->default->clips" );
     cJSON *clips = cJSON_GetObjectItem( def, "clips" );
     if( clips ) {
-      ESP_LOGI( LOG_TAG, "Seeking buttons->left/right->default->clips[ 0 ]" );
       const int clip_count = cJSON_GetArraySize( clips );
       if( clip_count > 0 ) {
         cJSON *clip = cJSON_GetArrayItem( clips, 0 );
         default_clip = clip->valuestring;
-        ESP_LOGI( LOG_TAG, "buttons->left/right->default->clips[ 0 ] == %s", default_clip.c_str() );
       }
     }
   }
@@ -136,7 +141,8 @@ void settings_file::fetch_ntp_settings( cJSON *ntp,
 
 void settings_file::fetch_mqtt_settings( cJSON *mqtt,
                                          std::string &server,
-                                         std::string &cert_file )
+                                         std::string &cert_file,
+                                         std::string &topic )
 {
   cJSON *mqtt_server = cJSON_GetObjectItem( mqtt, "server" );
   if( mqtt_server ) {
@@ -145,6 +151,10 @@ void settings_file::fetch_mqtt_settings( cJSON *mqtt,
   cJSON *mqtt_cert_file = cJSON_GetObjectItem( mqtt, "cert_file" );
   if( mqtt_cert_file ) {
     cert_file = mqtt_cert_file->valuestring;
+  }
+  cJSON *mqtt_topic = cJSON_GetObjectItem( mqtt, "topic" );
+  if( mqtt_topic ) {
+    topic = mqtt_topic->valuestring;
   }
 }
 
@@ -165,6 +175,7 @@ void settings_file::debug_output() {
   ESP_LOGI( LOG_TAG, "m_wifi_password: %s", m_wifi_password.c_str() );
   ESP_LOGI( LOG_TAG, "m_mqtt_server: %s", m_mqtt_server.c_str() );
   ESP_LOGI( LOG_TAG, "m_mqtt_cert_file: %s", m_mqtt_cert_file.c_str() );
+  ESP_LOGI( LOG_TAG, "m_mqtt_topic: %s", m_mqtt_topic.c_str() );
 }
 
 void settings_file::load( FILE * settings_json ) {
@@ -184,6 +195,8 @@ void settings_file::load( FILE * settings_json ) {
     cJSON *left = cJSON_GetObjectItem( buttons, "left" );
     if( left ) {
 
+      fetch_button_properties( left, m_button_left_label );
+
       fetch_default_clip( left,
                           m_button_left_default_clip );
 
@@ -200,6 +213,8 @@ void settings_file::load( FILE * settings_json ) {
 
     cJSON *right = cJSON_GetObjectItem( buttons, "right" );
     if( right ) {
+
+      fetch_button_properties( right, m_button_right_label );
 
       fetch_default_clip( right,
                           m_button_right_default_clip );
@@ -233,7 +248,8 @@ void settings_file::load( FILE * settings_json ) {
   if( mqtt ) {
     fetch_mqtt_settings( mqtt,
                          m_mqtt_server,
-                         m_mqtt_cert_file );
+                         m_mqtt_cert_file,
+                         m_mqtt_topic );
   }
 
   cJSON_Delete( root );

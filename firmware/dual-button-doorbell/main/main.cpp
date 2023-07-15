@@ -85,8 +85,9 @@ extern "C" void app_main() {
       .crontab_file = "crontab.txt" },
 
     .mqtt = {
-      .server = "mqtt.eclipseprojects.io",
-      .cert_file = "mqtt.pem" }
+      .server = "mqtt://mqtt.espenandersen.no:1883",
+      .cert_file = "mqtt.pem",
+      .topic = "espena/doorbell" }
 
   };
 

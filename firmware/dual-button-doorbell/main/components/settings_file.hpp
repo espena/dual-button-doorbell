@@ -29,16 +29,20 @@ namespace espena::components {
 
     static const char *LOG_TAG;
 
+    void fetch_button_properties( cJSON *, std::string & );
     void fetch_default_clip( cJSON *, std::string & );
     void fetch_silent_clip( cJSON *, std::string &, std::string &, time_t & );
     void fetch_bell_settings( cJSON *, int &, int & );
     void fetch_wifi_settings( cJSON *, std::string &, std::string & );
     void fetch_ntp_settings( cJSON *, std::string &, std::string & );
-    void fetch_mqtt_settings( cJSON *, std::string &, std::string & );
+    void fetch_mqtt_settings( cJSON *, std::string &, std::string &, std::string & );
 
     void debug_output();
     
     public:
+
+      std::string m_button_left_label;
+      std::string m_button_right_label;
 
       std::string m_button_left_default_clip;
       std::string m_button_right_default_clip;
@@ -66,6 +70,7 @@ namespace espena::components {
 
       std::string m_mqtt_server;
       std::string m_mqtt_cert_file;
+      std::string m_mqtt_topic;
 
       settings_file();
       ~settings_file();

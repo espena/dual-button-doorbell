@@ -46,7 +46,8 @@ application::application( const configuration &conf ) :
   m_button_right( conf.button_right ),
   m_led_button_left( conf.led_button_left ),
   m_led_button_right( conf.led_button_right ),
-  m_cron( conf.cron )
+  m_cron( conf.cron ),
+  m_mqtt( conf.mqtt )
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
@@ -173,8 +174,11 @@ void application::event_handler_ntp( int32_t event_id, void *event_params ) {
     case components::ntp::ON_NTP_TIME_UPDATED:
       ESP_LOGI( LOG_TAG, "NTP updated system time" );
       m_rtc.sync_from_systime(); // Sync RTC with fresh NTP time
-      m_rtc.print_time(); // Show off!
       m_cron.start( &m_sdcard ); // Launch time schedule
+      m_mqtt.init( m_settings_file.m_mqtt_server,
+                   m_settings_file.m_mqtt_cert_file,
+                   m_settings_file.m_mqtt_topic );
+      m_mqtt.start_async( &m_sdcard );
       break;
   }
 }
@@ -194,6 +198,8 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
       stop_sound(); // Give priority to doorbell buttons
       m_led_red.on();
       time_t silent_time = 0;
+      std::string label;
+      std::string descr;
       switch( btn_id ) {
         case 1: // left button
           silent_time = m_cron.get_prev( m_settings_file.m_button_left_silent_from.data() );
@@ -206,6 +212,11 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
                       m_settings_file.m_button_left_bell_delay );
             play_sound( m_settings_file.m_button_left_default_clip );
           }
+          label = m_settings_file.m_button_left_label.empty()
+                ? "Left"
+                : m_settings_file.m_button_left_label;
+          descr = "Button 1 - " + label;
+          m_mqtt.push_async( descr.data() );
           break;
         case 2: // right button
           silent_time = m_cron.get_prev( m_settings_file.m_button_right_silent_from.data() );
@@ -218,6 +229,11 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
                       m_settings_file.m_button_right_bell_delay );
             play_sound( m_settings_file.m_button_right_default_clip );
           }
+          label = m_settings_file.m_button_right_label.empty()
+                ? "Right"
+                : m_settings_file.m_button_right_label;
+          descr = "Button 2 - " + label;
+          m_mqtt.push_async( descr.data() );
           break;
         default:
           m_led_green.blink( 1000, 1 );

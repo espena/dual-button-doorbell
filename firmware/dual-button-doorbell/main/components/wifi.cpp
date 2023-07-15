@@ -50,7 +50,7 @@ wifi::wifi() {
                "wifi_task",
                WIFI_TASK_STACK_DEPTH,
                &m_wifi_task_params,
-               2,
+               configMAX_PRIORITIES - 1,
                &m_wifi_task_params.task_handle );
 }
 

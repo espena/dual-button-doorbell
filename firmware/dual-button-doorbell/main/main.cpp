@@ -91,7 +91,7 @@ extern "C" void app_main() {
 
     .logger = {
       .filename = "door.log",
-      .max_size_mb = 100 }
+      .max_file_size_mb = 10 }
 
   };
 

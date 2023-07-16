@@ -20,7 +20,8 @@
       "sdmmc_cmd.h": "c",
       "__locale": "cpp",
       "string": "cpp",
-      "system_error": "cpp"
+      "system_error": "cpp",
+      "*.tcc": "cpp"
     }
   }
 }

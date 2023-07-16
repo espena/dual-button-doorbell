@@ -36,31 +36,19 @@ namespace espena::components {
     void fetch_wifi_settings( cJSON *, std::string &, std::string & );
     void fetch_ntp_settings( cJSON *, std::string &, std::string & );
     void fetch_mqtt_settings( cJSON *, std::string &, std::string &, std::string & );
+    void fetch_logger_settings( cJSON *, size_t & );
 
     void debug_output();
     
     public:
 
-      std::string m_button_left_label;
-      std::string m_button_right_label;
-
-      std::string m_button_left_default_clip;
-      std::string m_button_right_default_clip;
-
-      std::string m_button_left_silent_clip;
-      std::string m_button_right_silent_clip;
-
-      std::string m_button_left_silent_from;
-      std::string m_button_right_silent_from;
-
-      time_t m_button_left_silent_duration;
-      time_t m_button_right_silent_duration;
-
-      int m_button_left_bell_count;
-      int m_button_right_bell_count;
-
-      int m_button_left_bell_delay;
-      int m_button_right_bell_delay;
+      std::string m_button_label[ 2 ];
+      std::string m_button_default_clip[ 2 ];
+      std::string m_button_silent_clip[ 2 ];
+      std::string m_button_silent_from[ 2 ];
+      time_t m_button_silent_duration[ 2 ];
+      int m_button_bell_count[ 2 ];
+      int m_button_bell_delay[ 2 ];
 
       std::string m_wifi_ssid;
       std::string m_wifi_password;
@@ -71,6 +59,8 @@ namespace espena::components {
       std::string m_mqtt_server;
       std::string m_mqtt_cert_file;
       std::string m_mqtt_topic;
+
+      size_t m_logger_max_file_size_mb;
 
       settings_file();
       ~settings_file();

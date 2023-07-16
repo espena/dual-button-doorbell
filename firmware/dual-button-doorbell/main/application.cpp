@@ -17,6 +17,7 @@
  */
 
 #include "application.hpp"
+#include "components/logger.hpp"
 #include "components/i_file_io.hpp"
 
 #include <string>
@@ -138,7 +139,8 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
       // SD card mounted successfully
       m_led_green.blink( 1000, 1 );
       load_settings();
-      m_logger.start( &m_sdcard );
+      m_logger.init( &m_sdcard,
+                     m_settings_file.m_logger_max_file_size_mb );
       m_ntp.init( m_settings_file.m_ntp_server,
                   m_settings_file.m_ntp_timezone );
       wifi_connect();
@@ -194,54 +196,35 @@ void application::event_handler_cron( int32_t event_id, const char *wav_file ) {
 }
 
 void application::event_handler_button( int32_t event_id, int btn_id ) {
-  switch( event_id ) {
-    case components::button::ON_BTN_DOWN:
-      block_buttons();
-      stop_sound(); // Give priority to doorbell buttons
-      m_led_red.on();
-      time_t silent_time = 0;
-      std::string label;
-      std::string descr;
-      switch( btn_id ) {
-        case 1: // left button
-          silent_time = m_cron.get_prev( m_settings_file.m_button_left_silent_from.data() );
-          if( ( silent_time + m_settings_file.m_button_left_silent_duration ) > time( NULL ) ) {
-            ESP_LOGI( LOG_TAG, "Silent mode" );
-            play_sound( m_settings_file.m_button_left_silent_clip );
-          }
-          else {
-            ding_dong( m_settings_file.m_button_left_bell_count,
-                      m_settings_file.m_button_left_bell_delay );
-            play_sound( m_settings_file.m_button_left_default_clip );
-          }
-          label = m_settings_file.m_button_left_label.empty()
-                ? "Left"
-                : m_settings_file.m_button_left_label;
-          descr = "Button 1 - " + label;
-          m_mqtt.push_async( descr.data() );
-          break;
-        case 2: // right button
-          silent_time = m_cron.get_prev( m_settings_file.m_button_right_silent_from.data() );
-          if( ( silent_time + m_settings_file.m_button_right_silent_duration ) > time( NULL ) ) {
-            ESP_LOGI( LOG_TAG, "Silent mode" );
-            play_sound( m_settings_file.m_button_right_silent_clip );
-          }
-          else {
-            ding_dong( m_settings_file.m_button_right_bell_count,
-                      m_settings_file.m_button_right_bell_delay );
-            play_sound( m_settings_file.m_button_right_default_clip );
-          }
-          label = m_settings_file.m_button_right_label.empty()
-                ? "Right"
-                : m_settings_file.m_button_right_label;
-          descr = "Button 2 - " + label;
-          m_mqtt.push_async( descr.data() );
-          break;
-        default:
-          m_led_green.blink( 1000, 1 );
-          m_led_red.blink( 1000, 1 );
-      }
-      break;
+  const int i = btn_id - 1;
+  if( event_id == components::button::ON_BTN_DOWN && i < 2 ) {
+    block_buttons();
+    stop_sound(); // Give priority to doorbell buttons
+    m_led_red.on();
+    components::logger::entry log_entry;
+    const time_t utc = time( NULL );
+    log_entry.timestamp = mktime( localtime( &utc ) );
+    log_entry.btn_id = btn_id;
+    time_t silent_time = m_cron.get_prev( m_settings_file.m_button_silent_from[ i ].data() );
+    log_entry.btn_label = m_settings_file.m_button_label[ i ];
+    if( ( silent_time + m_settings_file.m_button_silent_duration[ i ] ) > time( NULL ) ) {
+      log_entry.mode = "Silent";
+      play_sound( m_settings_file.m_button_silent_clip[ i ] );
+    }
+    else {
+      log_entry.mode = "Default";
+      ding_dong( m_settings_file.m_button_bell_count[ i ],
+                m_settings_file.m_button_bell_delay[ i ] );
+      play_sound( m_settings_file.m_button_default_clip[ i ] );
+    }
+    const char *prefix[] = { "Button 1 - ", "Button 2 - " };
+    const char *labels[] = { "Left", "Right" };
+    log_entry.btn_label = m_settings_file.m_button_label[ i ].empty()
+                        ? labels[ i ]
+                        : m_settings_file.m_button_label[ i ];
+    std::string descr = prefix[ i ] + log_entry.btn_label;
+    m_mqtt.push_async( descr.data() );
+    m_logger.write( log_entry );
   }
 }
 

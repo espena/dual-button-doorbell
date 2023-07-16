@@ -26,16 +26,13 @@ using namespace espena::components;
 const char *settings_file::LOG_TAG = "settings_file";
 
 settings_file::settings_file() :
-  m_button_left_default_clip( "left.wav" ),
-  m_button_right_default_clip( "right.wav" ),
-  m_button_left_silent_clip( "silent.wav" ),
-  m_button_right_silent_clip( "silent.wav" ),
-  m_button_left_bell_count( 1 ),
-  m_button_right_bell_count( 1 ),
-  m_button_left_bell_delay( 200 ),
-  m_button_right_bell_delay( 200 ),
+  m_button_default_clip{ "left.wav", "right.wav" },
+  m_button_silent_clip{ "silent.wav", "silent.wav" },
+  m_button_bell_count{ 1, 1 },
+  m_button_bell_delay{ 200, 200 },
   m_wifi_ssid( "guest" ),
-  m_wifi_password( "secret" )
+  m_wifi_password( "secret" ),
+  m_logger_max_file_size_mb( 0 )
 {
 
 }
@@ -158,24 +155,38 @@ void settings_file::fetch_mqtt_settings( cJSON *mqtt,
   }
 }
 
+void settings_file::fetch_logger_settings( cJSON *logger,
+                                         size_t &max_file_size_mb )
+{
+  cJSON *logger_max_file_size_mb = cJSON_GetObjectItem( logger, "max_file_size_mb" );
+  if( logger_max_file_size_mb ) {
+    max_file_size_mb = logger_max_file_size_mb->valueint; // Overwrite default from config
+  }
+}
+
 void settings_file::debug_output() {
-  ESP_LOGI( LOG_TAG, "m_button_left_default_clip: %s", m_button_left_default_clip.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_left_silent_clip: %s", m_button_left_silent_clip.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_left_silent_from: %s", m_button_left_silent_from.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_left_silent_duration: %lli", m_button_left_silent_duration );
-  ESP_LOGI( LOG_TAG, "m_button_right_default_clip: %s", m_button_right_default_clip.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_right_silent_clip: %s", m_button_right_silent_clip.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_right_silent_from: %s", m_button_right_silent_from.c_str() );
-  ESP_LOGI( LOG_TAG, "m_button_right_silent_duration: %lli", m_button_right_silent_duration );
-  ESP_LOGI( LOG_TAG, "m_button_left_bell_count: %d", m_button_left_bell_count );
-  ESP_LOGI( LOG_TAG, "m_button_right_bell_count: %d", m_button_right_bell_count );
-  ESP_LOGI( LOG_TAG, "m_button_left_bell_delay: %d", m_button_left_bell_delay );
-  ESP_LOGI( LOG_TAG, "m_button_right_bell_delay: %d", m_button_right_bell_delay );
+
+  ESP_LOGI( LOG_TAG, "m_button_default_clip[ 0 ]: %s", m_button_default_clip[ 0 ].c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_silent_clip[ 0 ]: %s", m_button_silent_clip[ 0 ].c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_silent_from[ 0 ]: %s", m_button_silent_from[ 0 ].c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_silent_duration[ 0 ]: %lli", m_button_silent_duration[ 0 ] );
+  ESP_LOGI( LOG_TAG, "m_button_bell_count[ 0 ]: %d", m_button_bell_count[ 0 ] );
+  ESP_LOGI( LOG_TAG, "m_button_bell_delay[ 0 ]: %d", m_button_bell_delay[ 0 ] );
+
+  ESP_LOGI( LOG_TAG, "m_button_default_clip[ 1 ]: %s", m_button_default_clip[ 1 ].c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_silent_clip[ 1 ]: %s", m_button_silent_clip[ 1 ].c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_silent_from[ 1 ]: %s", m_button_silent_from[ 1 ].c_str() );
+  ESP_LOGI( LOG_TAG, "m_button_silent_duration[ 1 ]: %lli", m_button_silent_duration[ 1 ] );
+  ESP_LOGI( LOG_TAG, "m_button_bell_count[ 1 ]: %d", m_button_bell_count[ 1 ] );
+  ESP_LOGI( LOG_TAG, "m_button_bell_delay[ 1 ]: %d", m_button_bell_delay[ 1 ] );
+
+
   ESP_LOGI( LOG_TAG, "m_wifi_ssid: %s", m_wifi_ssid.c_str() );
   ESP_LOGI( LOG_TAG, "m_wifi_password: %s", m_wifi_password.c_str() );
   ESP_LOGI( LOG_TAG, "m_mqtt_server: %s", m_mqtt_server.c_str() );
   ESP_LOGI( LOG_TAG, "m_mqtt_cert_file: %s", m_mqtt_cert_file.c_str() );
   ESP_LOGI( LOG_TAG, "m_mqtt_topic: %s", m_mqtt_topic.c_str() );
+
 }
 
 void settings_file::load( FILE * settings_json ) {
@@ -192,42 +203,28 @@ void settings_file::load( FILE * settings_json ) {
 
   if( buttons ) {
 
-    cJSON *left = cJSON_GetObjectItem( buttons, "left" );
-    if( left ) {
+    cJSON *a[ 2 ];
+    a[ 0 ] = cJSON_GetObjectItem( buttons, "left" );
+    a[ 1 ] = cJSON_GetObjectItem( buttons, "right" );
 
-      fetch_button_properties( left, m_button_left_label );
+    for( int i = 0; a[ i ] && i <= sizeof( a ) / sizeof( a[ 0 ] ); i ++ ) {
 
-      fetch_default_clip( left,
-                          m_button_left_default_clip );
+      fetch_button_properties( a[ i ], m_button_label[ i ] );
 
-      fetch_silent_clip( left,
-                         m_button_left_silent_clip,
-                         m_button_left_silent_from,
-                         m_button_left_silent_duration );
+      fetch_default_clip( a[ i ],
+                          m_button_default_clip[ i ] );
 
-      fetch_bell_settings( left,
-                           m_button_left_bell_count,
-                           m_button_left_bell_delay );
+      fetch_silent_clip( a[ i ],
+                         m_button_silent_clip[ i ],
+                         m_button_silent_from[ i ],
+                         m_button_silent_duration[ i ] );
+
+      fetch_bell_settings( a[ i ],
+                           m_button_bell_count[ i ],
+                           m_button_bell_delay[ i ] );
 
     }
 
-    cJSON *right = cJSON_GetObjectItem( buttons, "right" );
-    if( right ) {
-
-      fetch_button_properties( right, m_button_right_label );
-
-      fetch_default_clip( right,
-                          m_button_right_default_clip );
-
-      fetch_silent_clip( right,
-                         m_button_right_silent_clip,
-                         m_button_right_silent_from,
-                         m_button_right_silent_duration );
-
-      fetch_bell_settings( right,
-                           m_button_right_bell_count,
-                           m_button_right_bell_delay );
-    }
   }
 
   cJSON *wifi = cJSON_GetObjectItem( root, "wifi" );
@@ -250,6 +247,12 @@ void settings_file::load( FILE * settings_json ) {
                          m_mqtt_server,
                          m_mqtt_cert_file,
                          m_mqtt_topic );
+  }
+
+  cJSON *logger = cJSON_GetObjectItem( root, "logger" );
+  if( logger ) {
+    fetch_logger_settings( logger,
+                           m_logger_max_file_size_mb );
   }
 
   cJSON_Delete( root );

@@ -31,17 +31,26 @@ namespace espena::components {
 
       typedef struct configuration_struct {
         std::string filename;
-        int max_size_mb;
+        int max_file_size_mb;
       } configuration;
+
+      typedef struct entry_struct {
+        time_t timestamp;
+        int btn_id;
+        std::string btn_label;
+        std::string mode;
+      } entry;
 
       logger( const configuration & );
       ~logger();
   
-      void start( i_file_io * );
+      void init( i_file_io *, size_t );
+      void write( const entry & );
 
     private:
 
       const configuration &m_config;
+      int m_max_file_size_mb;
       i_file_io *m_filesys;
 
   }; // class logger

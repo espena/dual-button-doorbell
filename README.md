@@ -8,11 +8,15 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 
 - Two-button interface with led indicators
 - Personalized doorbell sound from custom wav files
+- Cron calendar for scheduling sounds down to one second resolution
 - SD card support for storing audio files and configuration
-- WiFi interface for push notifications
-- NTP corrected Real time clock for alarms and bedtime signal
-- Volume reduction during bedtime
-- Relay interface for triggering external equipment
+- WiFi interface with integrated antenna
+- MQTT support for smart home integration and push notifications
+- Battery backed-up real-time clock
+- Time automatically set over the network using NTP
+- Can be configured to use custom time zones
+- Silent mode with alternate bell sounds during night hours
+- Relay for triggering external doorbell along with custom sound
 - Accepts AC or DC power input from existing doorbell power supplies
 
 ## Circuit

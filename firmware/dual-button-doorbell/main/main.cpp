@@ -87,7 +87,11 @@ extern "C" void app_main() {
     .mqtt = {
       .server = "mqtt://mqtt.espenandersen.no:1883",
       .cert_file = "mqtt.pem",
-      .topic = "espena/doorbell" }
+      .topic = "espena/doorbell" },
+
+    .logger = {
+      .filename = "door.log",
+      .max_size_mb = 100 }
 
   };
 

@@ -47,7 +47,8 @@ application::application( const configuration &conf ) :
   m_led_button_left( conf.led_button_left ),
   m_led_button_right( conf.led_button_right ),
   m_cron( conf.cron ),
-  m_mqtt( conf.mqtt )
+  m_mqtt( conf.mqtt ),
+  m_logger( conf.logger )
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
@@ -137,8 +138,9 @@ void application::event_handler_sdcard( int32_t event_id, void *event_params ) {
       // SD card mounted successfully
       m_led_green.blink( 1000, 1 );
       load_settings();
-      m_ntp.initialize( m_settings_file.m_ntp_server,
-                        m_settings_file.m_ntp_timezone );
+      m_logger.start( &m_sdcard );
+      m_ntp.init( m_settings_file.m_ntp_server,
+                  m_settings_file.m_ntp_timezone );
       wifi_connect();
       break;
     case components::sdcard::ON_MOUNT_FAILED:

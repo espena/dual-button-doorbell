@@ -80,8 +80,8 @@ void ntp::on_message( ntp_task_message msg, void *arg ) {
   }
 }
 
-void ntp::initialize( const std::string server,
-                      const std::string timezone )
+void ntp::init( const std::string server,
+                const std::string timezone )
 {
   // Do not overwrite defaults with empty user settings
   if( !server.empty() ) m_config.server = server;

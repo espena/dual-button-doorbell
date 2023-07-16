@@ -31,6 +31,7 @@
 #include "components/wifi.hpp"
 #include "components/cron.hpp"
 #include "components/mqtt.hpp"
+#include "components/logger.hpp"
 
 namespace espena {
 
@@ -57,6 +58,7 @@ namespace espena {
         components::led::configuration led_button_right;
         components::cron::configuration cron;
         components::mqtt::configuration mqtt;
+        components::logger::configuration logger;
       } configuration;
 
     private:
@@ -107,6 +109,8 @@ namespace espena {
       components::cron m_cron;
 
       components::mqtt m_mqtt;
+
+      components::logger m_logger;
 
       /**
        * Handle to custom event loop

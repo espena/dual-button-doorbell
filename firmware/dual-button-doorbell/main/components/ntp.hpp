@@ -81,7 +81,7 @@ namespace espena::components {
       ntp( const configuration & );
       ~ntp();
   
-      void initialize( const std::string, const std::string );
+      void init( const std::string, const std::string );
 
       void time_update();
       void time_update_async();

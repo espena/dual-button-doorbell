@@ -11,6 +11,7 @@ idf_component_register( SRCS "main.cpp"
                              "components/wifi.cpp"
                              "components/cron.cpp"
                              "components/mqtt.cpp"
+                             "components/logger.cpp"
                              "components/event/event_dispatcher.cpp"
                              "ccronexpr/ccronexpr.c"
                         INCLUDE_DIRS "." )

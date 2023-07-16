@@ -16,18 +16,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __i_file_io_hpp__
-#define __i_file_io_hpp__
+#ifndef __logger_hpp__
+#define __logger_hpp__
 
-#include <stdio.h>
-#include <string>
+#include "i_file_io.hpp"
 
 namespace espena::components {
-  class i_file_io {
+
+  class logger {
+
+    static const char *LOG_TAG;
+
     public:
-      virtual FILE * open_file( std::string, std::string ) = 0;
-      virtual void close_file( FILE * ) = 0;
-  }; // class i_file_io
+
+      typedef struct configuration_struct {
+        std::string filename;
+        int max_size_mb;
+      } configuration;
+
+      logger( const configuration & );
+      ~logger();
+  
+      void start( i_file_io * );
+
+    private:
+
+      const configuration &m_config;
+      i_file_io *m_filesys;
+
+  }; // class logger
+
 }; // namespace espena::components
 
-#endif // __i_file_hpp__
+#endif // __logger_hpp__

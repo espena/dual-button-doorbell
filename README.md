@@ -1,7 +1,5 @@
 # Dual-button doorbell
 
-Project is under construction. Errors are very lightly to occur at this stage. Custom symbols, footprints and 3D models can be found in [espena/kicad-libs](https://github.com/espena/kicad-libs) whenever they're ready.
-
 A door bell that simply does more. Configurable with alarms, different sounds for the two buttons, bedtime LED indicator and timed notifications on specific days / hours. With audible 4Ω loudspeaker driven by a class D 3.2 W amplifier.
 
 ## Features
@@ -24,6 +22,8 @@ A door bell that simply does more. Configurable with alarms, different sounds fo
 ![PCB layout](/gfx/pcb_rendering.png?raw=true "PCB rendering")
 
 ![Circuit schematics](/gfx/schematics.png?raw=true "Circuit schematics")
+
+Custom symbols, footprints and 3D models can be found in [espena/kicad-libs](https://github.com/espena/kicad-libs) whenever they're ready.
 
 ## Firmware
 

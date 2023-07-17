@@ -89,6 +89,12 @@ namespace espena::components {
       void start();
       void push( char *data );
 
+      inline void free_cert() {
+        if( m_cert ) {
+          free( m_cert );
+        }
+      }
+
     public:
 
       mqtt( const configuration & );

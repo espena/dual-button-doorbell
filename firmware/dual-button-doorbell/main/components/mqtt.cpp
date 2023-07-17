@@ -54,9 +54,7 @@ mqtt::mqtt( const configuration &config ) :
 }
 
 mqtt::~mqtt() {
-  if( m_cert ) {
-    free( m_cert );
-  }
+  free_cert();
 }
 
 void mqtt::mqtt_task( void *arg ) {
@@ -173,6 +171,7 @@ void mqtt::get_client_id() {
 
 void mqtt::get_cert() {
   ESP_LOGI( LOG_TAG, "Retrieve TLS certificate" );
+  free_cert();
   if( m_filesys ) {
     FILE *fp = m_filesys->open_file( m_cert_file.c_str(), "r" );
     if( fp ) {

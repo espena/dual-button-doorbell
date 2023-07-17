@@ -2994,7 +2994,6 @@
     (uuid fe617784-cd25-42b1-a6d0-f6d700268b3f)
   )
 
-  (no_connect (at 158.75 63.5) (uuid 4c3ad8f8-b496-4ba1-bf18-af6aaeab56d9))
   (no_connect (at 134.62 113.03) (uuid 7b8565b1-5660-4aee-84c5-49bd3a5c3cfb))
   (no_connect (at 55.88 187.325) (uuid 9d7b7308-cfb0-4468-869f-3bab4d3dad6a))
   (no_connect (at 106.68 115.57) (uuid a03f7620-1f03-4e1a-acba-a2aa9e69bb27))

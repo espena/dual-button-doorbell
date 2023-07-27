@@ -179,10 +179,12 @@ void application::event_handler_ntp( int32_t event_id, void *event_params ) {
       ESP_LOGI( LOG_TAG, "NTP updated system time" );
       m_rtc.sync_from_systime(); // Sync RTC with fresh NTP time
       m_cron.start( &m_sdcard ); // Launch time schedule
-      m_mqtt.init( m_settings_file.m_mqtt_server,
-                   m_settings_file.m_mqtt_cert_file,
-                   m_settings_file.m_mqtt_topic );
-      m_mqtt.start_async( &m_sdcard );
+      if( !m_mqtt.ready() ) {
+        m_mqtt.init( m_settings_file.m_mqtt_server,
+                    m_settings_file.m_mqtt_cert_file,
+                    m_settings_file.m_mqtt_topic );
+        m_mqtt.start_async( &m_sdcard );
+      }
       break;
   }
 }
@@ -207,11 +209,13 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
     log_entry.btn_id = btn_id;
     time_t silent_time = m_cron.get_prev( m_settings_file.m_button_silent_from[ i ].data() );
     log_entry.btn_label = m_settings_file.m_button_label[ i ];
-    if( ( silent_time + m_settings_file.m_button_silent_duration[ i ] ) > time( NULL ) ) {
+    if( m_settings_file.m_button_silent_enable[ i ] && ( silent_time + m_settings_file.m_button_silent_duration[ i ] ) > time( NULL ) ) {
+      ESP_LOGI( LOG_TAG, "*** SILENT MODE ***" );
       log_entry.mode = "Silent";
       play_sound( m_settings_file.m_button_silent_clip[ i ] );
     }
     else {
+      ESP_LOGI( LOG_TAG, "*** DEFAULT MODE ***" );
       log_entry.mode = "Default";
       ding_dong( m_settings_file.m_button_bell_count[ i ],
                 m_settings_file.m_button_bell_delay[ i ] );
@@ -223,7 +227,9 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
                         ? labels[ i ]
                         : m_settings_file.m_button_label[ i ];
     std::string descr = prefix[ i ] + log_entry.btn_label;
-    m_mqtt.push_async( descr.data() );
+    if( m_settings_file.m_mqtt_enable ) {
+      m_mqtt.push_async( descr.data() );
+    }
     m_logger.write( log_entry );
   }
 }
@@ -257,14 +263,35 @@ void application::add_event_listeners() {
 void application::run() {
   add_event_listeners();
   m_sdcard.mount();
-  time_t t0 = 0;
+  time_t t1 = time( NULL );
+  time_t t2 = t1;
+  components::led *leds[] = { &m_led_button_left, &m_led_button_right };
   while( 1 ) {
     vTaskDelay( 1 );
-    const time_t t1 = time( NULL );
-    if( t0 == 0 || t1 - t0 > 300 ) {
-      // Kick systime back in place every fifth minute
+    const time_t t0 = time( NULL );
+    if( t0 - t1 > 43200 ) {
+      // NTP update every 12th hour
+      m_ntp.time_update_async();
+      t2 = t1 = t0;
+    }
+    else if( t0 - t2 > 300 ) {
+      // Update systime every 5th minute
       m_rtc.sync_to_systime();
-      t0 = t1;
+      t2 = t0;
+    }
+    else if( ( t0 - t2 ) % 2 == 0 ) {
+      // Led continously on if silent mode
+      for( int i = 0; i < 2; i++ ) {
+        if( m_settings_file.m_button_silent_enable[ i ] ) {
+          time_t silent_time = m_cron.get_prev( m_settings_file.m_button_silent_from[ i ].data() );
+          if( ( silent_time + m_settings_file.m_button_silent_duration[ i ] ) > t0 ) {
+            leds[ i ]->default_on();
+          }
+          else {
+            leds[ i ]->default_off();
+          }
+        }
+      }
     }
   }
 }

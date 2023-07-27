@@ -28,7 +28,11 @@ using namespace espena::components;
 
 const char *led::LOG_TAG = "led";
 
-led::led( const led::configuration &config ) : m_config( config ) {
+led::led( const led::configuration &config ) :
+  m_config( config ),
+  m_active( false ),
+  m_default_level( 0 )
+{
   memset( &m_led_task_params, 0x00, sizeof m_led_task_params );
   gpio_reset_pin( config.gpio_num );
   gpio_set_direction( config.gpio_num, GPIO_MODE_INPUT_OUTPUT );
@@ -41,12 +45,13 @@ led::~led() {
 void led::led_task( void *arg ) {
   led_task_params *params = static_cast<led_task_params *>( arg );
   int count = 0;
+  led *instance = params->instance;
   while( 1 ) {
-  params->instance->on();
+    instance->on();
     vTaskDelay( params->delay_ms / portTICK_PERIOD_MS );
-    params->instance->off();
+    instance->off();
     if( params->count > 0 && ++count >= params->count ) {
-      params->instance->kill_led_task();
+      instance->kill_led_task();
       count = 0;
     }
     vTaskDelay( params->delay_ms / portTICK_PERIOD_MS );
@@ -59,6 +64,7 @@ void led::kill_led_task() {
     m_led_task_params.task_handle = NULL;
     vTaskDelete( h );
   }
+  gpio_set_level( m_config.gpio_num, m_default_level );
 }
 
 void led::on() {
@@ -67,6 +73,21 @@ void led::on() {
 
 void led::off() {
   gpio_set_level( m_config.gpio_num, 0 );
+  m_active = false;
+}
+
+void led::default_on() {
+  if( m_default_level == 0 ) {
+    gpio_set_level( m_config.gpio_num, 1 );
+  }
+  m_default_level = 1;
+}
+
+void led::default_off() {
+  if( m_default_level == 1 ) {
+    gpio_set_level( m_config.gpio_num, 0 );
+  }
+  m_default_level = 0;
 }
 
 void led::toggle() {
@@ -81,10 +102,12 @@ void led::led_op( int ms, int count ) {
     .delay_ms = ms,
     .count = count
   };
+  m_active = true;
   xTaskCreate( &led::led_task, "led_task", 2048, &m_led_task_params, 1, &( m_led_task_params.task_handle ) );
 }
 
 void led::stop() {
   off();
   kill_led_task();
+  m_active = false;
 }

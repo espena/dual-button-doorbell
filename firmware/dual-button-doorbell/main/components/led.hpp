@@ -49,6 +49,8 @@ namespace espena::components {
     private:
 
       const configuration &m_config;
+      bool m_active;
+      int m_default_level;
 
       void kill_led_task();
       void led_op( int ms, int count );
@@ -60,10 +62,17 @@ namespace espena::components {
   
       static void led_task( void * );
 
+      inline bool is_active() {
+        return m_active;
+      }
+
       void on();
       void off();
       void toggle();
       void stop();
+
+      void default_on();
+      void default_off();
       
       // inline impl.
       void blink() { blink( LED_DEFAULT_BLINK_MS ); }

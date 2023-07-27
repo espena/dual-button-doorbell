@@ -31,11 +31,11 @@ namespace espena::components {
 
     void fetch_button_properties( cJSON *, std::string & );
     void fetch_default_clip( cJSON *, std::string & );
-    void fetch_silent_clip( cJSON *, std::string &, std::string &, time_t & );
+    void fetch_silent_clip( cJSON *, int &, std::string &, std::string &, time_t & );
     void fetch_bell_settings( cJSON *, int &, int & );
     void fetch_wifi_settings( cJSON *, std::string &, std::string & );
     void fetch_ntp_settings( cJSON *, std::string &, std::string & );
-    void fetch_mqtt_settings( cJSON *, std::string &, std::string &, std::string & );
+    void fetch_mqtt_settings( cJSON *, int &, std::string &, std::string &, std::string & );
     void fetch_logger_settings( cJSON *, size_t & );
 
     void debug_output();
@@ -46,6 +46,7 @@ namespace espena::components {
       std::string m_button_default_clip[ 2 ];
       std::string m_button_silent_clip[ 2 ];
       std::string m_button_silent_from[ 2 ];
+      int m_button_silent_enable[ 2 ];
       time_t m_button_silent_duration[ 2 ];
       int m_button_bell_count[ 2 ];
       int m_button_bell_delay[ 2 ];
@@ -56,6 +57,7 @@ namespace espena::components {
       std::string m_ntp_server;
       std::string m_ntp_timezone;
 
+      int m_mqtt_enable;
       std::string m_mqtt_server;
       std::string m_mqtt_cert_file;
       std::string m_mqtt_topic;

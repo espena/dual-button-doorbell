@@ -100,6 +100,10 @@ namespace espena::components {
       mqtt( const configuration & );
       ~mqtt();
 
+      inline bool ready() {
+        return m_client != NULL;
+      }
+
       void init( const std::string, const std::string, const std::string );
 
       void start_async( espena::components::i_file_io * );

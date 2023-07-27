@@ -28,10 +28,12 @@ const char *settings_file::LOG_TAG = "settings_file";
 settings_file::settings_file() :
   m_button_default_clip{ "left.wav", "right.wav" },
   m_button_silent_clip{ "silent.wav", "silent.wav" },
+  m_button_silent_enable{ 0, 0 },
   m_button_bell_count{ 1, 1 },
   m_button_bell_delay{ 200, 200 },
   m_wifi_ssid( "guest" ),
   m_wifi_password( "secret" ),
+  m_mqtt_enable( 1 ),
   m_logger_max_file_size_mb( 0 )
 {
 
@@ -67,11 +69,16 @@ void settings_file::fetch_default_clip( cJSON *button,
 }
 
 void settings_file::fetch_silent_clip( cJSON *button,
+                                       int &silent_enable,
                                        std::string &silent_clip,
                                        std::string &silent_from,
                                        time_t &silent_duration )
 {
   cJSON *silent = cJSON_GetObjectItem( button, "silent" );
+  cJSON *enable = cJSON_GetObjectItem( silent, "enable" );
+  if( enable ) {
+    silent_enable = enable->valueint;
+  }
   cJSON *clips = cJSON_GetObjectItem( silent, "clips" );
   if( clips ) {
     const int clip_count = cJSON_GetArraySize( clips );
@@ -137,10 +144,15 @@ void settings_file::fetch_ntp_settings( cJSON *ntp,
 }
 
 void settings_file::fetch_mqtt_settings( cJSON *mqtt,
+                                         int &enable,
                                          std::string &server,
                                          std::string &cert_file,
                                          std::string &topic )
 {
+  cJSON *mqtt_enable = cJSON_GetObjectItem( mqtt, "enable" );
+  if( mqtt_enable ) {
+    enable = mqtt_enable->valueint;
+  }
   cJSON *mqtt_server = cJSON_GetObjectItem( mqtt, "server" );
   if( mqtt_server ) {
     server = mqtt_server->valuestring;
@@ -215,6 +227,7 @@ void settings_file::load( FILE * settings_json ) {
                           m_button_default_clip[ i ] );
 
       fetch_silent_clip( a[ i ],
+                         m_button_silent_enable[ i ],
                          m_button_silent_clip[ i ],
                          m_button_silent_from[ i ],
                          m_button_silent_duration[ i ] );
@@ -244,6 +257,7 @@ void settings_file::load( FILE * settings_json ) {
   cJSON *mqtt = cJSON_GetObjectItem( root, "mqtt" );
   if( mqtt ) {
     fetch_mqtt_settings( mqtt,
+                         m_mqtt_enable,
                          m_mqtt_server,
                          m_mqtt_cert_file,
                          m_mqtt_topic );

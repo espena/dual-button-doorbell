@@ -142,6 +142,8 @@ void mqtt::init( const std::string server,
                  const std::string cert_file,
                  const std::string topic ) {
 
+  ESP_LOGI( LOG_TAG, "Initializing MQTT" );
+
   m_server = server.empty()
            ? m_config.server.c_str() // Default
            : server.c_str();

@@ -71,7 +71,7 @@ void rtc::sync_from_systime() {
     ESP_LOGE( LOG_TAG, "Failed to execute commands" );
   }
   else {
-    ESP_LOGI( LOG_TAG, "Commands successfully executed" );
+    ESP_LOGI( LOG_TAG, "RTC synced from systime" );
   }
   i2c_cmd_link_delete( cmd );
 }

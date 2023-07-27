@@ -10,6 +10,7 @@
         }
       },
       "silent": {
+        "enable": 1,
         "from": "0 0 21 * * *",
         "duration_hours": 9,
         "clips": [ "knock.wav" ]
@@ -25,8 +26,9 @@
         }
       },
       "silent": {
-        "from": "0 0 22 * * *",
-        "duration_hours": 7,
+        "enable": 1,
+        "from": "0 0 0 * * *",
+        "duration_hours": 6,
         "clips": [ "knock.wav" ]
       }
     }
@@ -42,6 +44,7 @@
     "timezone": "CET-1CEST,M3.5.0,M10.5.0/3"
   },
   "mqtt": {
+    "enable": 1,
     "server": "mqtts://mqtt.eclipseprojects.io:8883",
     "cert_file": "mqtt.pem",
     "topic": "my/doorbell"

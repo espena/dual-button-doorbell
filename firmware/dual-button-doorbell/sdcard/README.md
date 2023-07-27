@@ -15,7 +15,7 @@ root directory.
 The current configuration file shows an example on how the system can be set up.
 
 The behavior of each button (right or left) is configured here. Each button has a default mode and a
-silent mode. Default is the default mode, in which the regular doorbell sounds are played. Silent is
+silent mode. Default is the normal mode, in which the regular doorbell sounds are played. Silent is
 the night time mode, where you might want to choose a somewhat less noisy sound - like a door knock
 or something.
 

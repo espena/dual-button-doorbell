@@ -8408,7 +8408,7 @@
     (property "Reference" "F1" (at 33.02 73.025 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "500mA" (at 25.4 72.39 0)
+    (property "Value" "250mA" (at 25.4 72.39 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Fuse_espena:FuseHolder_Keystone_3554" (at 32.258 73.025 90)

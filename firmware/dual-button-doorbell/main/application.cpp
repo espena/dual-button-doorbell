@@ -264,6 +264,7 @@ void application::add_event_listeners() {
 
 void application::run() {
   add_event_listeners();
+  m_rtc.sync_to_systime();
   m_sdcard.mount();
   time_t t1 = time( NULL );
   time_t t2 = t1;

@@ -33,7 +33,7 @@ namespace espena::components {
   class sound : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
-    static const configSTACK_DEPTH_TYPE SOUND_TASK_STACK_DEPTH = 4096;
+    static const configSTACK_DEPTH_TYPE SOUND_TASK_STACK_DEPTH = 8192;
 
     public:
 

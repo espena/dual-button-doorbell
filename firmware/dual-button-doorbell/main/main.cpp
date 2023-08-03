@@ -91,7 +91,10 @@ extern "C" void app_main() {
 
     .logger = {
       .filename = "door.log",
-      .max_file_size_mb = 10 }
+      .max_file_size_mb = 10 },
+
+    .http_server = {
+      .port = 8001 }
 
   };
 

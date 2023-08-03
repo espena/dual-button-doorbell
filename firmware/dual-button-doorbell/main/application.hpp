@@ -32,6 +32,7 @@
 #include "components/cron.hpp"
 #include "components/mqtt.hpp"
 #include "components/logger.hpp"
+#include "components/http_server.hpp"
 
 namespace espena {
 
@@ -59,6 +60,7 @@ namespace espena {
         components::cron::configuration cron;
         components::mqtt::configuration mqtt;
         components::logger::configuration logger;
+        components::http_server::configuration http_server;
       } configuration;
 
     private:
@@ -111,6 +113,8 @@ namespace espena {
       components::mqtt m_mqtt;
 
       components::logger m_logger;
+
+      components::http_server m_http_server;
 
       /**
        * Handle to custom event loop

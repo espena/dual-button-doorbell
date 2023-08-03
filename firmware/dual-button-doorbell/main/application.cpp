@@ -49,7 +49,8 @@ application::application( const configuration &conf ) :
   m_led_button_right( conf.led_button_right ),
   m_cron( conf.cron ),
   m_mqtt( conf.mqtt ),
-  m_logger( conf.logger )
+  m_logger( conf.logger ),
+  m_http_server( conf.http_server )
 {
   application::m_the_app = this;
   esp_event_loop_args_t loop_args = {
@@ -117,10 +118,10 @@ void application::event_handler( void *handler_arg,
     application::m_the_app->event_handler_sdcard( event_id, event_params );
   }
   if( source == ( char * ) components::sound::event_base ) {
-    application::m_the_app->event_handler_sound( event_id, *( reinterpret_cast<FILE **>( event_params ) ) );
+    application::m_the_app->event_handler_sound( event_id, *( static_cast<FILE **>( event_params ) ) );
   }
   if( source == ( char * ) components::button::event_base ) {
-    application::m_the_app->event_handler_button( event_id, *( reinterpret_cast< int * >( event_params ) ) );
+    application::m_the_app->event_handler_button( event_id, *( static_cast< int * >( event_params ) ) );
   }
   if( source == ( char * ) components::wifi::event_base ) {
     application::m_the_app->event_handler_wifi( event_id, event_params );
@@ -129,7 +130,7 @@ void application::event_handler( void *handler_arg,
     application::m_the_app->event_handler_ntp( event_id, event_params );
   }
   if( source == ( char * ) components::cron::event_base ) {
-    application::m_the_app->event_handler_cron( event_id, reinterpret_cast<char *>( event_params ) );
+    application::m_the_app->event_handler_cron( event_id, static_cast<char *>( event_params ) );
   }
 }
 
@@ -169,6 +170,7 @@ void application::event_handler_wifi( int32_t event_id, void *event_params ) {
     case components::wifi::ON_WIFI_CONNECTED:
       ESP_LOGI( LOG_TAG, "Wifi connected!" );
       m_ntp.time_update_async();
+      m_http_server.init();
       break;
   }
 }

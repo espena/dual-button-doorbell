@@ -1,9 +1,11 @@
 .DS_Store
 fp-info-cache
 datasheets
+documentation
 /design
 door_bell-backups
 _autosave-*
 \#auto_saved_files\#
 ~$*.xlsx
 .vscode
+

@@ -21,6 +21,7 @@
 
 #include "driver/gpio.h"
 #include "event/event_dispatcher.hpp"
+#include <esp_http_server.h>
 
 namespace espena::components {
 
@@ -28,11 +29,16 @@ namespace espena::components {
 
     static const char *LOG_TAG;
 
+    static char CTX_CONFIG[];
+    static const httpd_uri_t URI_CONFIG;
+
     public:
 
       typedef struct configuration_struct {
         uint16_t port;
       } configuration;
+
+      static esp_err_t hello_get_handler( httpd_req_t * );
 
     private:
 

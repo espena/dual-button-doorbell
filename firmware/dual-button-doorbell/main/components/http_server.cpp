@@ -17,6 +17,7 @@
  */
 
 #include "http_server.hpp"
+#include "http_context_config.hpp"
 #include "esp_log.h"
 #include <esp_http_server.h>
 
@@ -26,11 +27,13 @@ const char *http_server::LOG_TAG = "http_server";
 
 char http_server::CTX_CONFIG[] = "";
 const httpd_uri_t http_server::URI_CONFIG = {
-  .uri       = "/hello",
+  .uri       = "/",
   .method    = HTTP_GET,
   .handler   = hello_get_handler,
-  .user_ctx  = CTX_CONFIG
+  .user_ctx  = &m_ctx_config
 };
+
+::espena::components::http_context_config http_server::m_ctx_config;
 
 http_server::http_server( const configuration &config ) :
   m_config( config )
@@ -44,8 +47,9 @@ http_server::~http_server() {
 
 esp_err_t http_server::hello_get_handler( httpd_req_t *req ) {
   ESP_LOGI( LOG_TAG, "Get handler for config was called!" );
-  const char* resp_str = "Dual-button doorbell CONFIGURATION";
-  httpd_resp_send( req, resp_str, HTTPD_RESP_USE_STRLEN );
+  
+  ::espena::components::http_context_config * ctx = static_cast<::espena::components::http_context_config *>( req->user_ctx );
+  httpd_resp_send( req, ctx->response(), HTTPD_RESP_USE_STRLEN );
   return ESP_OK;
 }
 

@@ -7128,7 +7128,7 @@
     (property "Value" "NCP1117-5v" (at 43.18 25.4 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2" (at 43.18 23.495 0)
+    (property "Footprint" "Package_TO_SOT_SMD_espena:SOT-223-3_ThermalPad_TabPin2" (at 43.18 23.495 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.onsemi.com/pub_link/Collateral/NCP1117-D.PDF" (at 45.72 34.925 0)

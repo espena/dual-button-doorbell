@@ -7570,7 +7570,7 @@
     )
   )
 
-  (symbol (lib_id "Device:C_Polarized") (at 102.87 31.75 0) (unit 1)
+  (symbol (lib_id "Device:C") (at 102.87 31.75 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a3a040c4-3991-4e22-a92c-3d34eeac8018)
     (property "Reference" "C10" (at 106.68 30.226 0)

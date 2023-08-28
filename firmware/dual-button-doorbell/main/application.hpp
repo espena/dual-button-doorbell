@@ -161,6 +161,7 @@ namespace espena {
       void event_handler_wifi( int32_t, void * );
       void event_handler_ntp( int32_t, void * );
       void event_handler_cron( int32_t, const char * );
+      void event_handler_http_server( int32_t, void * );
 
       /**
       * Application start

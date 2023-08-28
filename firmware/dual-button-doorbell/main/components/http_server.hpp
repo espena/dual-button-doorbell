@@ -20,39 +20,51 @@
 #define __http_server_hpp__
 
 #include "http_context_config.hpp"
+#include "settings_file.hpp"
 #include "driver/gpio.h"
 #include "event/event_dispatcher.hpp"
 #include <esp_http_server.h>
 
 namespace espena::components {
 
-  class http_server {
+  class http_server : public event::i_event_dispatcher {
 
     static const char *LOG_TAG;
-
-    static char CTX_CONFIG[];
-    static const httpd_uri_t URI_CONFIG;
 
     static ::espena::components::http_context_config m_ctx_config;
 
     public:
 
+      static const esp_event_base_t event_base;
+
+      typedef enum {
+        ON_HTTP_TEST_BUTTON
+      } event_id;
+
       typedef struct configuration_struct {
         uint16_t port;
       } configuration;
 
-      static esp_err_t hello_get_handler( httpd_req_t * );
+      static esp_err_t config_get_handler( httpd_req_t * );
+      static esp_err_t config_post_handler( httpd_req_t * );
+      static esp_err_t test_get_handler( httpd_req_t * );
 
     private:
 
       const configuration &m_config;
+      ::espena::components::settings_file *m_settings_file;
+      ::espena::components::event::event_dispatcher m_event_dispatcher;
 
     public:
 
       http_server( const configuration & );
       ~http_server();
 
+      void set_event_loop_handle( esp_event_loop_handle_t );
+      void add_event_listener( event_id,
+                               esp_event_handler_t );
       void init();
+      void set( ::espena::components::settings_file * );
 
   }; // class http_server
 

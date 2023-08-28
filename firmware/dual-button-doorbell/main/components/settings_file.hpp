@@ -29,6 +29,8 @@ namespace espena::components {
 
     static const char *LOG_TAG;
 
+    cJSON *m_root;
+
     void fetch_button_properties( cJSON *, std::string & );
     void fetch_default_clip( cJSON *, std::string & );
     void fetch_silent_clip( cJSON *, int &, std::string &, std::string &, time_t & );
@@ -37,6 +39,8 @@ namespace espena::components {
     void fetch_ntp_settings( cJSON *, std::string &, std::string & );
     void fetch_mqtt_settings( cJSON *, int &, std::string &, std::string &, std::string & );
     void fetch_logger_settings( cJSON *, size_t & );
+
+    void update();
 
     void debug_output();
     
@@ -68,6 +72,7 @@ namespace espena::components {
       ~settings_file();
   
       void load( FILE * settings_json );
+      void write( FILE * settings_json );
 
   }; // class settings_file
 

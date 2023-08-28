@@ -68,6 +68,7 @@ application::application( const configuration &conf ) :
   m_wifi.set_event_loop_handle( m_event_loop_handle );
   m_ntp.set_event_loop_handle( m_event_loop_handle );
   m_cron.set_event_loop_handle( m_event_loop_handle );
+  m_http_server.set_event_loop_handle( m_event_loop_handle );
 }
 
 application::~application() {
@@ -79,6 +80,7 @@ void application::load_settings() {
   if( settings_file ) {
     m_settings_file.load( settings_file );
     m_sdcard.close_file( settings_file );
+    m_http_server.set( &m_settings_file );
   }
 }
 
@@ -131,6 +133,9 @@ void application::event_handler( void *handler_arg,
   }
   if( source == ( char * ) components::cron::event_base ) {
     application::m_the_app->event_handler_cron( event_id, static_cast<char *>( event_params ) );
+  }
+  if( source == ( char * ) components::http_server::event_base ) {
+    application::m_the_app->event_handler_http_server( event_id, event_params );
   }
 }
 
@@ -236,6 +241,23 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
   }
 }
 
+void application::event_handler_http_server( int32_t event_id, void *event_params ) {
+  
+  switch( event_id ) {
+    case components::http_server::ON_HTTP_TEST_BUTTON:
+      {
+        const int button_id = *static_cast<int *>( event_params );
+        ESP_LOGI( LOG_TAG, "Doorbell test, button %d", button_id );
+        event_handler_button(
+          components::button::ON_BTN_DOWN,
+          button_id );
+      }
+      break;
+    default:
+      ESP_LOGI( LOG_TAG, "Unhandled event from http_server" );
+  }
+}
+
 void application::block_buttons() {
   m_button_left.is_pressed() ? m_led_button_left.blink() : m_led_button_left.on();
   m_button_right.is_pressed() ? m_led_button_right.blink() : m_led_button_right.on();
@@ -260,6 +282,7 @@ void application::add_event_listeners() {
   m_wifi.add_event_listener( components::wifi::ON_WIFI_CONNECTED, event_handler );
   m_ntp.add_event_listener( components::ntp::ON_NTP_TIME_UPDATED, event_handler );
   m_cron.add_event_listener( components::cron::ON_TIMED_EVENT, event_handler );
+  m_http_server.add_event_listener( components::http_server::ON_HTTP_TEST_BUTTON, event_handler );
 }
 
 void application::run() {

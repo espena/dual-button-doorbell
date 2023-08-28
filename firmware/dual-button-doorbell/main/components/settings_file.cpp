@@ -26,6 +26,7 @@ using namespace espena::components;
 const char *settings_file::LOG_TAG = "settings_file";
 
 settings_file::settings_file() :
+  m_root( nullptr ),
   m_button_default_clip{ "left.wav", "right.wav" },
   m_button_silent_clip{ "silent.wav", "silent.wav" },
   m_button_silent_enable{ 0, 0 },
@@ -40,7 +41,9 @@ settings_file::settings_file() :
 }
 
 settings_file::~settings_file() {
-
+  if( m_root ) {
+    cJSON_Delete( m_root );
+  }
 }
 
 void settings_file::fetch_button_properties( cJSON *button,
@@ -129,15 +132,16 @@ void settings_file::fetch_wifi_settings( cJSON *wifi,
   }
 }
 
-void settings_file::fetch_ntp_settings( cJSON *ntp,
+void settings_file::fetch_ntp_settings( cJSON *datetime,
                                         std::string &server,
                                         std::string &timezone )
 {
-  cJSON *ntp_server = cJSON_GetObjectItem( ntp, "server" );
-  if( ntp_server ) {
+  cJSON *ntp = cJSON_GetObjectItem( datetime, "ntp" );
+  if( ntp ) {
+    cJSON *ntp_server = cJSON_GetObjectItem( ntp, "server" );
     server = ntp_server->valuestring;
   }
-  cJSON *ntp_timezone = cJSON_GetObjectItem( ntp, "timezone" );
+  cJSON *ntp_timezone = cJSON_GetObjectItem( datetime, "timezone" );
   if( ntp_timezone ) {
     timezone = ntp_timezone->valuestring;
   }
@@ -201,6 +205,69 @@ void settings_file::debug_output() {
 
 }
 
+void settings_file::update() {
+  if( m_root ) {
+    if( cJSON *buttons = cJSON_GetObjectItem( m_root, "buttons" ) ) {
+      const char *button_list[ ] = { "left", "right" };
+      for( int i = 0; i < sizeof( button_list ) / sizeof( char * ); i++ ) {
+        if( cJSON *button = cJSON_GetObjectItem( buttons, button_list[ i ] ) ) {
+          if( cJSON *label = cJSON_GetObjectItem( button, "label" ) ) {
+            cJSON_SetValuestring( label, m_button_label[ i ].c_str() );
+          }
+          if( cJSON *deflt = cJSON_GetObjectItem( button, "default" ) ) {
+            if( cJSON *clips = cJSON_GetObjectItem( deflt, "clips" ) ) {
+              cJSON_ReplaceItemInArray(
+                clips,
+                0,
+                cJSON_CreateStringReference( m_button_default_clip[ i ].c_str() )
+              );
+            }
+            if( cJSON *bell = cJSON_GetObjectItem( deflt, "bell" ) ) {
+              if( cJSON *count = cJSON_GetObjectItem( bell, "count" ) ) {
+                cJSON_SetIntValue( count, m_button_bell_count[ i ] );
+              }
+              if( cJSON *delay = cJSON_GetObjectItem( bell, "delay" ) ) {
+                cJSON_SetIntValue( delay, m_button_bell_delay[ i ] );
+              }
+            }
+          }
+          if( cJSON *silent = cJSON_GetObjectItem( button, "silent" ) ) {
+            if( cJSON *enable = cJSON_GetObjectItem( silent, "enable" ) ) {
+              cJSON_SetIntValue( enable, m_button_silent_enable[ i ] );
+            }
+            if( cJSON *from = cJSON_GetObjectItem( silent, "from" ) ) {
+              cJSON_SetValuestring( from, m_button_silent_from[ i ].c_str() );
+            }
+            if( cJSON *duration_hours = cJSON_GetObjectItem( silent, "duration_hours" ) ) {
+              cJSON_SetIntValue( duration_hours, m_button_silent_duration[ i ] / 3600 );
+            }
+            if( cJSON *clips = cJSON_GetObjectItem( silent, "clips" ) ) {
+              cJSON_ReplaceItemInArray(
+                clips,
+                0,
+                cJSON_CreateStringReference( m_button_silent_clip[ i ].c_str() )
+              );
+            }
+          }
+        }
+      }
+
+      // TODO: Implement the rest of the JSON config here
+
+    }
+  }
+}
+
+void settings_file::write( FILE * settings_json ) {
+  if( settings_json ) {
+    update();
+    char *json_str = cJSON_Print( m_root );
+    fseek( settings_json, 0, SEEK_SET );
+    fputs( json_str, settings_json );
+    cJSON_free( json_str );
+  }
+}
+
 void settings_file::load( FILE * settings_json ) {
 
   ESP_LOGI( LOG_TAG, "Load settings from file" );
@@ -210,8 +277,8 @@ void settings_file::load( FILE * settings_json ) {
   char *buf = new char[ filesize + 1 ];
   fread( buf, filesize, 1, settings_json );
 
-  cJSON *root = cJSON_Parse( buf );
-  cJSON *buttons = cJSON_GetObjectItem( root, "buttons" );
+  m_root = cJSON_Parse( buf );
+  cJSON *buttons = cJSON_GetObjectItem( m_root, "buttons" );
 
   if( buttons ) {
 
@@ -240,21 +307,21 @@ void settings_file::load( FILE * settings_json ) {
 
   }
 
-  cJSON *wifi = cJSON_GetObjectItem( root, "wifi" );
+  cJSON *wifi = cJSON_GetObjectItem( m_root, "wifi" );
   if( wifi ) {
     fetch_wifi_settings( wifi,
                         m_wifi_ssid,
                         m_wifi_password );
   }
 
-  cJSON *ntp = cJSON_GetObjectItem( root, "ntp" );
+  cJSON *ntp = cJSON_GetObjectItem( m_root, "datetime" );
   if( ntp ) {
     fetch_ntp_settings( ntp,
                         m_ntp_server,
                         m_ntp_timezone );
   }
 
-  cJSON *mqtt = cJSON_GetObjectItem( root, "mqtt" );
+  cJSON *mqtt = cJSON_GetObjectItem( m_root, "mqtt" );
   if( mqtt ) {
     fetch_mqtt_settings( mqtt,
                          m_mqtt_enable,
@@ -263,13 +330,12 @@ void settings_file::load( FILE * settings_json ) {
                          m_mqtt_topic );
   }
 
-  cJSON *logger = cJSON_GetObjectItem( root, "logger" );
+  cJSON *logger = cJSON_GetObjectItem( m_root, "logger" );
   if( logger ) {
     fetch_logger_settings( logger,
                            m_logger_max_file_size_mb );
   }
 
-  cJSON_Delete( root );
   delete [ ] buf;
 
   debug_output();

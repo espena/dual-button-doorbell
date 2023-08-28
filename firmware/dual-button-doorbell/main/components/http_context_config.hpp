@@ -19,17 +19,23 @@
 #ifndef __http_context_config_hpp__
 #define __http_context_config_hpp__
 
+#include "settings_file.hpp"
+
 namespace espena::components {
 
   class http_context_config {
 
     static const char *LOG_TAG;
+    ::espena::components::settings_file *m_settings_file;
+
+    char m_buf[ 16384 ];
 
     public:
 
       http_context_config();
       ~http_context_config();
 
+      void set( ::espena::components::settings_file * );
       const char * response();
 
   }; // class http_context_config

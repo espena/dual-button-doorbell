@@ -1,5 +1,7 @@
 # Dual-button doorbell
 
+*V. 1.2*
+
 A door bell that simply does more. Configurable with alarms, different sounds for the two buttons, bedtime LED indicator and timed notifications on specific days / hours. With audible 4Ω loudspeaker driven by a class D 3.2 W amplifier.
 
 The project is described on my [home page](https://espenandersen.no/dual-button-doorbell/).

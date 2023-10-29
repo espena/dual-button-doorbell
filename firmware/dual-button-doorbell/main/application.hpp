@@ -124,6 +124,12 @@ namespace espena {
       void play_sound( const std::string );
       void stop_sound();
 
+      /**
+       * Returns true if active override was found for given button
+       */
+      bool get_clip_override( int btn_id,
+                              std::string &clip );
+
       void ding_dong( const int, const int );
       
       void add_event_listeners();

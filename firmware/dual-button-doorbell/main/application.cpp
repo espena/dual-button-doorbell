@@ -204,6 +204,25 @@ void application::event_handler_cron( int32_t event_id, const char *wav_file ) {
   }
 }
 
+bool application::get_clip_override( int btn_id, std::string &clip ) {
+  typedef std::vector<components::settings_file::clip_override> overrides_list;
+  overrides_list &overrides =
+    m_settings_file.m_button_overrides[ btn_id - 1 ];
+  overrides_list::iterator i;
+  for( i = overrides.begin(); i != overrides.end(); i++ ) {
+    components::settings_file::clip_override &ovr = *i;
+    if( ovr.enable == 1 ) {
+      time_t ovrd_time_end = m_cron.get_prev( ovr.from.data() ) + ovr.duration;
+      if( ovrd_time_end > time( NULL ) ) {
+        ESP_LOGI( LOG_TAG, "Clip override: %s", ovr.name.c_str() );
+        clip = ovr.clip;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 void application::event_handler_button( int32_t event_id, int btn_id ) {
   const int i = btn_id - 1;
   if( event_id == components::button::ON_BTN_DOWN && i < 2 ) {
@@ -216,7 +235,13 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
     log_entry.btn_id = btn_id;
     time_t silent_time = m_cron.get_prev( m_settings_file.m_button_silent_from[ i ].data() );
     log_entry.btn_label = m_settings_file.m_button_label[ i ];
-    if( m_settings_file.m_button_silent_enable[ i ] && ( silent_time + m_settings_file.m_button_silent_duration[ i ] ) > time( NULL ) ) {
+    std::string ovr_clip;
+    if( get_clip_override( btn_id, ovr_clip ) ) {
+      ESP_LOGI( LOG_TAG, "*** OVERRIDE MODE ***" );
+      log_entry.mode = "Override";
+      play_sound( ovr_clip );
+    }
+    else if( m_settings_file.m_button_silent_enable[ i ] && ( silent_time + m_settings_file.m_button_silent_duration[ i ] ) > time( NULL ) ) {
       ESP_LOGI( LOG_TAG, "*** SILENT MODE ***" );
       log_entry.mode = "Silent";
       play_sound( m_settings_file.m_button_silent_clip[ i ] );

@@ -17,6 +17,8 @@
  */
 
 #include "settings_file.hpp"
+#include <string>
+#include <vector>
 #include <cstdio>
 #include "cJSON.h"
 #include "esp_log.h"
@@ -97,6 +99,28 @@ void settings_file::fetch_silent_clip( cJSON *button,
   cJSON *duration_hours = cJSON_GetObjectItem( silent, "duration_hours" );
   if( duration_hours ) {
     silent_duration = duration_hours->valueint * 3600;
+  }
+}
+
+void settings_file::fetch_clip_overrides( cJSON *button,
+                                          std::vector<clip_override> &clip_overrides )
+{
+  cJSON *overrides = cJSON_GetObjectItem( button, "override" );
+  if( overrides ) {
+    const int override_count = cJSON_GetArraySize( overrides );
+    for( int i = 0; i < override_count; i++ ) {
+      cJSON *ovrd = cJSON_GetArrayItem( overrides, i );
+      cJSON *f = nullptr;
+      clip_override new_item;
+      new_item.name = ( f = cJSON_GetObjectItem( ovrd, "name" ) ) ? f->valuestring : "";
+      new_item.enable = ( f = cJSON_GetObjectItem( ovrd, "enable" ) ) ? f->valueint : 0;
+      new_item.from = ( f = cJSON_GetObjectItem( ovrd, "from" ) ) ? f->valuestring : "";
+      new_item.duration = 0;
+      new_item.duration += ( f = cJSON_GetObjectItem( ovrd, "duration_hours" ) ) ? f->valueint * 60 * 60 * 1000 : 0;
+      new_item.duration += ( f = cJSON_GetObjectItem( ovrd, "duration_minutes" ) ) ? f->valueint * 60 * 1000 : 0;
+      new_item.clip = ( f = cJSON_GetObjectItem( ovrd, "clip" ) ) ? f->valuestring : "";
+      clip_overrides.push_back( new_item );
+    }
   }
 }
 
@@ -196,6 +220,16 @@ void settings_file::debug_output() {
   ESP_LOGI( LOG_TAG, "m_button_bell_count[ 1 ]: %d", m_button_bell_count[ 1 ] );
   ESP_LOGI( LOG_TAG, "m_button_bell_delay[ 1 ]: %d", m_button_bell_delay[ 1 ] );
 
+  for( int i = 0; i < 2; i++ ) {
+    std::vector<clip_override>::iterator ovr;
+    for( ovr = m_button_overrides[ i ].begin(); ovr != m_button_overrides[ i ].end(); ovr++ ) {
+      ESP_LOGI( LOG_TAG, "m_button_overrides[ %d ].name: %s", i, ( *ovr ).name.c_str() );
+      ESP_LOGI( LOG_TAG, "m_button_overrides[ %d ].enable: %d", i, ( *ovr ).enable );
+      ESP_LOGI( LOG_TAG, "m_button_overrides[ %d ].from: %s", i, ( *ovr ).from.c_str() );
+      ESP_LOGI( LOG_TAG, "m_button_overrides[ %d ].duration: %llu", i, ( *ovr ).duration );
+      ESP_LOGI( LOG_TAG, "m_button_overrides[ %d ].clip: %s", i, ( *ovr ).clip.c_str() );
+    }
+  }
 
   ESP_LOGI( LOG_TAG, "m_wifi_ssid: %s", m_wifi_ssid.c_str() );
   ESP_LOGI( LOG_TAG, "m_wifi_password: %s", m_wifi_password.c_str() );
@@ -298,6 +332,8 @@ void settings_file::load( FILE * settings_json ) {
                          m_button_silent_clip[ i ],
                          m_button_silent_from[ i ],
                          m_button_silent_duration[ i ] );
+
+      fetch_clip_overrides( a[ i ], m_button_overrides[ i ] );
 
       fetch_bell_settings( a[ i ],
                            m_button_bell_count[ i ],

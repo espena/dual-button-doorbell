@@ -20,6 +20,7 @@
 #define __settings_file_hpp__
 
 #include <string>
+#include <vector>
 #include <cstdio>
 #include "cJSON.h"
 
@@ -27,22 +28,35 @@ namespace espena::components {
 
   class settings_file {
 
-    static const char *LOG_TAG;
+    public:
 
-    cJSON *m_root;
+      typedef struct clip_override_struct {
+        int enable;
+        std::string name;
+        std::string from;
+        time_t duration;
+        std::string clip;
+      } clip_override;
 
-    void fetch_button_properties( cJSON *, std::string & );
-    void fetch_default_clip( cJSON *, std::string & );
-    void fetch_silent_clip( cJSON *, int &, std::string &, std::string &, time_t & );
-    void fetch_bell_settings( cJSON *, int &, int & );
-    void fetch_wifi_settings( cJSON *, std::string &, std::string & );
-    void fetch_ntp_settings( cJSON *, std::string &, std::string & );
-    void fetch_mqtt_settings( cJSON *, int &, std::string &, std::string &, std::string & );
-    void fetch_logger_settings( cJSON *, size_t & );
+    private:
 
-    void update();
+      static const char *LOG_TAG;
 
-    void debug_output();
+      cJSON *m_root;
+
+      void fetch_button_properties( cJSON *, std::string & );
+      void fetch_default_clip( cJSON *, std::string & );
+      void fetch_silent_clip( cJSON *, int &, std::string &, std::string &, time_t & );
+      void fetch_clip_overrides( cJSON *, std::vector<clip_override> & );
+      void fetch_bell_settings( cJSON *, int &, int & );
+      void fetch_wifi_settings( cJSON *, std::string &, std::string & );
+      void fetch_ntp_settings( cJSON *, std::string &, std::string & );
+      void fetch_mqtt_settings( cJSON *, int &, std::string &, std::string &, std::string & );
+      void fetch_logger_settings( cJSON *, size_t & );
+
+      void update();
+
+      void debug_output();
     
     public:
 
@@ -54,6 +68,8 @@ namespace espena::components {
       time_t m_button_silent_duration[ 2 ];
       int m_button_bell_count[ 2 ];
       int m_button_bell_delay[ 2 ];
+
+      std::vector<clip_override> m_button_overrides[ 2 ];
 
       std::string m_wifi_ssid;
       std::string m_wifi_password;

@@ -14,7 +14,16 @@
         "from": "0 0 21 * * *",
         "duration_hours": 9,
         "clips": [ "knock.wav" ]
-      }
+      },
+      "override": [
+        {
+          "name": "halloween",
+          "enable": 1,
+          "from": "0 0 0 31 10 *",
+          "duration_hours": 24,
+          "clip": "ghost.wav"
+        }
+      ]
     },
     "right": {
       "label": "Parents",
@@ -30,7 +39,16 @@
         "from": "0 0 0 * * *",
         "duration_hours": 6,
         "clips": [ "knock.wav" ]
-      }
+      },
+      "override": [
+        {
+          "name": "halloween",
+          "enable": 1,
+          "from": "0 0 0 31 10 *",
+          "duration_hours": 24,
+          "clip": "ghost.wav"
+        }
+      ]
     }
   },
   "wifi": {

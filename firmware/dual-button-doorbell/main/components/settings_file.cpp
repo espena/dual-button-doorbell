@@ -116,8 +116,8 @@ void settings_file::fetch_clip_overrides( cJSON *button,
       new_item.enable = ( f = cJSON_GetObjectItem( ovrd, "enable" ) ) ? f->valueint : 0;
       new_item.from = ( f = cJSON_GetObjectItem( ovrd, "from" ) ) ? f->valuestring : "";
       new_item.duration = 0;
-      new_item.duration += ( f = cJSON_GetObjectItem( ovrd, "duration_hours" ) ) ? f->valueint * 60 * 60 * 1000 : 0;
-      new_item.duration += ( f = cJSON_GetObjectItem( ovrd, "duration_minutes" ) ) ? f->valueint * 60 * 1000 : 0;
+      new_item.duration += ( f = cJSON_GetObjectItem( ovrd, "duration_hours" ) ) ? f->valueint * 60 * 60 : 0;
+      new_item.duration += ( f = cJSON_GetObjectItem( ovrd, "duration_minutes" ) ) ? f->valueint * 60 : 0;
       new_item.clip = ( f = cJSON_GetObjectItem( ovrd, "clip" ) ) ? f->valuestring : "";
       clip_overrides.push_back( new_item );
     }

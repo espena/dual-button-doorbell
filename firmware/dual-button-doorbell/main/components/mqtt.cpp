@@ -216,7 +216,7 @@ void mqtt::start() {
   get_cert();
 
   memset( &m_mqtt_cfg, 0x00, sizeof( m_mqtt_cfg ) );
-  m_mqtt_cfg.session.keepalive = 10800; // 3h
+  m_mqtt_cfg.session.keepalive = 10800;
   m_mqtt_cfg.credentials.client_id = m_client_id;
   m_mqtt_cfg.broker.address.uri = m_server.c_str();
   m_mqtt_cfg.broker.verification.certificate = ( char * ) m_cert;

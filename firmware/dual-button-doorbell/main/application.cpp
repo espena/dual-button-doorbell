@@ -188,8 +188,8 @@ void application::event_handler_ntp( int32_t event_id, void *event_params ) {
       m_cron.start( &m_sdcard ); // Launch time schedule
       if( !m_mqtt.ready() ) {
         m_mqtt.init( m_settings_file.m_mqtt_server,
-                    m_settings_file.m_mqtt_cert_file,
-                    m_settings_file.m_mqtt_topic );
+                     m_settings_file.m_mqtt_cert_file,
+                     m_settings_file.m_mqtt_topic );
         m_mqtt.start_async( &m_sdcard );
       }
       break;

@@ -2,8 +2,8 @@
 
 ## SD card formatting
 
-The SD card must be FAT formatted. File names are restricted to 7.3-format: Up to 7 characters for the file name
-and up to 3 characters for the file extension.
+The SD card must be FAT formatted. File names are restricted to 7.3-format: Up to 7 characters for the
+file name and up to 3 characters for the file extension.
 
 File system is not case sensitive. Stick to plain ANSI character set for file names.
 
@@ -25,6 +25,10 @@ Default mode also have a _bell_ section. If you connect your regular door bell t
 this setting governs how the door bell will be triggered (one time or multiple times,
 and for how long each time).
 
+Each button can also contain an _override_ array, with a number of alternate doorbell sounds scheduled
+for any time of year. These settings will override both silent and default mode settings. Then you can
+run "Jingle Bells" at Christmas, ghosts and gore on Halloween and fire crackers on new year's eve.
+
 ### Wifi setup
 
 Under the _wifi_ section of the config file, fill in SSID and password for your home network.
@@ -39,7 +43,7 @@ Your local time zone must be set correctly in the _datetime_ section of the conf
 Look up your time zone in [this table](https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv)
 and enter the corresponding string value.
 
-In the example configuration, the timezone is set for Norway (UTC+1 with daylight saving time enabled).
+In the example configuration, the timezone is set for Norway (with daylight saving time enabled).
 
 You can also choose to use another NTP service by editing the _server_ value under the _ntp_ section.
 
@@ -74,7 +78,7 @@ the correct certificate.
 
 You can also alter the MQTT topic that the system will use when posting notifications.
 
-## Licenses
+## Licenses and credits
 
 Sound assets in this directory are licensed under Creative Commons,
 [Attribution 3.0 Unported](https://creativecommons.org/licenses/by/3.0/).
@@ -87,3 +91,4 @@ and attributions are as follows:
 * _knock.wav_ [Knock_on_door.wav](https://freesound.org/people/Philip_Daniels/sounds/244325/) by Philip_Daniels
 * _ding.wav_ [Hand Bells, F, Single.wav](https://freesound.org/people/InspectorJ/sounds/339816/) by InspectorJ
 * _lullaby.wav_ [Brahms' Lullaby](https://freesound.org/people/nlux/sounds/621586/) by nlux
+* _ghost.wav_ [Ghost Scream](https://freesound.org/people/onderwish/sounds/469141/) by onderwish

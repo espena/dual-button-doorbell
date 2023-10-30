@@ -238,6 +238,8 @@ void application::event_handler_button( int32_t event_id, int btn_id ) {
     std::string ovr_clip;
     if( get_clip_override( btn_id, ovr_clip ) ) {
       ESP_LOGI( LOG_TAG, "*** OVERRIDE MODE ***" );
+      ding_dong( m_settings_file.m_button_bell_count[ i ],
+                m_settings_file.m_button_bell_delay[ i ] );
       log_entry.mode = "Override";
       play_sound( ovr_clip );
     }

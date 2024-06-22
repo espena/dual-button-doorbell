@@ -17,6 +17,7 @@
  */
 
 #include "settings_file.hpp"
+#include "memory.h"
 #include <string>
 #include <vector>
 #include <cstdio>
@@ -317,6 +318,7 @@ void settings_file::load( FILE * settings_json ) {
   if( buttons ) {
 
     cJSON *a[ 2 ];
+    memset( a, 0x00, sizeof( a ) * sizeof( a[ 0 ] );
     a[ 0 ] = cJSON_GetObjectItem( buttons, "left" );
     a[ 1 ] = cJSON_GetObjectItem( buttons, "right" );
 
